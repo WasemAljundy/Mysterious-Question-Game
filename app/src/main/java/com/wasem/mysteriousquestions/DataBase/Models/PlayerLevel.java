@@ -19,10 +19,10 @@ import androidx.room.ForeignKey;
 )
 public class PlayerLevel {
 
-    private int playerId;
-    private int level_no;
-    private int totalScore;
-    private int levelRating;
+    public int playerId;
+    public int level_no;
+    public int totalScore;
+    public int levelRating;
 
     public PlayerLevel() {
     }

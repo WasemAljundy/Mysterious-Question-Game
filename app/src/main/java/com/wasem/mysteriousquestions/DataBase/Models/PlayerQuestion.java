@@ -20,13 +20,13 @@ import androidx.room.PrimaryKey;
 )
 
 public class PlayerQuestion {
-    private int playerId;
-    private int question_id;
-    private int level_no;
-    private int playerPoints;
-    private int skipTimes;
-    private int correctAnswers;
-    private int wrongAnswers;
+    public int playerId;
+    public int question_id;
+    public int level_no;
+    public int playerPoints;
+    public int skipTimes;
+    public int correctAnswers;
+    public int wrongAnswers;
 
     public PlayerQuestion() {
     }

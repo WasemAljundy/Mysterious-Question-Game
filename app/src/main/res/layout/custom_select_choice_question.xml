@@ -28,43 +28,44 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/tv_questionTitle_select_choice"
         app:layout_constraintStart_toStartOf="@+id/tv_questionTitle_select_choice"
-        app:layout_constraintTop_toBottomOf="@+id/tv_questionTitle_select_choice">
+        app:layout_constraintTop_toBottomOf="@+id/tv_questionTitle_select_choice"
+        app:layout_constraintVertical_bias="0.2">
 
         <RadioButton
             android:id="@+id/rb_choice1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
+            android:layout_margin="@dimen/_15sdp"
+            android:text="RadioButton"
             android:textColor="@color/white"
-            android:layout_margin="@dimen/_10sdp"
-            android:text="RadioButton" />
+            android:textSize="22sp" />
 
         <RadioButton
             android:id="@+id/rb_choice2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
+            android:layout_margin="@dimen/_15sdp"
+            android:text="RadioButton"
             android:textColor="@color/white"
-            android:layout_margin="@dimen/_10sdp"
-            android:text="RadioButton" />
+            android:textSize="22sp" />
 
         <RadioButton
             android:id="@+id/rb_choice3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
+            android:layout_margin="@dimen/_15sdp"
+            android:text="RadioButton"
             android:textColor="@color/white"
-            android:layout_margin="@dimen/_10sdp"
-            android:text="RadioButton" />
+            android:textSize="22sp" />
 
         <RadioButton
             android:id="@+id/rb_choice4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
+            android:layout_margin="@dimen/_15sdp"
+            android:text="RadioButton"
             android:textColor="@color/white"
-            android:layout_margin="@dimen/_10sdp"
-            android:text="RadioButton" />
+            android:textSize="22sp" />
     </RadioGroup>
 
     <Button

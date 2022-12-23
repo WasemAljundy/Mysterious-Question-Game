@@ -66,16 +66,17 @@ public class QuestionPagerFragment extends Fragment {
         getQuestionList();
     }
 
-    private void getQuestionList(){
+    private void getQuestionList() {
         Gson gson = new Gson();
-        Type listType = new TypeToken<List<Question>>() {}.getType();
-        questions = gson.fromJson(getActivity().getIntent().getStringExtra("currentLevelQuestions"),listType);
+        Type listType = new TypeToken<List<Question>>() {
+        }.getType();
+        questions = gson.fromJson(getActivity().getIntent().getStringExtra("currentLevelQuestions"), listType);
         Log.d("LEVEL-QUESTION-FRAGMENT", "onChanged: " + questions.size());
     }
 
-    private Question fillQuestionByPattern(){
+    private Question fillQuestionByPattern() {
         for (int i = 0; i < questions.size(); i++) {
-            if (questions.get(i).pattern==pattern) {
+            if (questions.get(i).pattern == pattern) {
                 String title = questions.get(i).title;
                 String answer1 = questions.get(i).answer1;
                 String answer2 = questions.get(i).answer2;
@@ -86,16 +87,17 @@ public class QuestionPagerFragment extends Fragment {
                 int pattern = questions.get(i).pattern;
                 int duration = questions.get(i).duration;
                 String hint = questions.get(i).hint;
-                return new Question(questions.get(i).level_no,title,answer1,answer2,answer3,answer4,trueAnswer,points,pattern,duration,hint);
+                return new Question(questions.get(i).level_no, title, answer1, answer2, answer3, answer4, trueAnswer, points, pattern, duration, hint);
             }
         }
         return new Question();
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (pattern == GameActivity.PATTERN_TRUE_FALSE) {
-            CustomTrueFalseQuestionBinding binding = CustomTrueFalseQuestionBinding.inflate(inflater,container,false);
+            CustomTrueFalseQuestionBinding binding = CustomTrueFalseQuestionBinding.inflate(inflater, container, false);
             binding.tvQuestionTitleTrueFalse.setText(fillQuestionByPattern().title);
             binding.tvSkipQuestion.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -109,8 +111,7 @@ public class QuestionPagerFragment extends Fragment {
                 public void onClick(View view) {
                     if (binding.btnTrueSubmit.getText().toString().equals(fillQuestionByPattern().trueAnswer)) {
                         FancyToast.makeText(getContext(), "Well Done !", FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, false).show();
-                    }
-                    else {
+                    } else {
                         FancyToast.makeText(getContext(), "Wrong Answer !", FancyToast.LENGTH_SHORT, FancyToast.ERROR, false).show();
                     }
                 }
@@ -121,17 +122,15 @@ public class QuestionPagerFragment extends Fragment {
                 public void onClick(View view) {
                     if (binding.btnFalseSubmit.getText().toString().equals(fillQuestionByPattern().trueAnswer)) {
                         FancyToast.makeText(getContext(), "Well Done !", FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, false).show();
-                    }
-                    else {
+                    } else {
                         FancyToast.makeText(getContext(), "Wrong Answer !", FancyToast.LENGTH_SHORT, FancyToast.ERROR, false).show();
                     }
                 }
             });
 
             return binding.getRoot();
-        }
-        else if (pattern == GameActivity.PATTERN_SELECT_CHOICE) {
-            CustomSelectChoiceQuestionBinding binding = CustomSelectChoiceQuestionBinding.inflate(inflater,container,false);
+        } else if (pattern == GameActivity.PATTERN_SELECT_CHOICE) {
+            CustomSelectChoiceQuestionBinding binding = CustomSelectChoiceQuestionBinding.inflate(inflater, container, false);
             binding.tvQuestionTitleSelectChoice.setText(fillQuestionByPattern().title);
             binding.rbChoice1.setText(fillQuestionByPattern().answer1);
             binding.rbChoice2.setText(fillQuestionByPattern().answer2);
@@ -143,15 +142,47 @@ public class QuestionPagerFragment extends Fragment {
                     listener.onQuestionInteractionListener();
                 }
             });
+
+            binding.btnConfirm.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (binding.rbChoice1.isChecked() && binding.rbChoice1.getText().toString().equals(fillQuestionByPattern().trueAnswer)) {
+                        FancyToast.makeText(getContext(), "Well Done !", FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, false).show();
+                    }
+                    else if (binding.rbChoice2.isChecked() && binding.rbChoice2.getText().toString().equals(fillQuestionByPattern().trueAnswer)) {
+                        FancyToast.makeText(getContext(), "Well Done !", FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, false).show();
+                    }
+                    else if (binding.rbChoice3.isChecked() && binding.rbChoice3.getText().toString().equals(fillQuestionByPattern().trueAnswer)) {
+                        FancyToast.makeText(getContext(), "Well Done !", FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, false).show();
+                    }
+                    else if (binding.rbChoice4.isChecked() && binding.rbChoice4.getText().toString().equals(fillQuestionByPattern().trueAnswer)) {
+                        FancyToast.makeText(getContext(), "Well Done !", FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, false).show();
+                    }
+                    else {
+                        FancyToast.makeText(getContext(), "Wrong Answer !", FancyToast.LENGTH_SHORT, FancyToast.ERROR, false).show();
+                    }
+                }
+            });
             return binding.getRoot();
         }
         else if (pattern == GameActivity.PATTERN_COMPLETION) {
-            CustomCompletionQuestionBinding binding = CustomCompletionQuestionBinding.inflate(inflater,container,false);
+            CustomCompletionQuestionBinding binding = CustomCompletionQuestionBinding.inflate(inflater, container, false);
             binding.tvQuestionTitleCompleteQuestion.setText(fillQuestionByPattern().title);
             binding.tvSkipQuestion.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     listener.onQuestionInteractionListener();
+                }
+            });
+            binding.btnConfirm.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (binding.etAnswer.getText().toString().equals(fillQuestionByPattern().trueAnswer)) {
+                        FancyToast.makeText(getContext(), "Well Done !", FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, false).show();
+                    }
+                    else {
+                        FancyToast.makeText(getContext(), "Wrong Answer !", FancyToast.LENGTH_SHORT, FancyToast.ERROR, false).show();
+                    }
                 }
             });
             return binding.getRoot();
