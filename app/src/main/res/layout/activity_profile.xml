@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/login_bk_orange"
+    tools:context=".Views.ProfileActivity">
+
+    <ImageView
+        android:id="@+id/setting_logo"
+        android:layout_width="@dimen/_120sdp"
+        android:layout_height="@dimen/_120sdp"
+        android:src="@drawable/img_logo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.067" />
+
+    <EditText
+        android:id="@+id/et_newUsername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="15"
+        android:hint="New User Name"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/setting_logo"
+        app:layout_constraintStart_toStartOf="@+id/setting_logo"
+        app:layout_constraintTop_toBottomOf="@+id/setting_logo"
+        app:layout_constraintVertical_bias="0.052" />
+
+    <EditText
+        android:id="@+id/et_newEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="15"
+        android:hint="New Email"
+        android:inputType="textEmailAddress"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/et_newUsername"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/et_newUsername"
+        app:layout_constraintTop_toBottomOf="@+id/et_newUsername"
+        app:layout_constraintVertical_bias="0.05" />
+
+    <EditText
+        android:id="@+id/et_new_password"
+        android:layout_width="@dimen/_115sdp"
+        android:layout_height="wrap_content"
+        android:ems="15"
+        android:hint="New Password"
+        android:inputType="textPassword"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/et_newEmail"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/et_newEmail"
+        app:layout_constraintTop_toBottomOf="@+id/et_newEmail"
+        app:layout_constraintVertical_bias="0.065" />
+
+    <EditText
+        android:id="@+id/et_new_ConfirmPassword"
+        android:layout_width="@dimen/_115sdp"
+        android:layout_height="wrap_content"
+        android:ems="15"
+        android:hint="Confirm Pass"
+        android:inputType="textPassword"
+        app:layout_constraintBottom_toBottomOf="@+id/et_new_password"
+        app:layout_constraintEnd_toEndOf="@+id/et_newEmail"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/et_new_password"
+        app:layout_constraintTop_toTopOf="@+id/et_new_password"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/tv_newBirthDate"
+        android:layout_width="@dimen/_243sdp"
+        android:layout_height="@dimen/_30sdp"
+        android:padding="5dp"
+        android:text="Selected Date"
+        android:textAlignment="center"
+        android:textSize="21sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/et_newEmail"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/et_newEmail"
+        app:layout_constraintTop_toBottomOf="@+id/et_new_password"
+        app:layout_constraintVertical_bias="0.079" />
+
+    <com.hbb20.CountryCodePicker
+        android:id="@+id/newCountryCode_picker"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_30sdp"
+        app:ccp_countryPreference="PS,IL,US"
+        app:ccp_showFullName="true"
+        app:ccp_showNameCode="false"
+        app:ccp_showPhoneCode="false"
+        app:ccp_textGravity="CENTER"
+        android:layout_marginStart="@dimen/_35sdp"
+        android:layout_marginEnd="@dimen/_35sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/tv_newBirthDate"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/tv_newBirthDate"
+        app:layout_constraintTop_toBottomOf="@+id/tv_newBirthDate"
+        app:layout_constraintVertical_bias="0.129" />
+
+    <RadioGroup
+        android:id="@+id/newRadioGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/newCountryCode_picker"
+        app:layout_constraintStart_toStartOf="@+id/newCountryCode_picker"
+        app:layout_constraintTop_toBottomOf="@+id/newCountryCode_picker"
+        app:layout_constraintVertical_bias="0.212">
+
+        <RadioButton
+            android:id="@+id/rb_male"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="70dp"
+            android:checked="true"
+            android:text="Male"
+            android:textSize="17sp" />
+
+        <RadioButton
+            android:id="@+id/rb_female"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="120dp"
+            android:layout_marginEnd="30dp"
+            android:text="Female"
+            android:textSize="17sp" />
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/btn_applyChanges"
+        android:layout_width="@dimen/_150sdp"
+        android:layout_height="@dimen/_40sdp"
+        android:background="@drawable/welcome_shape"
+        android:fontFamily="sans-serif-black"
+        android:text="Apply Changes"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:backgroundTint="@null"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/newRadioGroup"
+        app:layout_constraintHorizontal_bias="0.282"
+        app:layout_constraintStart_toStartOf="@+id/newRadioGroup"
+        app:layout_constraintTop_toBottomOf="@+id/newRadioGroup"
+        app:layout_constraintVertical_bias="0.391" />
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
