@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -25,6 +26,8 @@ import com.wasem.mysteriousquestions.databinding.CustomTrueFalseQuestionBinding;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class QuestionPagerFragment extends Fragment {
 
@@ -35,6 +38,8 @@ public class QuestionPagerFragment extends Fragment {
     private int pattern;
     private List<Question> questions = new ArrayList<>();
     private QuestionInteractionListener listener;
+    private Timer timer;
+    private int timerSeconds;
 
     public QuestionPagerFragment() {
         // Required empty public constructor
@@ -68,15 +73,14 @@ public class QuestionPagerFragment extends Fragment {
 
     private void getQuestionList() {
         Gson gson = new Gson();
-        Type listType = new TypeToken<List<Question>>() {
-        }.getType();
+        Type listType = new TypeToken<List<Question>>() {}.getType();
         questions = gson.fromJson(getActivity().getIntent().getStringExtra("currentLevelQuestions"), listType);
         Log.d("LEVEL-QUESTION-FRAGMENT", "onChanged: " + questions.size());
     }
 
     private Question fillQuestionByPattern() {
         for (int i = 0; i < questions.size(); i++) {
-            if (questions.get(i).pattern == pattern) {
+            if (questions.get(i).pattern == pattern && questions.get(i).question_id == question_id) {
                 String title = questions.get(i).title;
                 String answer1 = questions.get(i).answer1;
                 String answer2 = questions.get(i).answer2;
@@ -87,7 +91,7 @@ public class QuestionPagerFragment extends Fragment {
                 int pattern = questions.get(i).pattern;
                 int duration = questions.get(i).duration;
                 String hint = questions.get(i).hint;
-                return new Question(questions.get(i).level_no, title, answer1, answer2, answer3, answer4, trueAnswer, points, pattern, duration, hint);
+                return new Question(questions.get(i).level_no, title, answer1, answer2, answer3, answer4, trueAnswer, points, duration, pattern, hint);
             }
         }
         return new Question();
@@ -95,14 +99,18 @@ public class QuestionPagerFragment extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (pattern == GameActivity.PATTERN_TRUE_FALSE) {
             CustomTrueFalseQuestionBinding binding = CustomTrueFalseQuestionBinding.inflate(inflater, container, false);
+
+            countDownTimer(binding.tvTimerSeconds);
+
             binding.tvQuestionTitleTrueFalse.setText(fillQuestionByPattern().title);
             binding.tvSkipQuestion.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     listener.onQuestionInteractionListener();
+                    timer.cancel();
                 }
             });
 
@@ -110,9 +118,14 @@ public class QuestionPagerFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
                     if (binding.btnTrueSubmit.getText().toString().equals(fillQuestionByPattern().trueAnswer)) {
-                        FancyToast.makeText(getContext(), "Well Done !", FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, false).show();
-                    } else {
-                        FancyToast.makeText(getContext(), "Wrong Answer !", FancyToast.LENGTH_SHORT, FancyToast.ERROR, false).show();
+                        DialogFragment dialogFragment = DialogFragment.newInstance("Good Job! 😍",fillQuestionByPattern().hint, R.drawable.true_ans_btn_shape);
+                        dialogFragment.show(getActivity().getSupportFragmentManager(),"Right Answer Dialog");
+                        timer.cancel();
+                    }
+                    else {
+                        DialogFragment dialogFragment = DialogFragment.newInstance("Wrong Answer 🙁",fillQuestionByPattern().hint,R.drawable.img_wrong_answer_red);
+                        dialogFragment.show(getActivity().getSupportFragmentManager(),"Wrong Answer Dialog");
+                        timer.cancel();
                     }
                 }
             });
@@ -121,25 +134,36 @@ public class QuestionPagerFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
                     if (binding.btnFalseSubmit.getText().toString().equals(fillQuestionByPattern().trueAnswer)) {
-                        FancyToast.makeText(getContext(), "Well Done !", FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, false).show();
-                    } else {
-                        FancyToast.makeText(getContext(), "Wrong Answer !", FancyToast.LENGTH_SHORT, FancyToast.ERROR, false).show();
+                        DialogFragment dialogFragment = DialogFragment.newInstance("Good Job! 😍",fillQuestionByPattern().hint, R.drawable.true_ans_btn_shape);
+                        dialogFragment.show(getActivity().getSupportFragmentManager(),"Right Answer Dialog");
+                        timer.cancel();
+                    }
+                    else {
+                        DialogFragment dialogFragment = DialogFragment.newInstance("Wrong Answer 🙁",fillQuestionByPattern().hint,R.drawable.img_wrong_answer_red);
+                        dialogFragment.show(getActivity().getSupportFragmentManager(),"Wrong Answer Dialog");
+                        timer.cancel();
                     }
                 }
             });
 
             return binding.getRoot();
-        } else if (pattern == GameActivity.PATTERN_SELECT_CHOICE) {
+        }
+
+        else if (pattern == GameActivity.PATTERN_SELECT_CHOICE) {
             CustomSelectChoiceQuestionBinding binding = CustomSelectChoiceQuestionBinding.inflate(inflater, container, false);
             binding.tvQuestionTitleSelectChoice.setText(fillQuestionByPattern().title);
             binding.rbChoice1.setText(fillQuestionByPattern().answer1);
             binding.rbChoice2.setText(fillQuestionByPattern().answer2);
             binding.rbChoice3.setText(fillQuestionByPattern().answer3);
             binding.rbChoice4.setText(fillQuestionByPattern().answer4);
+
+            countDownTimer(binding.tvTimerSeconds);
+
             binding.tvSkipQuestion.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     listener.onQuestionInteractionListener();
+                    timer.cancel();
                 }
             });
 
@@ -147,19 +171,29 @@ public class QuestionPagerFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
                     if (binding.rbChoice1.isChecked() && binding.rbChoice1.getText().toString().equals(fillQuestionByPattern().trueAnswer)) {
-                        FancyToast.makeText(getContext(), "Well Done !", FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, false).show();
+                        DialogFragment dialogFragment = DialogFragment.newInstance("Good Job! 😍",fillQuestionByPattern().hint, R.drawable.true_ans_btn_shape);
+                        dialogFragment.show(getActivity().getSupportFragmentManager(),"Right Answer Dialog");
+                        timer.cancel();
                     }
                     else if (binding.rbChoice2.isChecked() && binding.rbChoice2.getText().toString().equals(fillQuestionByPattern().trueAnswer)) {
-                        FancyToast.makeText(getContext(), "Well Done !", FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, false).show();
+                        DialogFragment dialogFragment = DialogFragment.newInstance("Good Job! 😍",fillQuestionByPattern().hint, R.drawable.true_ans_btn_shape);
+                        dialogFragment.show(getActivity().getSupportFragmentManager(),"Right Answer Dialog");
+                        timer.cancel();
                     }
                     else if (binding.rbChoice3.isChecked() && binding.rbChoice3.getText().toString().equals(fillQuestionByPattern().trueAnswer)) {
-                        FancyToast.makeText(getContext(), "Well Done !", FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, false).show();
+                        DialogFragment dialogFragment = DialogFragment.newInstance("Good Job! 😍",fillQuestionByPattern().hint, R.drawable.true_ans_btn_shape);
+                        dialogFragment.show(getActivity().getSupportFragmentManager(),"Right Answer Dialog");
+                        timer.cancel();
                     }
                     else if (binding.rbChoice4.isChecked() && binding.rbChoice4.getText().toString().equals(fillQuestionByPattern().trueAnswer)) {
-                        FancyToast.makeText(getContext(), "Well Done !", FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, false).show();
+                        DialogFragment dialogFragment = DialogFragment.newInstance("Good Job! 😍",fillQuestionByPattern().hint, R.drawable.true_ans_btn_shape);
+                        dialogFragment.show(getActivity().getSupportFragmentManager(),"Right Answer Dialog");
+                        timer.cancel();
                     }
                     else {
-                        FancyToast.makeText(getContext(), "Wrong Answer !", FancyToast.LENGTH_SHORT, FancyToast.ERROR, false).show();
+                        DialogFragment dialogFragment = DialogFragment.newInstance("Wrong Answer 🙁",fillQuestionByPattern().hint,R.drawable.img_wrong_answer_red);
+                        dialogFragment.show(getActivity().getSupportFragmentManager(),"Wrong Answer Dialog");
+                        timer.cancel();
                     }
                 }
             });
@@ -168,25 +202,60 @@ public class QuestionPagerFragment extends Fragment {
         else if (pattern == GameActivity.PATTERN_COMPLETION) {
             CustomCompletionQuestionBinding binding = CustomCompletionQuestionBinding.inflate(inflater, container, false);
             binding.tvQuestionTitleCompleteQuestion.setText(fillQuestionByPattern().title);
+
+            countDownTimer(binding.tvTimerSeconds);
+
             binding.tvSkipQuestion.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     listener.onQuestionInteractionListener();
+                    timer.cancel();
                 }
             });
             binding.btnConfirm.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (binding.etAnswer.getText().toString().equals(fillQuestionByPattern().trueAnswer)) {
-                        FancyToast.makeText(getContext(), "Well Done !", FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, false).show();
+                        DialogFragment dialogFragment = DialogFragment.newInstance("Good Job! 😍",fillQuestionByPattern().hint, R.drawable.true_ans_btn_shape);
+                        dialogFragment.show(getActivity().getSupportFragmentManager(),"Right Answer Dialog");
+                        timer.cancel();
                     }
                     else {
-                        FancyToast.makeText(getContext(), "Wrong Answer !", FancyToast.LENGTH_SHORT, FancyToast.ERROR, false).show();
+                        DialogFragment dialogFragment = DialogFragment.newInstance("Wrong Answer 🙁",fillQuestionByPattern().hint,R.drawable.img_wrong_answer_red);
+                        dialogFragment.show(getActivity().getSupportFragmentManager(),"Wrong Answer Dialog");
+                        timer.cancel();
                     }
                 }
             });
             return binding.getRoot();
         }
+
         return inflater.inflate(R.layout.fragment_question_pager, container, false);
     }
+
+    private void countDownTimer(TextView textView){
+        int seconds = fillQuestionByPattern().duration / 1000;
+        timerSeconds = seconds % 60;
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                if (isAdded()) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            textView.setText(String.valueOf(timerSeconds));
+                            timerSeconds --;
+                            if (timerSeconds == 0){
+                                timer.cancel();
+                                DialogFragment dialogFragment = DialogFragment.newInstance("Time is Up!",fillQuestionByPattern().hint,R.drawable.img_wrong_answer_red);
+                                dialogFragment.show(getActivity().getSupportFragmentManager(),"Time Up Dialog");
+                            }
+                        }
+                    });
+                }
+            }
+        }, 1000, 1000);
+    }
+
 }

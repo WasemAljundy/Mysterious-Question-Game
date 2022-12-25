@@ -3,26 +3,28 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/img_dialog_background"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/_250sdp">
+    android:layout_height="wrap_content">
 
     <Button
         android:id="@+id/positiveButton"
         android:layout_width="@dimen/_50sdp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_155sdp"
+        android:layout_marginTop="@dimen/_5sdp"
         android:layout_marginEnd="@dimen/_5sdp"
         android:backgroundTint="#EA8C10"
         android:text="OK"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.9"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="@+id/img_AnswerLogo"
+        app:layout_constraintTop_toBottomOf="@+id/tv_dialogMsg"
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/tv_dialogTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_55sdp"
+        android:layout_marginTop="@dimen/_40sdp"
         android:text="TextView"
         android:textColor="@color/black"
         android:textSize="30sp"
@@ -34,14 +36,16 @@
 
     <TextView
         android:id="@+id/tv_dialogMsg"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/_150sdp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_3sdp"
+        android:paddingBottom="@dimen/_30sdp"
         android:text="TextView"
+        android:textAlignment="center"
         android:textColor="#151414"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="@+id/tv_dialogTitle"
-        app:layout_constraintHorizontal_bias="0.732"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.068"
         app:layout_constraintStart_toEndOf="@+id/img_AnswerLogo"
         app:layout_constraintTop_toBottomOf="@+id/tv_dialogTitle" />
 
@@ -49,7 +53,8 @@
         android:id="@+id/img_AnswerLogo"
         android:layout_width="@dimen/_50sdp"
         android:layout_height="@dimen/_50sdp"
-        android:src="@drawable/img_right_answer_green"
+        android:src="@drawable/img_wrong_answer_red"
+        android:layout_marginStart="@dimen/_5sdp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/tv_dialogTitle"
         app:layout_constraintHorizontal_bias="0.450"

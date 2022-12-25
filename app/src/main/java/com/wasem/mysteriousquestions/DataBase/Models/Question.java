@@ -13,7 +13,6 @@ import com.google.gson.annotations.SerializedName;
         onDelete = ForeignKey.CASCADE)})
 
 public class Question {
-    public int id;
     @PrimaryKey (autoGenerate = true)
     @SerializedName("question_id")
     @Expose

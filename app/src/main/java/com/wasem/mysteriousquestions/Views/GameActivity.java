@@ -44,7 +44,7 @@ public class GameActivity extends AppCompatActivity implements DialogInteraction
 
         binding.pager.setPageTransformer(new DepthPageTransformer());
 
-//        binding.pager.setUserInputEnabled(false);
+        binding.pager.setUserInputEnabled(false);
 
 
         binding.pager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
@@ -60,12 +60,15 @@ public class GameActivity extends AppCompatActivity implements DialogInteraction
 
     @Override
     public void onOkButtonClicked() {
-        Toast.makeText(this, "OK Clicked!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Next Question", Toast.LENGTH_SHORT).show();
+        onQuestionInteractionListener();
     }
 
 
     @Override
     public void onQuestionInteractionListener() {
-        binding.pager.setCurrentItem(currentIndex++);
+        currentIndex ++;
+        binding.pager.setCurrentItem(currentIndex);
+        Log.d("QuestionListener", "onQuestionInteractionListener: "+ currentIndex);
     }
 }
