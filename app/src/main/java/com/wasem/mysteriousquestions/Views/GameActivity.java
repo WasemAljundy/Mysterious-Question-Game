@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -22,53 +23,57 @@ import java.util.List;
 public class GameActivity extends AppCompatActivity implements DialogInteractionListener, QuestionInteractionListener {
     ActivityGameBinding binding;
     PagerAdapter pagerAdapter;
+    int currentIndex;
 
     public static final int PATTERN_TRUE_FALSE = 1;
     public static final int PATTERN_SELECT_CHOICE = 2;
     public static final int PATTERN_COMPLETION = 3;
-    int currentIndex;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityGameBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
-        Gson gson = new Gson();
-        Type listType = new TypeToken<List<Question>>() {}.getType();
-        List<Question> questions = gson.fromJson(getIntent().getStringExtra("currentLevelQuestions"),listType);
-        Log.d("LEVEL-QUESTION", "onChanged: " + questions.size());
-
-        pagerAdapter = new PagerAdapter(GameActivity.this,questions);
-        binding.pager.setAdapter(pagerAdapter);
-
-        binding.pager.setPageTransformer(new DepthPageTransformer());
-
-        binding.pager.setUserInputEnabled(false);
-
-
-        binding.pager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-            @Override
-            public void onPageSelected(int position) {
-                Log.d("PAGER-INDEX", "INDEX: "+position);
-                currentIndex = position;
-            }
-        });
-
-
+        initializeMethods();
     }
+
 
     @Override
     public void onOkButtonClicked() {
-        Toast.makeText(this, "Next Question", Toast.LENGTH_SHORT).show();
-        onQuestionInteractionListener();
+        currentIndex = binding.pager.getCurrentItem();
+        binding.pager.setCurrentItem(currentIndex + 1,false);
+        Log.d("PAGER-INDEX", "onOkButtonClicked: "+currentIndex);
     }
 
 
     @Override
     public void onQuestionInteractionListener() {
-        currentIndex ++;
-        binding.pager.setCurrentItem(currentIndex);
+        currentIndex = binding.pager.getCurrentItem();
+        binding.pager.setCurrentItem(currentIndex + 1,false);
         Log.d("QuestionListener", "onQuestionInteractionListener: "+ currentIndex);
+
     }
+
+    private void initializeMethods() {
+        getQuestionsList();
+        pagerInitializer();
+    }
+
+    private List<Question> getQuestionsList() {
+        Gson gson = new Gson();
+        Type listType = new TypeToken<List<Question>>() {}.getType();
+        List<Question> questions = gson.fromJson(getIntent().getStringExtra("currentLevelQuestions"),listType);
+        Log.d("LEVEL-QUESTION", "onChanged: " + questions.size());
+        return questions;
+    }
+
+    private void pagerInitializer(){
+        pagerAdapter = new PagerAdapter(GameActivity.this,getQuestionsList());
+        binding.pager.setAdapter(pagerAdapter);
+        binding.pager.setPageTransformer(new DepthPageTransformer());
+        binding.pager.setUserInputEnabled(false);
+    }
+
+
 }

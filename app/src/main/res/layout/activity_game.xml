@@ -7,101 +7,13 @@
     android:background="@drawable/img_base"
     tools:context=".Views.GameActivity">
 
-    <ImageView
-        android:id="@+id/image_score_background"
-        android:layout_width="@dimen/_130sdp"
-        android:layout_height="@dimen/_100sdp"
-        app:layout_constraintBottom_toTopOf="@+id/pager"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.157"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/img_score_background" />
-
-    <TextView
-        android:id="@+id/tv_levelTxt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_60sdp"
-        android:fontFamily="monospace"
-        android:text="Level"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        android:textStyle="italic"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.622"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tv_level"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="50"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/tv_pointsTxt"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tv_levelTxt"
-        app:layout_constraintTop_toTopOf="@+id/tv_levelTxt"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <TextView
-        android:id="@+id/tv_pointsTxt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:text="Points"
-        android:textStyle="italic"
-        android:fontFamily="monospace"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="@+id/tv_levelTxt"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/tv_levelTxt"
-        app:layout_constraintTop_toBottomOf="@+id/tv_levelTxt" />
-
-    <TextView
-        android:id="@+id/tv_points"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="50"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_pointsTxt"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.486"
-        app:layout_constraintStart_toEndOf="@+id/tv_pointsTxt"
-        app:layout_constraintTop_toTopOf="@+id/tv_pointsTxt"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <TextView
-        android:id="@+id/tv_points2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="50"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/image_score_background"
-        app:layout_constraintEnd_toEndOf="@+id/image_score_background"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="@+id/image_score_background"
-        app:layout_constraintTop_toTopOf="@+id/image_score_background"
-        app:layout_constraintVertical_bias="0.63" />
-
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/pager"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="@dimen/_25sdp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_pointsTxt" />
+        app:layout_constraintStart_toStartOf="parent"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

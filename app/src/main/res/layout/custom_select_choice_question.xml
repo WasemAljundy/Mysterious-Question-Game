@@ -3,33 +3,76 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="#00000000"
+    android:background="@drawable/img_base"
     android:layout_height="match_parent">
 
+    <ImageView
+        android:id="@+id/image_score_background"
+        android:layout_width="@dimen/_130sdp"
+        android:layout_height="@dimen/_100sdp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_level"
+        app:layout_constraintEnd_toEndOf="@+id/tv_levelTxt"
+        app:layout_constraintHorizontal_bias="0.381"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_levelTxt"
+        app:layout_constraintVertical_bias="0.378"
+        app:srcCompat="@drawable/img_score_background" />
+
     <TextView
-        android:id="@+id/tv_questionTitle_select_choice"
+        android:id="@+id/tv_levelTxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Question Title"
+        android:layout_marginTop="@dimen/_70sdp"
+        android:fontFamily="monospace"
+        android:text="Level"
         android:textColor="@color/white"
-        android:fontFamily="sans-serif-condensed-medium"
-        android:textSize="30sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textSize="20sp"
+        android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.694"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.089" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_level"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="50"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_levelTxt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.252"
+        app:layout_constraintStart_toEndOf="@+id/tv_levelTxt"
+        app:layout_constraintTop_toTopOf="@+id/tv_levelTxt"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/tv_total_points"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/image_score_background"
+        app:layout_constraintEnd_toEndOf="@+id/image_score_background"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="@+id/image_score_background"
+        app:layout_constraintTop_toTopOf="@+id/image_score_background"
+        app:layout_constraintVertical_bias="0.63" />
+
 
     <RadioGroup
         android:id="@+id/rg"
-        android:layout_width="@dimen/_270sdp"
+        android:layout_width="@dimen/_250sdp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/tv_questionTitle_select_choice"
         app:layout_constraintStart_toStartOf="@+id/tv_questionTitle_select_choice"
         app:layout_constraintTop_toBottomOf="@+id/tv_questionTitle_select_choice"
-        app:layout_constraintVertical_bias="0.2">
+        app:layout_constraintVertical_bias="0.1">
 
         <RadioButton
             android:id="@+id/rb_choice1"
@@ -66,6 +109,7 @@
             android:text="RadioButton"
             android:textColor="@color/white"
             android:textSize="22sp" />
+
     </RadioGroup>
 
     <Button
@@ -77,10 +121,10 @@
         app:backgroundTint="@null"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintHorizontal_bias="0.512"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rg"
-        app:layout_constraintVertical_bias="0.537" />
+        app:layout_constraintVertical_bias="0.494" />
 
     <TextView
         android:id="@+id/tv_skip_question"
@@ -103,14 +147,28 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="00"
-        android:textSize="30sp"
         android:textColor="#FF0000"
+        android:textSize="27sp"
         app:layout_constraintBottom_toTopOf="@+id/btn_confirm"
         app:layout_constraintEnd_toStartOf="@+id/tv_skip_question"
-        app:layout_constraintHorizontal_bias="0.65"
+        app:layout_constraintHorizontal_bias="0.678"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rg"
-        app:layout_constraintVertical_bias="0.4" />
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/tv_questionTitle_select_choice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:text="Question Title"
+        android:textColor="@color/white"
+        android:textSize="25sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/image_score_background" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

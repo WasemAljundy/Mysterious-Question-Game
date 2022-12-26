@@ -2,40 +2,96 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="#00000000"
+    android:background="@drawable/img_base"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/image_score_background"
+        android:layout_width="@dimen/_130sdp"
+        android:layout_height="@dimen/_100sdp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_level"
+        app:layout_constraintEnd_toEndOf="@+id/tv_levelTxt"
+        app:layout_constraintHorizontal_bias="0.381"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_levelTxt"
+        app:layout_constraintVertical_bias="0.378"
+        app:srcCompat="@drawable/img_score_background" />
+
+    <TextView
+        android:id="@+id/tv_levelTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_70sdp"
+        android:fontFamily="monospace"
+        android:text="Level"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.662"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_level"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="50"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_levelTxt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.252"
+        app:layout_constraintStart_toEndOf="@+id/tv_levelTxt"
+        app:layout_constraintTop_toTopOf="@+id/tv_levelTxt"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/tv_total_points"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/image_score_background"
+        app:layout_constraintEnd_toEndOf="@+id/image_score_background"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="@+id/image_score_background"
+        app:layout_constraintTop_toTopOf="@+id/image_score_background"
+        app:layout_constraintVertical_bias="0.63" />
 
     <TextView
         android:id="@+id/tv_questionTitle_complete_question"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-condensed-medium"
         android:text="Question Title"
         android:textColor="@color/white"
-        android:fontFamily="sans-serif-condensed-medium"
         android:textSize="30sp"
-        android:layout_marginTop="@dimen/_50sdp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.089" />
+        app:layout_constraintEnd_toEndOf="@+id/tv_level"
+        app:layout_constraintHorizontal_bias="0.584"
+        app:layout_constraintStart_toStartOf="@+id/image_score_background"
+        app:layout_constraintTop_toBottomOf="@+id/image_score_background"
+        app:layout_constraintVertical_bias="0.121" />
 
     <EditText
         android:id="@+id/et_answer"
-        android:layout_width="@dimen/_230sdp"
+        android:layout_width="@dimen/_220sdp"
         android:layout_height="@dimen/_40sdp"
+        android:background="@drawable/edit_text_complete_answer_shape"
         android:ems="15"
         android:hint="Write Your Answer here"
-        android:textColorHint="#68FFFFFF"
-        android:background="@drawable/edit_text_complete_answer_shape"
         android:inputType="text"
-        android:padding="@dimen/_8sdp"
+        android:padding="@dimen/_10sdp"
         android:textColor="@color/white"
+        android:textColorHint="#68FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/tv_questionTitle_complete_question"
-        app:layout_constraintStart_toStartOf="@+id/tv_questionTitle_complete_question"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_questionTitle_complete_question"
         app:layout_constraintVertical_bias="0.3" />
 
@@ -43,16 +99,15 @@
         android:id="@+id/btn_confirm"
         android:layout_width="@dimen/_150sdp"
         android:layout_height="@dimen/_40sdp"
+        android:background="@drawable/exit_shape"
         android:text="Confirm"
         android:textColor="@color/white"
-        android:background="@drawable/exit_shape"
         app:backgroundTint="@null"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_answer"
-        app:layout_constraintVertical_bias="0.4" />
+        app:layout_constraintVertical_bias="0.535" />
 
     <TextView
         android:id="@+id/tv_skip_question"
@@ -62,11 +117,11 @@
         android:textColor="@color/white"
         android:textSize="21sp"
         android:textStyle="italic"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_timerSeconds"
         app:layout_constraintEnd_toEndOf="@+id/et_answer"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/et_answer"
-        app:layout_constraintTop_toBottomOf="@+id/et_answer"
+        app:layout_constraintTop_toTopOf="@+id/tv_timerSeconds"
         app:layout_constraintVertical_bias="0.116" />
 
     <TextView

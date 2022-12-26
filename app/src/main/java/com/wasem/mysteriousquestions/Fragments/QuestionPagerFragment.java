@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.shashank.sony.fancytoastlib.FancyToast;
+import com.wasem.mysteriousquestions.AppSharedPreferences;
 import com.wasem.mysteriousquestions.DataBase.Models.Question;
 import com.wasem.mysteriousquestions.R;
 import com.wasem.mysteriousquestions.Views.GameActivity;
@@ -36,10 +37,13 @@ public class QuestionPagerFragment extends Fragment {
 
     private int question_id;
     private int pattern;
-    private List<Question> questions = new ArrayList<>();
     private QuestionInteractionListener listener;
+
     private Timer timer;
     private int timerSeconds;
+    private int score = 0;
+    private int rightAnswers = 0;
+    private int wrongAnswers = 0;
 
     public QuestionPagerFragment() {
         // Required empty public constructor
@@ -68,30 +72,28 @@ public class QuestionPagerFragment extends Fragment {
             question_id = getArguments().getInt(ARG_QUESTION_ID);
             pattern = getArguments().getInt(ARG_PATTERN);
         }
-        getQuestionList();
     }
 
-    private void getQuestionList() {
+    private List<Question> getQuestionList() {
         Gson gson = new Gson();
         Type listType = new TypeToken<List<Question>>() {}.getType();
-        questions = gson.fromJson(getActivity().getIntent().getStringExtra("currentLevelQuestions"), listType);
-        Log.d("LEVEL-QUESTION-FRAGMENT", "onChanged: " + questions.size());
+        return gson.fromJson(getActivity().getIntent().getStringExtra("currentLevelQuestions"), listType);
     }
 
     private Question fillQuestionByPattern() {
-        for (int i = 0; i < questions.size(); i++) {
-            if (questions.get(i).pattern == pattern && questions.get(i).question_id == question_id) {
-                String title = questions.get(i).title;
-                String answer1 = questions.get(i).answer1;
-                String answer2 = questions.get(i).answer2;
-                String answer3 = questions.get(i).answer3;
-                String answer4 = questions.get(i).answer4;
-                String trueAnswer = questions.get(i).trueAnswer;
-                int points = questions.get(i).points;
-                int pattern = questions.get(i).pattern;
-                int duration = questions.get(i).duration;
-                String hint = questions.get(i).hint;
-                return new Question(questions.get(i).level_no, title, answer1, answer2, answer3, answer4, trueAnswer, points, duration, pattern, hint);
+        for (int i = 0; i < getQuestionList().size(); i++) {
+            if (getQuestionList().get(i).pattern == pattern && getQuestionList().get(i).question_id == question_id) {
+                String title = getQuestionList().get(i).title;
+                String answer1 = getQuestionList().get(i).answer1;
+                String answer2 = getQuestionList().get(i).answer2;
+                String answer3 = getQuestionList().get(i).answer3;
+                String answer4 = getQuestionList().get(i).answer4;
+                String trueAnswer = getQuestionList().get(i).trueAnswer;
+                int points = getQuestionList().get(i).points;
+                int pattern = getQuestionList().get(i).pattern;
+                int duration = getQuestionList().get(i).duration;
+                String hint = getQuestionList().get(i).hint;
+                return new Question(getQuestionList().get(i).level_no, title, answer1, answer2, answer3, answer4, trueAnswer, points, duration, pattern, hint);
             }
         }
         return new Question();
@@ -101,16 +103,22 @@ public class QuestionPagerFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (pattern == GameActivity.PATTERN_TRUE_FALSE) {
+
             CustomTrueFalseQuestionBinding binding = CustomTrueFalseQuestionBinding.inflate(inflater, container, false);
+
+            binding.tvLevel.setText(String.valueOf(fillQuestionByPattern().level_no));
+
+            binding.tvQuestionTitleTrueFalse.setText(fillQuestionByPattern().title);
+
+            binding.tvTotalPoints.setText(String.valueOf(AppSharedPreferences.getInstance(getContext()).getScore()));
 
             countDownTimer(binding.tvTimerSeconds);
 
-            binding.tvQuestionTitleTrueFalse.setText(fillQuestionByPattern().title);
             binding.tvSkipQuestion.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    listener.onQuestionInteractionListener();
                     timer.cancel();
+                    listener.onQuestionInteractionListener();
                 }
             });
 
@@ -120,11 +128,22 @@ public class QuestionPagerFragment extends Fragment {
                     if (binding.btnTrueSubmit.getText().toString().equals(fillQuestionByPattern().trueAnswer)) {
                         DialogFragment dialogFragment = DialogFragment.newInstance("Good Job! 😍",fillQuestionByPattern().hint, R.drawable.true_ans_btn_shape);
                         dialogFragment.show(getActivity().getSupportFragmentManager(),"Right Answer Dialog");
+                        int oldScore = Integer.parseInt(binding.tvTotalPoints.getText().toString());
+                        score = oldScore + fillQuestionByPattern().points;
+                        AppSharedPreferences.getInstance(getContext()).scoreSave(score);
+                        binding.tvTotalPoints.setText(String.valueOf(AppSharedPreferences.getInstance(getContext()).getScore()));
+                        Log.d("SCORE", "FINAL-SCORE: "+ AppSharedPreferences.getInstance(getContext()).getScore());
                         timer.cancel();
+
                     }
                     else {
                         DialogFragment dialogFragment = DialogFragment.newInstance("Wrong Answer 🙁",fillQuestionByPattern().hint,R.drawable.img_wrong_answer_red);
                         dialogFragment.show(getActivity().getSupportFragmentManager(),"Wrong Answer Dialog");
+                        int oldScore = Integer.parseInt(binding.tvTotalPoints.getText().toString());
+                        score = oldScore - fillQuestionByPattern().points;
+                        AppSharedPreferences.getInstance(getContext()).scoreSave(score);
+                        binding.tvTotalPoints.setText(String.valueOf(AppSharedPreferences.getInstance(getContext()).getScore()));
+                        Log.d("SCORE", "FINAL-SCORE: "+ AppSharedPreferences.getInstance(getContext()).getScore());
                         timer.cancel();
                     }
                 }
@@ -136,22 +155,39 @@ public class QuestionPagerFragment extends Fragment {
                     if (binding.btnFalseSubmit.getText().toString().equals(fillQuestionByPattern().trueAnswer)) {
                         DialogFragment dialogFragment = DialogFragment.newInstance("Good Job! 😍",fillQuestionByPattern().hint, R.drawable.true_ans_btn_shape);
                         dialogFragment.show(getActivity().getSupportFragmentManager(),"Right Answer Dialog");
+                        int oldScore = Integer.parseInt(binding.tvTotalPoints.getText().toString());
+                        score = oldScore + fillQuestionByPattern().points;
+                        AppSharedPreferences.getInstance(getContext()).scoreSave(score);
+                        binding.tvTotalPoints.setText(String.valueOf(AppSharedPreferences.getInstance(getContext()).getScore()));
+                        Log.d("SCORE", "FINAL-SCORE: "+ AppSharedPreferences.getInstance(getContext()).getScore());
                         timer.cancel();
                     }
                     else {
                         DialogFragment dialogFragment = DialogFragment.newInstance("Wrong Answer 🙁",fillQuestionByPattern().hint,R.drawable.img_wrong_answer_red);
                         dialogFragment.show(getActivity().getSupportFragmentManager(),"Wrong Answer Dialog");
+                        int oldScore = Integer.parseInt(binding.tvTotalPoints.getText().toString());
+                        score = oldScore - fillQuestionByPattern().points;
+                        AppSharedPreferences.getInstance(getContext()).scoreSave(score);
+                        binding.tvTotalPoints.setText(String.valueOf(AppSharedPreferences.getInstance(getContext()).getScore()));
+                        Log.d("SCORE", "FINAL-SCORE: "+ AppSharedPreferences.getInstance(getContext()).getScore());
                         timer.cancel();
                     }
                 }
             });
-
             return binding.getRoot();
         }
+//--------------------------------------- 2.   Select Pattern   -----------------------------------------------------------------------//
 
         else if (pattern == GameActivity.PATTERN_SELECT_CHOICE) {
+
             CustomSelectChoiceQuestionBinding binding = CustomSelectChoiceQuestionBinding.inflate(inflater, container, false);
+
+            binding.tvLevel.setText(String.valueOf(fillQuestionByPattern().level_no));
+
             binding.tvQuestionTitleSelectChoice.setText(fillQuestionByPattern().title);
+
+            binding.tvTotalPoints.setText(String.valueOf(AppSharedPreferences.getInstance(getContext()).getScore()));
+
             binding.rbChoice1.setText(fillQuestionByPattern().answer1);
             binding.rbChoice2.setText(fillQuestionByPattern().answer2);
             binding.rbChoice3.setText(fillQuestionByPattern().answer3);
@@ -162,8 +198,8 @@ public class QuestionPagerFragment extends Fragment {
             binding.tvSkipQuestion.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    listener.onQuestionInteractionListener();
                     timer.cancel();
+                    listener.onQuestionInteractionListener();
                 }
             });
 
@@ -173,56 +209,102 @@ public class QuestionPagerFragment extends Fragment {
                     if (binding.rbChoice1.isChecked() && binding.rbChoice1.getText().toString().equals(fillQuestionByPattern().trueAnswer)) {
                         DialogFragment dialogFragment = DialogFragment.newInstance("Good Job! 😍",fillQuestionByPattern().hint, R.drawable.true_ans_btn_shape);
                         dialogFragment.show(getActivity().getSupportFragmentManager(),"Right Answer Dialog");
+                        int oldScore = Integer.parseInt(binding.tvTotalPoints.getText().toString());
+                        score = oldScore + fillQuestionByPattern().points;
+                        AppSharedPreferences.getInstance(getContext()).scoreSave(score);
+                        binding.tvTotalPoints.setText(String.valueOf(AppSharedPreferences.getInstance(getContext()).getScore()));
+                        Log.d("SCORE", "FINAL-SCORE: "+ AppSharedPreferences.getInstance(getContext()).getScore());
                         timer.cancel();
                     }
                     else if (binding.rbChoice2.isChecked() && binding.rbChoice2.getText().toString().equals(fillQuestionByPattern().trueAnswer)) {
                         DialogFragment dialogFragment = DialogFragment.newInstance("Good Job! 😍",fillQuestionByPattern().hint, R.drawable.true_ans_btn_shape);
                         dialogFragment.show(getActivity().getSupportFragmentManager(),"Right Answer Dialog");
+                        int oldScore = Integer.parseInt(binding.tvTotalPoints.getText().toString());
+                        score = oldScore + fillQuestionByPattern().points;
+                        AppSharedPreferences.getInstance(getContext()).scoreSave(score);
+                        binding.tvTotalPoints.setText(String.valueOf(AppSharedPreferences.getInstance(getContext()).getScore()));
+                        Log.d("SCORE", "FINAL-SCORE: "+ AppSharedPreferences.getInstance(getContext()).getScore());
                         timer.cancel();
                     }
                     else if (binding.rbChoice3.isChecked() && binding.rbChoice3.getText().toString().equals(fillQuestionByPattern().trueAnswer)) {
                         DialogFragment dialogFragment = DialogFragment.newInstance("Good Job! 😍",fillQuestionByPattern().hint, R.drawable.true_ans_btn_shape);
                         dialogFragment.show(getActivity().getSupportFragmentManager(),"Right Answer Dialog");
+                        int oldScore = Integer.parseInt(binding.tvTotalPoints.getText().toString());
+                        score = oldScore + fillQuestionByPattern().points;
+                        AppSharedPreferences.getInstance(getContext()).scoreSave(score);
+                        binding.tvTotalPoints.setText(String.valueOf(AppSharedPreferences.getInstance(getContext()).getScore()));
+                        Log.d("SCORE", "FINAL-SCORE: "+ AppSharedPreferences.getInstance(getContext()).getScore());
                         timer.cancel();
                     }
                     else if (binding.rbChoice4.isChecked() && binding.rbChoice4.getText().toString().equals(fillQuestionByPattern().trueAnswer)) {
                         DialogFragment dialogFragment = DialogFragment.newInstance("Good Job! 😍",fillQuestionByPattern().hint, R.drawable.true_ans_btn_shape);
                         dialogFragment.show(getActivity().getSupportFragmentManager(),"Right Answer Dialog");
+                        int oldScore = Integer.parseInt(binding.tvTotalPoints.getText().toString());
+                        score = oldScore + fillQuestionByPattern().points;
+                        AppSharedPreferences.getInstance(getContext()).scoreSave(score);
+                        binding.tvTotalPoints.setText(String.valueOf(AppSharedPreferences.getInstance(getContext()).getScore()));
+                        Log.d("SCORE", "FINAL-SCORE: "+ AppSharedPreferences.getInstance(getContext()).getScore());
                         timer.cancel();
                     }
                     else {
                         DialogFragment dialogFragment = DialogFragment.newInstance("Wrong Answer 🙁",fillQuestionByPattern().hint,R.drawable.img_wrong_answer_red);
                         dialogFragment.show(getActivity().getSupportFragmentManager(),"Wrong Answer Dialog");
+                        int oldScore = Integer.parseInt(binding.tvTotalPoints.getText().toString());
+                        score = oldScore - fillQuestionByPattern().points;
+                        AppSharedPreferences.getInstance(getContext()).scoreSave(score);
+                        binding.tvTotalPoints.setText(String.valueOf(AppSharedPreferences.getInstance(getContext()).getScore()));
+                        Log.d("SCORE", "FINAL-SCORE: "+ AppSharedPreferences.getInstance(getContext()).getScore());
                         timer.cancel();
                     }
                 }
             });
             return binding.getRoot();
         }
-        else if (pattern == GameActivity.PATTERN_COMPLETION) {
+
+//--------------------------------------- 3.   Completion Pattern     -----------------------------------------------------------------------//
+
+         else if (pattern == GameActivity.PATTERN_COMPLETION) {
+
+
             CustomCompletionQuestionBinding binding = CustomCompletionQuestionBinding.inflate(inflater, container, false);
+
+            binding.tvLevel.setText(String.valueOf(fillQuestionByPattern().level_no));
+
             binding.tvQuestionTitleCompleteQuestion.setText(fillQuestionByPattern().title);
+
+            binding.tvTotalPoints.setText(String.valueOf(AppSharedPreferences.getInstance(getContext()).getScore()));
 
             countDownTimer(binding.tvTimerSeconds);
 
             binding.tvSkipQuestion.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    listener.onQuestionInteractionListener();
                     timer.cancel();
+                    listener.onQuestionInteractionListener();
                 }
             });
+
             binding.btnConfirm.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (binding.etAnswer.getText().toString().equals(fillQuestionByPattern().trueAnswer)) {
                         DialogFragment dialogFragment = DialogFragment.newInstance("Good Job! 😍",fillQuestionByPattern().hint, R.drawable.true_ans_btn_shape);
                         dialogFragment.show(getActivity().getSupportFragmentManager(),"Right Answer Dialog");
+                        int oldScore = Integer.parseInt(binding.tvTotalPoints.getText().toString());
+                        score = oldScore + fillQuestionByPattern().points;
+                        AppSharedPreferences.getInstance(getContext()).scoreSave(score);
+                        binding.tvTotalPoints.setText(String.valueOf(AppSharedPreferences.getInstance(getContext()).getScore()));
+                        Log.d("SCORE", "FINAL-SCORE: "+ AppSharedPreferences.getInstance(getContext()).getScore());
                         timer.cancel();
                     }
                     else {
                         DialogFragment dialogFragment = DialogFragment.newInstance("Wrong Answer 🙁",fillQuestionByPattern().hint,R.drawable.img_wrong_answer_red);
                         dialogFragment.show(getActivity().getSupportFragmentManager(),"Wrong Answer Dialog");
+                        int oldScore = Integer.parseInt(binding.tvTotalPoints.getText().toString());
+                        score = oldScore - fillQuestionByPattern().points;
+                        AppSharedPreferences.getInstance(getContext()).scoreSave(score);
+                        binding.tvTotalPoints.setText(String.valueOf(AppSharedPreferences.getInstance(getContext()).getScore()));
+                        Log.d("SCORE", "FINAL-SCORE: "+ AppSharedPreferences.getInstance(getContext()).getScore());
                         timer.cancel();
                     }
                 }
@@ -233,9 +315,9 @@ public class QuestionPagerFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_question_pager, container, false);
     }
 
-    private void countDownTimer(TextView textView){
-        int seconds = fillQuestionByPattern().duration / 1000;
-        timerSeconds = seconds % 60;
+
+        private void countDownTimer(TextView textView){
+        timerSeconds = fillQuestionByPattern().duration / 1000;
         timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
@@ -246,10 +328,11 @@ public class QuestionPagerFragment extends Fragment {
                         public void run() {
                             textView.setText(String.valueOf(timerSeconds));
                             timerSeconds --;
-                            if (timerSeconds == 0){
-                                timer.cancel();
+                            if (timerSeconds == -1){
                                 DialogFragment dialogFragment = DialogFragment.newInstance("Time is Up!",fillQuestionByPattern().hint,R.drawable.img_wrong_answer_red);
                                 dialogFragment.show(getActivity().getSupportFragmentManager(),"Time Up Dialog");
+                                timer.cancel();
+//                                score -= fillQuestionByPattern().points;
                             }
                         }
                     });
@@ -257,5 +340,6 @@ public class QuestionPagerFragment extends Fragment {
             }
         }, 1000, 1000);
     }
+
 
 }
