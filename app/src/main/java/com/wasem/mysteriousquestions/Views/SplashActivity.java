@@ -8,6 +8,8 @@ import android.os.Handler;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.wasem.mysteriousquestions.AppSharedPreferences;
+import com.wasem.mysteriousquestions.MyService;
 import com.wasem.mysteriousquestions.databinding.ActivitySplashBinding;
 
 public class SplashActivity extends AppCompatActivity {
@@ -44,4 +46,6 @@ public class SplashActivity extends AppCompatActivity {
             }
         },2000);
     }
+
+
 }

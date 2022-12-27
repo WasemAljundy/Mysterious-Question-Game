@@ -4,7 +4,8 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
-@Entity (foreignKeys = {@ForeignKey(entity = Player.class,
+@Entity
+        (foreignKeys = {@ForeignKey(entity = Player.class,
                 parentColumns = {"playerId"},
                 childColumns = {"playerId"},
                 onUpdate = ForeignKey.CASCADE,

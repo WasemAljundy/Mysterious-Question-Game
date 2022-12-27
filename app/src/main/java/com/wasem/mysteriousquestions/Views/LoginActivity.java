@@ -17,6 +17,7 @@ import android.widget.CompoundButton;
 
 import com.shashank.sony.fancytoastlib.FancyToast;
 
+import com.wasem.mysteriousquestions.AppSharedPreferences;
 import com.wasem.mysteriousquestions.DataBase.Models.Player;
 import com.wasem.mysteriousquestions.DataBase.PlayerViewModel;
 import com.wasem.mysteriousquestions.MyService;
@@ -92,9 +93,15 @@ public class LoginActivity extends AppCompatActivity {
 
 
     public void backgroundMusic(View view){
-        Intent intent = new Intent(getBaseContext(), MyService.class);
-        startService(intent);
-    }
+            if (AppSharedPreferences.getInstance(this).getMusicStatus().equals("true")) {
+                Intent intent = new Intent(getApplicationContext(), MyService.class);
+                startService(intent);
+            }
+            else if (AppSharedPreferences.getInstance(this).getMusicStatus().equals("false")) {
+                Intent intent = new Intent(getApplicationContext(),MyService.class);
+                stopService(intent);
+            }
+        }
 
     //******************************************* ActivityResultLauncher ********************************************************************//
 

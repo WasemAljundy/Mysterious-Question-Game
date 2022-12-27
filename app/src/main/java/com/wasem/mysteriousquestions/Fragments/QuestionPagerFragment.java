@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -49,6 +50,7 @@ public class QuestionPagerFragment extends Fragment {
     private int skipTimes = 0;
     private int correctAnswers = 0;
     private int wrongAnswers = 0;
+    private boolean isFinishedLevel;
 
     public QuestionPagerFragment() {
         // Required empty public constructor
@@ -98,6 +100,8 @@ public class QuestionPagerFragment extends Fragment {
                 int pattern = getQuestionList().get(i).pattern;
                 int duration = getQuestionList().get(i).duration;
                 String hint = getQuestionList().get(i).hint;
+                isFinishedLevel = getQuestionList().size()-1 == i;
+
                 return new Question(getQuestionList().get(i).level_no, title, answer1, answer2, answer3, answer4, trueAnswer, points, duration, pattern, hint);
             }
         }
@@ -118,13 +122,12 @@ public class QuestionPagerFragment extends Fragment {
 
 
 
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (pattern == GameActivity.PATTERN_TRUE_FALSE) {
 
             CustomTrueFalseQuestionBinding binding = CustomTrueFalseQuestionBinding.inflate(inflater, container, false);
-
-            Toast.makeText(getContext(), fillQuestionByPattern().title, Toast.LENGTH_SHORT).show();
 
             binding.tvLevel.setText(String.valueOf(fillQuestionByPattern().level_no));
 
@@ -137,8 +140,7 @@ public class QuestionPagerFragment extends Fragment {
             binding.tvSkipQuestion.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    timer.cancel();
-                    skipTimes += 1;
+                    skipQuestionValidation(binding.tvTotalPoints);
                     listener.onQuestionInteractionListener();
                 }
             });
@@ -192,8 +194,7 @@ public class QuestionPagerFragment extends Fragment {
             binding.tvSkipQuestion.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    timer.cancel();
-                    skipTimes += 1;
+                    skipQuestionValidation(binding.tvTotalPoints);
                     listener.onQuestionInteractionListener();
                 }
             });
@@ -241,8 +242,7 @@ public class QuestionPagerFragment extends Fragment {
             binding.tvSkipQuestion.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    timer.cancel();
-                    skipTimes += 1;
+                    skipQuestionValidation(binding.tvTotalPoints);
                     listener.onQuestionInteractionListener();
                 }
             });
@@ -264,10 +264,21 @@ public class QuestionPagerFragment extends Fragment {
     }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
-        insertPlayerQuestionDetails();
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        if (isFinishedLevel){
+            Toast.makeText(getContext(), "LEVEL FINISHED!", Toast.LENGTH_SHORT).show();
+            insertPlayerQuestionDetails();
+        }
+
     }
+
+//    @Override
+//    public void onDestroy() {
+//        super.onDestroy();
+//        insertPlayerQuestionDetails();
+//    }
+
 
     private void countDownTimer(TextView timerView, TextView scoreView){
         timerSeconds = fillQuestionByPattern().duration / 1000;
@@ -324,6 +335,16 @@ public class QuestionPagerFragment extends Fragment {
         scoreView.setText(String.valueOf(AppSharedPreferences.getInstance(getContext()).getScore()));
         Log.d("SCORE", "FINAL-SCORE: "+ AppSharedPreferences.getInstance(getContext()).getScore());
         wrongAnswers += 1;
+        timer.cancel();
+    }
+
+    private void skipQuestionValidation(TextView scoreView){
+        int oldScore = Integer.parseInt(scoreView.getText().toString());
+        score = oldScore - fillQuestionByPattern().points;
+        AppSharedPreferences.getInstance(getContext()).scoreSave(score);
+        scoreView.setText(String.valueOf(AppSharedPreferences.getInstance(getContext()).getScore()));
+        Log.d("SCORE", "FINAL-SCORE: "+ AppSharedPreferences.getInstance(getContext()).getScore());
+        skipTimes += 1;
         timer.cancel();
     }
 

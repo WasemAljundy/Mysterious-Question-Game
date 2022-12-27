@@ -32,4 +32,20 @@ public class AppSharedPreferences {
         return sharedPreferences.getInt("score",0);
     }
 
+    public void musicStatusOn(){
+        editor = sharedPreferences.edit();
+        editor.putString("music_status","true");
+        editor.apply();
+    }
+
+    public void musicStatusOff(){
+        editor = sharedPreferences.edit();
+        editor.putString("music_status","false");
+        editor.apply();
+    }
+
+    public String getMusicStatus(){
+        return sharedPreferences.getString("music_status","");
+    }
+
 }
