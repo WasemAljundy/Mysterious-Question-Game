@@ -18,6 +18,6 @@ public interface QuestionDao {
     LiveData<List<Question>> getAllQuestions();
     @Query("select * from Question where level_no = :level_no")
     LiveData<List<Question>> getAllLevelQuestions(int level_no);
-    @Query("select * from Question inner join PlayerQuestion on Question.question_id = PlayerQuestion.question_id where playerId =:playerId")
-    LiveData<List<Question>> getPlayerQuestionsDetails(int playerId);
+//    @Query("select * from Question inner join PlayerQuestion on Question.question_id = PlayerQuestion.question_id where playerId =:playerId")
+//    LiveData<List<Question>> getPlayerQuestionsDetails(int playerId);
 }

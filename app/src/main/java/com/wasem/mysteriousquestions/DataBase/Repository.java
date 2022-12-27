@@ -6,11 +6,15 @@ import androidx.lifecycle.LiveData;
 
 import com.wasem.mysteriousquestions.DataBase.Dao.LevelDao;
 import com.wasem.mysteriousquestions.DataBase.Dao.PlayerDao;
+import com.wasem.mysteriousquestions.DataBase.Dao.PlayerLevelDao;
+import com.wasem.mysteriousquestions.DataBase.Dao.PlayerQuestionDao;
 import com.wasem.mysteriousquestions.DataBase.Dao.QuestionDao;
 import com.wasem.mysteriousquestions.DataBase.Listeners.InsertListener;
 import com.wasem.mysteriousquestions.DataBase.Listeners.UpdateDeleteListener;
 import com.wasem.mysteriousquestions.DataBase.Models.Level;
 import com.wasem.mysteriousquestions.DataBase.Models.Player;
+import com.wasem.mysteriousquestions.DataBase.Models.PlayerLevel;
+import com.wasem.mysteriousquestions.DataBase.Models.PlayerQuestion;
 import com.wasem.mysteriousquestions.DataBase.Models.Question;
 
 import java.util.List;
@@ -20,12 +24,16 @@ public class Repository {
     PlayerDao playerDao;
     LevelDao levelDao;
     QuestionDao questionDao;
+    PlayerLevelDao playerLevelDao;
+    PlayerQuestionDao playerQuestionDao;
 
     public Repository(Application application){
         MyRoomDataBase db = MyRoomDataBase.getDatabase(application);
         playerDao = db.playerDao();
         levelDao = db.levelDao();
         questionDao = db.questionDao();
+        playerLevelDao = db.playerLevelDao();
+        playerQuestionDao = db.playerQuestionDao();
     }
 
 
@@ -122,9 +130,53 @@ public class Repository {
         return questionDao.getAllLevelQuestions(level_no);
     }
 
-    public LiveData<List<Question>> getPlayerQuestionsDetails(int playerId){
-        return questionDao.getPlayerQuestionsDetails(playerId);
+
+//---------------------------------------------- *** Player Level Methods *** -------------------------------------------------------------------//////
+
+    public void insertPlayerLevel(PlayerLevel playerLevel){
+        MyRoomDataBase.databaseWriteExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                playerLevelDao.insertPlayerLevel(playerLevel);
+            }
+        });
     }
 
+    public void deletePlayerLevel(PlayerLevel playerLevel){
+        MyRoomDataBase.databaseWriteExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                playerLevelDao.deletePlayerLevel(playerLevel);
+            }
+        });
+    }
+
+    public LiveData<List<PlayerLevel>> getAllPlayerLevelInfo(){
+        return playerLevelDao.getAllPlayerLevelInfo();
+    }
+
+//---------------------------------------------- *** Player Question Methods *** -------------------------------------------------------------------//////
+
+    public void insertPlayerQuestion(PlayerQuestion playerQuestion){
+        MyRoomDataBase.databaseWriteExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                playerQuestionDao.insertPlayerQuestion(playerQuestion);
+            }
+        });
+    }
+
+    public void deletePlayerQuestion(PlayerQuestion playerQuestion){
+        MyRoomDataBase.databaseWriteExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                playerQuestionDao.deletePlayerQuestion(playerQuestion);
+            }
+        });
+    }
+
+    public LiveData<List<PlayerQuestion>> getAllPlayerQuestionInfo(int playerId){
+        return playerQuestionDao.getAllPlayerQuestionInfo(playerId);
+    }
 
 }

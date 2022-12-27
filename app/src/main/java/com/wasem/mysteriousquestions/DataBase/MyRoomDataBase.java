@@ -8,6 +8,8 @@ import androidx.room.RoomDatabase;
 
 import com.wasem.mysteriousquestions.DataBase.Dao.LevelDao;
 import com.wasem.mysteriousquestions.DataBase.Dao.PlayerDao;
+import com.wasem.mysteriousquestions.DataBase.Dao.PlayerLevelDao;
+import com.wasem.mysteriousquestions.DataBase.Dao.PlayerQuestionDao;
 import com.wasem.mysteriousquestions.DataBase.Dao.QuestionDao;
 import com.wasem.mysteriousquestions.DataBase.Models.Level;
 import com.wasem.mysteriousquestions.DataBase.Models.Player;
@@ -24,6 +26,8 @@ public abstract class MyRoomDataBase extends RoomDatabase {
     public abstract PlayerDao playerDao();
     public abstract LevelDao levelDao();
     public abstract QuestionDao questionDao();
+    public abstract PlayerLevelDao playerLevelDao();
+    public abstract PlayerQuestionDao playerQuestionDao();
 
     private static volatile MyRoomDataBase INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;

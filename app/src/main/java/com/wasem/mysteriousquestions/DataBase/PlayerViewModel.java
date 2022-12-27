@@ -10,6 +10,8 @@ import com.wasem.mysteriousquestions.DataBase.Listeners.InsertListener;
 import com.wasem.mysteriousquestions.DataBase.Listeners.UpdateDeleteListener;
 import com.wasem.mysteriousquestions.DataBase.Models.Level;
 import com.wasem.mysteriousquestions.DataBase.Models.Player;
+import com.wasem.mysteriousquestions.DataBase.Models.PlayerLevel;
+import com.wasem.mysteriousquestions.DataBase.Models.PlayerQuestion;
 import com.wasem.mysteriousquestions.DataBase.Models.Question;
 
 import java.util.List;
@@ -81,8 +83,34 @@ public class PlayerViewModel extends AndroidViewModel {
         return repository.getAllLevelQuestions(level_no);
     }
 
-    public LiveData<List<Question>> getPlayerQuestionsDetails(int playerId){
-        return repository.getPlayerQuestionsDetails(playerId);
+
+//---------------------------------------------- *** Player Level Methods *** -------------------------------------------------------------------//////
+
+    public void insertPlayerLevel(PlayerLevel playerLevel){
+        repository.insertPlayerLevel(playerLevel);
     }
+
+    public void deletePlayerLevel(PlayerLevel playerLevel){
+        repository.deletePlayerLevel(playerLevel);
+    }
+
+    public LiveData<List<PlayerLevel>> getAllPlayerLevelInfo(){
+        return repository.getAllPlayerLevelInfo();
+    }
+
+//---------------------------------------------- *** Player Question Methods *** -------------------------------------------------------------------//////
+
+    public void insertPlayerQuestion(PlayerQuestion playerQuestion){
+        repository.insertPlayerQuestion(playerQuestion);
+    }
+
+    public void deletePlayerQuestion(PlayerQuestion playerQuestion){
+        repository.deletePlayerQuestion(playerQuestion);
+    }
+
+    public LiveData<List<PlayerQuestion>> getAllPlayerQuestionInfo(int playerId){
+        return repository.getAllPlayerQuestionInfo(playerId);
+    }
+
 
 }

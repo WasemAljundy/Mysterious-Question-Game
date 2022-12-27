@@ -1,11 +1,14 @@
 package com.wasem.mysteriousquestions.Views;
 
+import static androidx.viewpager2.widget.ViewPager2.OFFSCREEN_PAGE_LIMIT_DEFAULT;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -43,7 +46,7 @@ public class GameActivity extends AppCompatActivity implements DialogInteraction
     public void onOkButtonClicked() {
         currentIndex = binding.pager.getCurrentItem();
         binding.pager.setCurrentItem(currentIndex + 1,false);
-        Log.d("PAGER-INDEX", "onOkButtonClicked: "+currentIndex);
+        Log.d("PAGER-INDEX", "onOkButtonClicked: "+ currentIndex);
     }
 
 
@@ -51,8 +54,6 @@ public class GameActivity extends AppCompatActivity implements DialogInteraction
     public void onQuestionInteractionListener() {
         currentIndex = binding.pager.getCurrentItem();
         binding.pager.setCurrentItem(currentIndex + 1,false);
-        Log.d("QuestionListener", "onQuestionInteractionListener: "+ currentIndex);
-
     }
 
     private void initializeMethods() {

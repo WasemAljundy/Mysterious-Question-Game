@@ -2,6 +2,7 @@ package com.wasem.mysteriousquestions.DataBase.Models;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
@@ -9,7 +10,7 @@ import com.wasem.mysteriousquestions.DataBase.DateConverter;
 
 import java.util.Date;
 
-@Entity
+@Entity (indices = {@Index(value = {"playerId"},unique = true)})
 
 @TypeConverters(DateConverter.class)
 
