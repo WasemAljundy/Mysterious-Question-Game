@@ -2,6 +2,8 @@ package com.wasem.mysteriousquestions.Fragments;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 
@@ -71,8 +73,10 @@ public class DialogFragment extends androidx.fragment.app.DialogFragment {
                 dismiss();
             }
         });
-
+        builder.create().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        builder.create().getWindow().setDimAmount(0);
         builder.setView(binding.getRoot());
         return builder.create();
     }
+
 }

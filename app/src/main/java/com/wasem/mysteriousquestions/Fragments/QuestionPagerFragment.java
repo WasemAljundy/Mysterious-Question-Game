@@ -1,10 +1,10 @@
 package com.wasem.mysteriousquestions.Fragments;
 
 import android.content.Context;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,7 +31,6 @@ import com.wasem.mysteriousquestions.databinding.CustomSelectChoiceQuestionBindi
 import com.wasem.mysteriousquestions.databinding.CustomTrueFalseQuestionBinding;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -39,18 +39,19 @@ public class QuestionPagerFragment extends Fragment {
 
     private static final String ARG_QUESTION_ID = "question_id";
     private static final String ARG_PATTERN = "pattern";
-
-    private int question_id;
-    private int pattern;
     private QuestionInteractionListener listener;
     private PlayerViewModel viewModel;
     private Timer timer;
+    private MediaPlayer mp;
+    private int question_id;
+    private int pattern;
     private int timerSeconds;
     private int score = 0;
     private int skipTimes = 0;
     private int correctAnswers = 0;
     private int wrongAnswers = 0;
-    private boolean isFinishedLevel;
+    private boolean isFinishedLevel = false;
+    private boolean isAnswered = false;
 
     public QuestionPagerFragment() {
         // Required empty public constructor
@@ -100,13 +101,14 @@ public class QuestionPagerFragment extends Fragment {
                 int pattern = getQuestionList().get(i).pattern;
                 int duration = getQuestionList().get(i).duration;
                 String hint = getQuestionList().get(i).hint;
-                isFinishedLevel = getQuestionList().size()-1 == i;
+                isFinishedLevel = getQuestionList().size() - 1 == i;
 
                 return new Question(getQuestionList().get(i).level_no, title, answer1, answer2, answer3, answer4, trueAnswer, points, duration, pattern, hint);
             }
         }
         return new Question();
     }
+
 
     private int levelRating (int levelNo) {
         if ( levelNo == fillQuestionByPattern().level_no && AppSharedPreferences.getInstance(getContext()).getScore() >= 6) {
@@ -121,8 +123,6 @@ public class QuestionPagerFragment extends Fragment {
     }
 
 
-
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (pattern == GameActivity.PATTERN_TRUE_FALSE) {
@@ -135,12 +135,12 @@ public class QuestionPagerFragment extends Fragment {
 
             binding.tvTotalPoints.setText(String.valueOf(AppSharedPreferences.getInstance(getContext()).getScore()));
 
-            countDownTimer(binding.tvTimerSeconds,binding.tvTotalPoints);
+            countDownTimer(binding.tvTimerSeconds,binding.tvTotalPoints,binding.btnTrueSubmit);
 
             binding.tvSkipQuestion.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    skipQuestionValidation(binding.tvTotalPoints);
+                    skipQuestionValidation(binding.tvTotalPoints,binding.btnTrueSubmit);
                     listener.onQuestionInteractionListener();
                 }
             });
@@ -154,6 +154,9 @@ public class QuestionPagerFragment extends Fragment {
                     else {
                         wrongAnswerValidation(binding.tvTotalPoints);
                     }
+                    isAnswered = true;
+                    finishedLevelValidation(binding.tvSkipQuestion);
+                    binding.btnTrueSubmit.setEnabled(false);
                 }
             });
 
@@ -166,6 +169,9 @@ public class QuestionPagerFragment extends Fragment {
                     else {
                         wrongAnswerValidation(binding.tvTotalPoints);
                     }
+                    isAnswered = true;
+                    finishedLevelValidation(binding.tvSkipQuestion);
+                    binding.btnFalseSubmit.setEnabled(false);
                 }
             });
             return binding.getRoot();
@@ -189,12 +195,12 @@ public class QuestionPagerFragment extends Fragment {
             binding.rbChoice3.setText(fillQuestionByPattern().answer3);
             binding.rbChoice4.setText(fillQuestionByPattern().answer4);
 
-            countDownTimer(binding.tvTimerSeconds,binding.tvTotalPoints);
+            countDownTimer(binding.tvTimerSeconds,binding.tvTotalPoints,binding.btnConfirm);
 
             binding.tvSkipQuestion.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    skipQuestionValidation(binding.tvTotalPoints);
+                    skipQuestionValidation(binding.tvTotalPoints,binding.btnConfirm);
                     listener.onQuestionInteractionListener();
                 }
             });
@@ -204,18 +210,33 @@ public class QuestionPagerFragment extends Fragment {
                 public void onClick(View view) {
                     if (binding.rbChoice1.isChecked() && binding.rbChoice1.getText().toString().equals(fillQuestionByPattern().trueAnswer)) {
                         rightAnswerValidation(binding.tvTotalPoints);
+                        isAnswered = true;
+                        finishedLevelValidation(binding.tvSkipQuestion);
+                        binding.btnConfirm.setEnabled(false);
                     }
                     else if (binding.rbChoice2.isChecked() && binding.rbChoice2.getText().toString().equals(fillQuestionByPattern().trueAnswer)) {
                         rightAnswerValidation(binding.tvTotalPoints);
+                        isAnswered = true;
+                        finishedLevelValidation(binding.tvSkipQuestion);
+                        binding.btnConfirm.setEnabled(false);
                     }
                     else if (binding.rbChoice3.isChecked() && binding.rbChoice3.getText().toString().equals(fillQuestionByPattern().trueAnswer)) {
                         rightAnswerValidation(binding.tvTotalPoints);
+                        isAnswered = true;
+                        finishedLevelValidation(binding.tvSkipQuestion);
+                        binding.btnConfirm.setEnabled(false);
                     }
                     else if (binding.rbChoice4.isChecked() && binding.rbChoice4.getText().toString().equals(fillQuestionByPattern().trueAnswer)) {
                         rightAnswerValidation(binding.tvTotalPoints);
+                        isAnswered = true;
+                        finishedLevelValidation(binding.tvSkipQuestion);
+                        binding.btnConfirm.setEnabled(false);
                     }
                     else {
                         wrongAnswerValidation(binding.tvTotalPoints);
+                        isAnswered = true;
+                        finishedLevelValidation(binding.tvSkipQuestion);
+                        binding.btnConfirm.setEnabled(false);
                     }
                 }
             });
@@ -237,12 +258,12 @@ public class QuestionPagerFragment extends Fragment {
 
             binding.tvTotalPoints.setText(String.valueOf(AppSharedPreferences.getInstance(getContext()).getScore()));
 
-            countDownTimer(binding.tvTimerSeconds,binding.tvTotalPoints);
+            countDownTimer(binding.tvTimerSeconds,binding.tvTotalPoints,binding.btnConfirm);
 
             binding.tvSkipQuestion.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    skipQuestionValidation(binding.tvTotalPoints);
+                    skipQuestionValidation(binding.tvTotalPoints,binding.btnConfirm);
                     listener.onQuestionInteractionListener();
                 }
             });
@@ -252,9 +273,15 @@ public class QuestionPagerFragment extends Fragment {
                 public void onClick(View view) {
                     if (binding.etAnswer.getText().toString().equals(fillQuestionByPattern().trueAnswer)) {
                         rightAnswerValidation(binding.tvTotalPoints);
+                        isAnswered = true;
+                        finishedLevelValidation(binding.tvSkipQuestion);
+                        binding.btnConfirm.setEnabled(false);
                     }
                     else {
                         wrongAnswerValidation(binding.tvTotalPoints);
+                        isAnswered = true;
+                        finishedLevelValidation(binding.tvSkipQuestion);
+                        binding.btnConfirm.setEnabled(false);
                     }
                 }
             });
@@ -263,24 +290,17 @@ public class QuestionPagerFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_question_pager, container, false);
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        if (isFinishedLevel){
-            Toast.makeText(getContext(), "LEVEL FINISHED!", Toast.LENGTH_SHORT).show();
-            insertPlayerQuestionDetails();
+    public void finishedLevelValidation(TextView skipBtn){
+        if (isAnswered && isFinishedLevel){
+            FancyToast.makeText(getContext(),"LEVEL FINISHED!",Toast.LENGTH_SHORT,FancyToast.SUCCESS,false);
+            skipBtn.setEnabled(false);
+//            getActivity().onBackPressed();
+//            insertPlayerQuestionDetails();
         }
-
     }
 
-//    @Override
-//    public void onDestroy() {
-//        super.onDestroy();
-//        insertPlayerQuestionDetails();
-//    }
 
-
-    private void countDownTimer(TextView timerView, TextView scoreView){
+    private void countDownTimer(TextView timerView, TextView scoreView, Button btn_confirm){
         timerSeconds = fillQuestionByPattern().duration / 1000;
         timer = new Timer();
         timer.schedule(new TimerTask() {
@@ -293,7 +313,7 @@ public class QuestionPagerFragment extends Fragment {
                             timerView.setText(String.valueOf(timerSeconds));
                             timerSeconds --;
                             if (timerSeconds == -1){
-                                timerIsUpValidation(scoreView);
+                                timerIsUpValidation(scoreView,btn_confirm);
                             }
                         }
                     });
@@ -305,6 +325,9 @@ public class QuestionPagerFragment extends Fragment {
     private void rightAnswerValidation(TextView scoreView){
         DialogFragment dialogFragment = DialogFragment.newInstance("Good Job! 😍",fillQuestionByPattern().hint, R.drawable.true_ans_btn_shape);
         dialogFragment.show(getActivity().getSupportFragmentManager(),"Right Answer Dialog");
+        dialogFragment.setCancelable(false);
+        mp = MediaPlayer.create(getContext(),R.raw.correct_answer);
+        mp.start();
         int oldScore = Integer.parseInt(scoreView.getText().toString());
         score = oldScore + fillQuestionByPattern().points;
         AppSharedPreferences.getInstance(getContext()).scoreSave(score);
@@ -317,6 +340,9 @@ public class QuestionPagerFragment extends Fragment {
     private void wrongAnswerValidation(TextView scoreView){
         DialogFragment dialogFragment = DialogFragment.newInstance("Wrong Answer 🙁",fillQuestionByPattern().hint, R.drawable.img_wrong_answer_red);
         dialogFragment.show(getActivity().getSupportFragmentManager(),"Wrong Answer Dialog");
+        dialogFragment.setCancelable(false);
+        mp = MediaPlayer.create(getContext(),R.raw.wrong_answer);
+        mp.start();
         int oldScore = Integer.parseInt(scoreView.getText().toString());
         score = oldScore - fillQuestionByPattern().points;
         AppSharedPreferences.getInstance(getContext()).scoreSave(score);
@@ -326,9 +352,12 @@ public class QuestionPagerFragment extends Fragment {
         timer.cancel();
     }
 
-    private void timerIsUpValidation(TextView scoreView){
+    private void timerIsUpValidation(TextView scoreView, Button btn_confirm){
         DialogFragment dialogFragment = DialogFragment.newInstance("Time is Up!",fillQuestionByPattern().hint,R.drawable.img_wrong_answer_red);
         dialogFragment.show(getActivity().getSupportFragmentManager(),"Time Up Dialog");
+        dialogFragment.setCancelable(false);
+        mp = MediaPlayer.create(getContext(),R.raw.dialog_shown);
+        mp.start();
         int oldScore = Integer.parseInt(scoreView.getText().toString());
         score = oldScore - fillQuestionByPattern().points;
         AppSharedPreferences.getInstance(getContext()).scoreSave(score);
@@ -336,15 +365,17 @@ public class QuestionPagerFragment extends Fragment {
         Log.d("SCORE", "FINAL-SCORE: "+ AppSharedPreferences.getInstance(getContext()).getScore());
         wrongAnswers += 1;
         timer.cancel();
+        btn_confirm.setEnabled(false);
     }
 
-    private void skipQuestionValidation(TextView scoreView){
+    private void skipQuestionValidation(TextView scoreView,Button confirm){
         int oldScore = Integer.parseInt(scoreView.getText().toString());
-        score = oldScore - fillQuestionByPattern().points;
+        score = oldScore - 3;
         AppSharedPreferences.getInstance(getContext()).scoreSave(score);
         scoreView.setText(String.valueOf(AppSharedPreferences.getInstance(getContext()).getScore()));
         Log.d("SCORE", "FINAL-SCORE: "+ AppSharedPreferences.getInstance(getContext()).getScore());
         skipTimes += 1;
+        confirm.setEnabled(false);
         timer.cancel();
     }
 

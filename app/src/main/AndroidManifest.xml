@@ -18,6 +18,11 @@
             android:enabled="true"
             android:exported="true" />
 
+        <service
+            android:name=".MyJobService"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"/>
+
         <activity
             android:name=".Views.RegisterActivity"
             android:exported="false">
@@ -31,8 +36,6 @@
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
-
-
         </activity>
         <activity
             android:name=".Views.LevelsActivity"
