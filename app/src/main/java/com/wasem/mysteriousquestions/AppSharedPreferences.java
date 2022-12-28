@@ -32,6 +32,43 @@ public class AppSharedPreferences {
         return sharedPreferences.getInt("score",0);
     }
 
+    public void rememberMePlayerBtnChecked(){
+        editor = sharedPreferences.edit();
+        editor.putString("remember", "true");
+        editor.apply();
+    }
+
+    public void rememberMePlayerBtnUnChecked(){
+        editor = sharedPreferences.edit();
+        editor.putString("remember", "false");
+        editor.apply();
+    }
+
+    public String getRememberMePlayerStatus(){
+        return sharedPreferences.getString("remember","");
+    }
+
+
+    public void lvlOneRatingSave(int rating){
+        editor = sharedPreferences.edit();
+        editor.putInt("rating",rating);
+        editor.apply();
+    }
+
+    public int getLvlOneRating(){
+        return sharedPreferences.getInt("rating",0);
+    }
+
+    public void lvlTwoRatingSave(int rating){
+        editor = sharedPreferences.edit();
+        editor.putInt("rating",rating);
+        editor.apply();
+    }
+
+    public int getLvlTwoRating(){
+        return sharedPreferences.getInt("rating",0);
+    }
+
     public void musicStatusOn(){
         editor = sharedPreferences.edit();
         editor.putString("music_status","true");
@@ -46,6 +83,12 @@ public class AppSharedPreferences {
 
     public String getMusicStatus(){
         return sharedPreferences.getString("music_status","");
+    }
+
+    public void clearAll(){
+        editor = sharedPreferences.edit();
+        editor.clear();
+        editor.apply();
     }
 
 }

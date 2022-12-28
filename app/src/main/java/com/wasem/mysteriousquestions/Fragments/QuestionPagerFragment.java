@@ -110,9 +110,9 @@ public class QuestionPagerFragment extends Fragment {
     }
 
 
-    private int levelRating (int levelNo) {
+    private int firstLevelRating (int levelNo) {
         if ( levelNo == fillQuestionByPattern().level_no && AppSharedPreferences.getInstance(getContext()).getScore() >= 6) {
-            return R.drawable.img_three_stars;
+            return  R.drawable.img_three_stars;
         }
         else if ( levelNo == fillQuestionByPattern().level_no && AppSharedPreferences.getInstance(getContext()).getScore() >= 3) {
             return R.drawable.img_two_stars;
@@ -121,6 +121,20 @@ public class QuestionPagerFragment extends Fragment {
             return R.drawable.img_no_stars;
         }
     }
+    private int secondLevelRating (int levelNo) {
+        if ( levelNo == fillQuestionByPattern().level_no && AppSharedPreferences.getInstance(getContext()).getScore() >= 8) {
+            return R.drawable.img_three_stars;
+        }
+        else if ( levelNo == fillQuestionByPattern().level_no && AppSharedPreferences.getInstance(getContext()).getScore() >= 5) {
+            return R.drawable.img_two_stars;
+        }
+        else {
+            return R.drawable.img_no_stars;
+        }
+    }
+
+
+
 
 
     @Override
@@ -292,8 +306,13 @@ public class QuestionPagerFragment extends Fragment {
 
     public void finishedLevelValidation(TextView skipBtn){
         if (isAnswered && isFinishedLevel){
-            FancyToast.makeText(getContext(),"LEVEL FINISHED!",Toast.LENGTH_SHORT,FancyToast.SUCCESS,false);
+            FancyToast.makeText(getContext(),"LEVEL FINISHED!",Toast.LENGTH_SHORT,FancyToast.SUCCESS,false).show();
             skipBtn.setEnabled(false);
+            if (fillQuestionByPattern().level_no == 1) {
+                AppSharedPreferences.getInstance(getContext()).lvlOneRatingSave(firstLevelRating(fillQuestionByPattern().level_no));
+            }
+            else
+                AppSharedPreferences.getInstance(getContext()).lvlTwoRatingSave(secondLevelRating(fillQuestionByPattern().level_no));
 //            getActivity().onBackPressed();
 //            insertPlayerQuestionDetails();
         }

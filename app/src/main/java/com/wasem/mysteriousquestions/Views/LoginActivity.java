@@ -27,8 +27,6 @@ import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
     ActivityLoginBinding binding;
-    SharedPreferences sp;
-    SharedPreferences.Editor edit;
     PlayerViewModel playerViewModel;
     public static int currentPlayerId;
 
@@ -39,9 +37,6 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         playerViewModel = new ViewModelProvider(this).get(PlayerViewModel.class);
-
-        sp = getSharedPreferences("Player", MODE_PRIVATE);
-        edit = sp.edit();
 
         rememberMeStatus();
 
@@ -61,11 +56,6 @@ public class LoginActivity extends AppCompatActivity {
                         String pass = binding.etLoginPassword.getText().toString();
                         for (Player p : players) {
                             if (p.getUsername().equals(user) && p.getPassword().equals(pass)) {
-                                sp = getSharedPreferences("Player", MODE_PRIVATE);
-                                edit = sp.edit();
-                                edit.putString("username", user.trim());
-                                edit.putString("password", pass.trim());
-                                edit.apply();
                                 currentPlayerId = p.getPlayerId();
                                 FancyToast.makeText(getBaseContext(), "Logged In Successfully", FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, false).show();
                                 Intent intent = new Intent(getBaseContext(), HomeActivity.class);
@@ -127,7 +117,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
     public void rememberMeStatus() {
-        String checkbox = sp.getString("remember", "");
+        String checkbox = AppSharedPreferences.getInstance(getApplicationContext()).getRememberMePlayerStatus();
 
         if (checkbox.equals("true")) {
             Intent intent = new Intent(getBaseContext(), HomeActivity.class);
@@ -144,16 +134,10 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (compoundButton.isChecked()) {
-                    sp = getSharedPreferences("Player", MODE_PRIVATE);
-                    edit = sp.edit();
-                    edit.putString("remember", "true");
-                    edit.apply();
+                    AppSharedPreferences.getInstance(getApplicationContext()).rememberMePlayerBtnChecked();
                     FancyToast.makeText(getBaseContext(), "Checked!", FancyToast.LENGTH_SHORT, FancyToast.WARNING, false).show();
                 } else if (!compoundButton.isChecked()) {
-                    sp = getSharedPreferences("Player", MODE_PRIVATE);
-                    edit = sp.edit();
-                    edit.putString("remember", "false");
-                    edit.apply();
+                    AppSharedPreferences.getInstance(getApplicationContext()).rememberMePlayerBtnUnChecked();
                     FancyToast.makeText(getBaseContext(), "Unchecked!", FancyToast.LENGTH_SHORT, FancyToast.WARNING, false).show();
                 }
             }

@@ -4,11 +4,16 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.shashank.sony.fancytoastlib.FancyToast;
+import com.wasem.mysteriousquestions.AppSharedPreferences;
 import com.wasem.mysteriousquestions.DataBase.Listeners.SelectLevelListener;
 import com.wasem.mysteriousquestions.DataBase.Models.Level;
+import com.wasem.mysteriousquestions.R;
 import com.wasem.mysteriousquestions.databinding.CustomLayoutLevelsBinding;
 
 import java.util.List;
@@ -22,15 +27,6 @@ public class LevelAdapter extends RecyclerView.Adapter<LevelHolder> {
         this.levels = levels;
         this.context = context;
         this.selectLevelListener = selectLevelListener;
-    }
-
-    public List<Level> getLevels() {
-        return levels;
-    }
-
-    public void setLevels(List<Level> levels) {
-        this.levels = levels;
-        notifyDataSetChanged();
     }
 
     public Context getContext() {
@@ -53,14 +49,30 @@ public class LevelAdapter extends RecyclerView.Adapter<LevelHolder> {
         Level level = levels.get(position);
         holder.binding.tvLevelNumber.setText(String.valueOf(level.level_no));
         holder.binding.tvPointsRequired.setText(String.valueOf(level.unlockPoints));
+        if (level.level_no == 1) {
+            holder.binding.imgRating.setImageResource(AppSharedPreferences.getInstance(getContext()).getLvlOneRating());
+        }
+        else {
+            holder.binding.imgRating.setImageResource(AppSharedPreferences.getInstance(getContext()).getLvlTwoRating());
+        }
 
-//        holder.binding.imgLock.setImageResource();
-//        holder.binding.imgRating.setImageResource(level.rating);
+        if (AppSharedPreferences.getInstance(getContext()).getScore() >= level.unlockPoints ) {
+            holder.binding.imgLock.setImageResource(R.drawable.img_unlocked);
+        }
+        else {
+            holder.binding.imgLock.setImageResource(R.drawable.img_lock);
+        }
 
         holder.binding.getRoot().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                selectLevelListener.onSelectedLevelListener(level);
+                if (AppSharedPreferences.getInstance(getContext()).getScore() >= level.unlockPoints ) {
+                    selectLevelListener.onSelectedLevelListener(level);
+                }
+                else {
+                    FancyToast.makeText(getContext(),"Please collect the required points",Toast.LENGTH_SHORT,
+                            FancyToast.WARNING,R.drawable.img_logo,false).show();
+                }
             }
         });
 

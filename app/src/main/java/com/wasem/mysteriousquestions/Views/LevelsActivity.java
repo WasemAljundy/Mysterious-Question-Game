@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.wasem.mysteriousquestions.AppSharedPreferences;
 import com.wasem.mysteriousquestions.DataBase.Listeners.InsertListener;
 import com.wasem.mysteriousquestions.DataBase.Listeners.SelectLevelListener;
 import com.wasem.mysteriousquestions.DataBase.Models.Level;
@@ -40,6 +41,8 @@ public class LevelsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityLevelsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        binding.tvTotalPoints.setText(String.valueOf(AppSharedPreferences.getInstance(getApplicationContext()).getScore()));
 
         viewModel = new ViewModelProvider(this).get(PlayerViewModel.class);
 

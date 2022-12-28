@@ -49,13 +49,13 @@ public class SettingsActivity extends AppCompatActivity {
             public void onSwitched(ToggleableView toggleableView, boolean isOn) {
                 if (toggleableView.isOn()) {
                     AppSharedPreferences.getInstance(getApplicationContext()).musicStatusOn();
-                    FancyToast.makeText(getApplicationContext(),"Music is On!",Toast.LENGTH_SHORT,FancyToast.WARNING,false);
+                    FancyToast.makeText(getApplicationContext(),"Music is On!",Toast.LENGTH_SHORT,FancyToast.WARNING,false).show();
                     Intent intent = new Intent(getApplicationContext(),MyService.class);
                     startService(intent);
                 }
                 else {
                     AppSharedPreferences.getInstance(getApplicationContext()).musicStatusOff();
-                    FancyToast.makeText(getApplicationContext(),"Music turned off!",Toast.LENGTH_SHORT,FancyToast.WARNING,false);
+                    FancyToast.makeText(getApplicationContext(),"Music turned off!",Toast.LENGTH_SHORT,FancyToast.WARNING,false).show();
                     Intent intent = new Intent(getApplicationContext(),MyService.class);
                     stopService(intent);
                 }
