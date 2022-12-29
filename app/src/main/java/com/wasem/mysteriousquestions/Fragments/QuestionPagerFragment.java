@@ -21,6 +21,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.shashank.sony.fancytoastlib.FancyToast;
 import com.wasem.mysteriousquestions.AppSharedPreferences;
+import com.wasem.mysteriousquestions.DataBase.Models.PlayerLevel;
 import com.wasem.mysteriousquestions.DataBase.Models.PlayerQuestion;
 import com.wasem.mysteriousquestions.DataBase.Models.Question;
 import com.wasem.mysteriousquestions.DataBase.PlayerViewModel;
@@ -111,22 +112,55 @@ public class QuestionPagerFragment extends Fragment {
     }
 
 
-    private int firstLevelRating (int levelNo) {
-        if ( levelNo == fillQuestionByPattern().level_no && AppSharedPreferences.getInstance(getContext()).getScore() >= 6) {
+    private int firstLevelRating (int levelNo, boolean isFinishedLevel) {
+        if ( levelNo == 1 && isFinishedLevel && AppSharedPreferences.getInstance(getContext()).getScore() >= 6) {
             return  R.drawable.img_three_stars;
         }
-        else if ( levelNo == fillQuestionByPattern().level_no && AppSharedPreferences.getInstance(getContext()).getScore() >= 3) {
+        else if ( levelNo == 1 && isFinishedLevel && AppSharedPreferences.getInstance(getContext()).getScore() >= 3) {
             return R.drawable.img_two_stars;
         }
         else {
             return R.drawable.img_no_stars;
         }
     }
-    private int secondLevelRating (int levelNo) {
-        if ( levelNo == fillQuestionByPattern().level_no && AppSharedPreferences.getInstance(getContext()).getScore() >= 8) {
+    private int secondLevelRating (int levelNo, boolean isFinishedLevel) {
+        if ( levelNo == 2 && isFinishedLevel  && AppSharedPreferences.getInstance(getContext()).getScore() >= 15) {
             return R.drawable.img_three_stars;
         }
-        else if ( levelNo == fillQuestionByPattern().level_no && AppSharedPreferences.getInstance(getContext()).getScore() >= 5) {
+        else if ( levelNo == 2 && isFinishedLevel && AppSharedPreferences.getInstance(getContext()).getScore() >= 10) {
+            return R.drawable.img_two_stars;
+        }
+        else {
+            return R.drawable.img_no_stars;
+        }
+    }
+    private int thirdLevelRating (int levelNo, boolean isFinishedLevel) {
+        if ( levelNo == 3 && isFinishedLevel  && AppSharedPreferences.getInstance(getContext()).getScore() >= 25) {
+            return R.drawable.img_three_stars;
+        }
+        else if ( levelNo == 3 && isFinishedLevel && AppSharedPreferences.getInstance(getContext()).getScore() >= 15) {
+            return R.drawable.img_two_stars;
+        }
+        else {
+            return R.drawable.img_no_stars;
+        }
+    }
+    private int forthLevelRating (int levelNo, boolean isFinishedLevel) {
+        if ( levelNo == 4 && isFinishedLevel  && AppSharedPreferences.getInstance(getContext()).getScore() >= 35) {
+            return R.drawable.img_three_stars;
+        }
+        else if ( levelNo == 4 && isFinishedLevel && AppSharedPreferences.getInstance(getContext()).getScore() >= 20) {
+            return R.drawable.img_two_stars;
+        }
+        else {
+            return R.drawable.img_no_stars;
+        }
+    }
+    private int fifthLevelRating (int levelNo, boolean isFinishedLevel) {
+        if ( levelNo == 5 && isFinishedLevel  && AppSharedPreferences.getInstance(getContext()).getScore() >= 40) {
+            return R.drawable.img_three_stars;
+        }
+        else if ( levelNo == 5 && isFinishedLevel && AppSharedPreferences.getInstance(getContext()).getScore() >= 25) {
             return R.drawable.img_two_stars;
         }
         else {
@@ -156,6 +190,7 @@ public class QuestionPagerFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
                     skipQuestionValidation(binding.tvTotalPoints,binding.btnTrueSubmit);
+                    finishedLevelValidation(binding.tvSkipQuestion);
                     listener.onQuestionInteractionListener();
                 }
             });
@@ -197,8 +232,6 @@ public class QuestionPagerFragment extends Fragment {
 
             CustomSelectChoiceQuestionBinding binding = CustomSelectChoiceQuestionBinding.inflate(inflater, container, false);
 
-            Toast.makeText(getContext(), fillQuestionByPattern().title, Toast.LENGTH_SHORT).show();
-
             binding.tvLevel.setText(String.valueOf(fillQuestionByPattern().level_no));
 
             binding.tvQuestionTitleSelectChoice.setText(fillQuestionByPattern().title);
@@ -216,6 +249,7 @@ public class QuestionPagerFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
                     skipQuestionValidation(binding.tvTotalPoints,binding.btnConfirm);
+                    finishedLevelValidation(binding.tvSkipQuestion);
                     listener.onQuestionInteractionListener();
                 }
             });
@@ -264,8 +298,6 @@ public class QuestionPagerFragment extends Fragment {
 
             CustomCompletionQuestionBinding binding = CustomCompletionQuestionBinding.inflate(inflater, container, false);
 
-            Toast.makeText(getContext(), fillQuestionByPattern().title, Toast.LENGTH_SHORT).show();
-
             binding.tvLevel.setText(String.valueOf(fillQuestionByPattern().level_no));
 
             binding.tvQuestionTitleCompleteQuestion.setText(fillQuestionByPattern().title);
@@ -278,6 +310,7 @@ public class QuestionPagerFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
                     skipQuestionValidation(binding.tvTotalPoints,binding.btnConfirm);
+                    finishedLevelValidation(binding.tvSkipQuestion);
                     listener.onQuestionInteractionListener();
                 }
             });
@@ -305,14 +338,23 @@ public class QuestionPagerFragment extends Fragment {
         if (isAnswered && isFinishedLevel){
             FancyToast.makeText(getContext(),"LEVEL FINISHED!",Toast.LENGTH_SHORT,FancyToast.SUCCESS,false).show();
             skipBtn.setEnabled(false);
-            if (fillQuestionByPattern().level_no == 1) {
-                AppSharedPreferences.getInstance(getContext()).lvlOneRatingSave(firstLevelRating(fillQuestionByPattern().level_no));
+            if (fillQuestionByPattern().level_no == 1 && isAnswered && isFinishedLevel ) {
+                AppSharedPreferences.getInstance(getContext()).lvlOneRatingSave(firstLevelRating(fillQuestionByPattern().level_no,isFinishedLevel));
             }
-            else {
-                AppSharedPreferences.getInstance(getContext()).lvlTwoRatingSave(secondLevelRating(fillQuestionByPattern().level_no));
+            else if (fillQuestionByPattern().level_no == 2 && isAnswered && isFinishedLevel){
+                AppSharedPreferences.getInstance(getContext()).lvlTwoRatingSave(secondLevelRating(fillQuestionByPattern().level_no,isFinishedLevel));
             }
-//            getActivity().onBackPressed();
-//            insertPlayerQuestionDetails();
+            else if (fillQuestionByPattern().level_no == 3 && isAnswered && isFinishedLevel) {
+                AppSharedPreferences.getInstance(getContext()).lvlThreeRatingSave(thirdLevelRating(fillQuestionByPattern().level_no,isFinishedLevel));
+            }
+            else if (fillQuestionByPattern().level_no == 4 && isAnswered && isFinishedLevel) {
+                AppSharedPreferences.getInstance(getContext()).lvlFourRatingSave(forthLevelRating(fillQuestionByPattern().level_no,isFinishedLevel));
+            }
+            else if (fillQuestionByPattern().level_no == 5 && isAnswered && isFinishedLevel) {
+                AppSharedPreferences.getInstance(getContext()).lvlFiveRatingSave(fifthLevelRating(fillQuestionByPattern().level_no,isFinishedLevel));
+            }
+            insertPlayerQuestionDetails();
+            insertPlayerLevelDetails(fillQuestionByPattern().level_no);
         }
     }
 
@@ -348,8 +390,7 @@ public class QuestionPagerFragment extends Fragment {
         int oldScore = Integer.parseInt(scoreView.getText().toString());
         score = oldScore + fillQuestionByPattern().points;
         AppSharedPreferences.getInstance(getContext()).scoreSave(score);
-        scoreView.setText(String.valueOf(AppSharedPreferences.getInstance(getContext()).getScore()));
-        Log.d("SCORE", "FINAL-SCORE: "+ AppSharedPreferences.getInstance(getContext()).getScore());
+        scoreView.setText(String.valueOf(score));
         correctAnswers += 1;
         timer.cancel();
     }
@@ -363,8 +404,7 @@ public class QuestionPagerFragment extends Fragment {
         int oldScore = Integer.parseInt(scoreView.getText().toString());
         score = oldScore - fillQuestionByPattern().points;
         AppSharedPreferences.getInstance(getContext()).scoreSave(score);
-        scoreView.setText(String.valueOf(AppSharedPreferences.getInstance(getContext()).getScore()));
-        Log.d("SCORE", "FINAL-SCORE: "+ AppSharedPreferences.getInstance(getContext()).getScore());
+        scoreView.setText(String.valueOf(score));
         wrongAnswers += 1;
         timer.cancel();
     }
@@ -378,8 +418,7 @@ public class QuestionPagerFragment extends Fragment {
         int oldScore = Integer.parseInt(scoreView.getText().toString());
         score = oldScore - fillQuestionByPattern().points;
         AppSharedPreferences.getInstance(getContext()).scoreSave(score);
-        scoreView.setText(String.valueOf(AppSharedPreferences.getInstance(getContext()).getScore()));
-        Log.d("SCORE", "FINAL-SCORE: "+ AppSharedPreferences.getInstance(getContext()).getScore());
+        scoreView.setText(String.valueOf(score));
         wrongAnswers += 1;
         timer.cancel();
         btn_confirm.setEnabled(false);
@@ -389,17 +428,30 @@ public class QuestionPagerFragment extends Fragment {
         int oldScore = Integer.parseInt(scoreView.getText().toString());
         score = oldScore - 3;
         AppSharedPreferences.getInstance(getContext()).scoreSave(score);
-        scoreView.setText(String.valueOf(AppSharedPreferences.getInstance(getContext()).getScore()));
-        Log.d("SCORE", "FINAL-SCORE: "+ AppSharedPreferences.getInstance(getContext()).getScore());
+        scoreView.setText(String.valueOf(score));
         skipTimes += 1;
         confirm.setEnabled(false);
         timer.cancel();
     }
 
     private void insertPlayerQuestionDetails(){
-        PlayerQuestion playerQuestion = new PlayerQuestion(LoginActivity.currentPlayerId,score,skipTimes,correctAnswers,wrongAnswers);
+        int totalPlayerScores = AppSharedPreferences.getInstance(getContext()).getScore();
+        PlayerQuestion playerQuestion = new PlayerQuestion(LoginActivity.currentPlayerId,totalPlayerScores,skipTimes,correctAnswers,wrongAnswers);
         viewModel = new ViewModelProvider(this).get(PlayerViewModel.class);
         viewModel.insertPlayerQuestion(playerQuestion);
+    }
+
+    private void insertPlayerLevelDetails(int level_no){
+        int totalLevelScore = score - AppSharedPreferences.getInstance(getContext()).getScore();
+        PlayerLevel playerLevel;
+        if (level_no == 1) {
+            playerLevel = new PlayerLevel(LoginActivity.currentPlayerId,level_no,totalLevelScore,firstLevelRating(level_no,isFinishedLevel));
+        }
+        else {
+            playerLevel = new PlayerLevel(LoginActivity.currentPlayerId,level_no,totalLevelScore,secondLevelRating(level_no,isFinishedLevel));
+        }
+        viewModel = new ViewModelProvider(this).get(PlayerViewModel.class);
+        viewModel.insertPlayerLevel(playerLevel);
     }
 
 

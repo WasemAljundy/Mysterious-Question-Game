@@ -65,6 +65,7 @@ public class LevelsActivity extends AppCompatActivity {
                             @Override
                             public void onChanged(List<Question> questions) {
                                 Log.d("LEVEL-QUESTIONS-SIZE", "onChanged: " + questions.size());
+                                adapter.notifyDataSetChanged();
                                 Intent intent = new Intent(getApplicationContext(), GameActivity.class);
                                 Gson gson = new Gson();
                                 String myJson = gson.toJson(questions);
@@ -81,6 +82,11 @@ public class LevelsActivity extends AppCompatActivity {
 
 
     }
+
+//    @Override
+//    protected void onRestart() {
+//        super.onRestart();
+//    }
 
     public void initializeAdapter() {
         binding.rv.setAdapter(adapter);

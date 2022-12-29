@@ -2,8 +2,10 @@ package com.wasem.mysteriousquestions.DataBase.Models;
 
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.PrimaryKey;
 
-@Entity(primaryKeys = {"playerId","level_no"},
+@Entity(
+//        primaryKeys = {"playerId","level_no"},
 
         foreignKeys = {@ForeignKey(entity = Player.class,
                 parentColumns = {"playerId"},
@@ -18,7 +20,8 @@ import androidx.room.ForeignKey;
                         onDelete = ForeignKey.CASCADE)}
 )
 public class PlayerLevel {
-
+    @PrimaryKey (autoGenerate = true)
+    public int id;
     public int playerId;
     public int level_no;
     public int totalScore;
@@ -38,6 +41,14 @@ public class PlayerLevel {
         this.level_no = level_no;
         this.totalScore = totalScore;
         this.levelRating = levelRating;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getPlayerId() {

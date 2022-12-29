@@ -14,6 +14,6 @@ public interface PlayerLevelDao {
     long insertPlayerLevel (PlayerLevel playerLevel);
     @Delete
     int deletePlayerLevel (PlayerLevel playerLevel);
-    @Query("select * from PlayerLevel")
-    LiveData<List<PlayerLevel>> getAllPlayerLevelInfo();
+    @Query("select * from PlayerLevel where level_no = :level_no")
+    LiveData<List<PlayerLevel>> getAllPlayerLevelInfo(int level_no);
 }

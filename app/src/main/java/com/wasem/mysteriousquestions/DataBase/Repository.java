@@ -151,8 +151,8 @@ public class Repository {
         });
     }
 
-    public LiveData<List<PlayerLevel>> getAllPlayerLevelInfo(){
-        return playerLevelDao.getAllPlayerLevelInfo();
+    public LiveData<List<PlayerLevel>> getAllPlayerLevelInfo(int level_no){
+        return playerLevelDao.getAllPlayerLevelInfo(level_no);
     }
 
 //---------------------------------------------- *** Player Question Methods *** -------------------------------------------------------------------//////

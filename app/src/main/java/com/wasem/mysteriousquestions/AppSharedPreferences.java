@@ -51,22 +51,52 @@ public class AppSharedPreferences {
 
     public void lvlOneRatingSave(int rating){
         editor = sharedPreferences.edit();
-        editor.putInt("rating",rating);
+        editor.putInt("lvlOneRating",rating);
         editor.apply();
     }
 
     public int getLvlOneRating(){
-        return sharedPreferences.getInt("rating",0);
+        return sharedPreferences.getInt("lvlOneRating",0);
     }
 
     public void lvlTwoRatingSave(int rating){
         editor = sharedPreferences.edit();
-        editor.putInt("rating",rating);
+        editor.putInt("lvlTwoRating",rating);
         editor.apply();
     }
 
     public int getLvlTwoRating(){
-        return sharedPreferences.getInt("rating",0);
+        return sharedPreferences.getInt("lvlTwoRating",0);
+    }
+
+    public void lvlThreeRatingSave(int rating){
+        editor = sharedPreferences.edit();
+        editor.putInt("lvlThreeRating",rating);
+        editor.apply();
+    }
+
+    public int getLvlThreeRating(){
+        return sharedPreferences.getInt("lvlThreeRating",0);
+    }
+
+    public void lvlFourRatingSave(int rating){
+        editor = sharedPreferences.edit();
+        editor.putInt("lvlFourRating",rating);
+        editor.apply();
+    }
+
+    public int getLvlFourRating(){
+        return sharedPreferences.getInt("lvlFourRating",0);
+    }
+
+    public void lvlFiveRatingSave(int rating){
+        editor = sharedPreferences.edit();
+        editor.putInt("lvlFiveRating",rating);
+        editor.apply();
+    }
+
+    public int getFiveTwoRating(){
+        return sharedPreferences.getInt("lvlFiveRating",0);
     }
 
     public void musicStatusOn(){

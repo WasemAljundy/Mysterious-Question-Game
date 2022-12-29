@@ -94,8 +94,8 @@ public class PlayerViewModel extends AndroidViewModel {
         repository.deletePlayerLevel(playerLevel);
     }
 
-    public LiveData<List<PlayerLevel>> getAllPlayerLevelInfo(){
-        return repository.getAllPlayerLevelInfo();
+    public LiveData<List<PlayerLevel>> getAllPlayerLevelInfo(int level_no){
+        return repository.getAllPlayerLevelInfo(level_no);
     }
 
 //---------------------------------------------- *** Player Question Methods *** -------------------------------------------------------------------//////

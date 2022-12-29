@@ -14,6 +14,7 @@ import com.wasem.mysteriousquestions.AppSharedPreferences;
 import com.wasem.mysteriousquestions.DataBase.Listeners.SelectLevelListener;
 import com.wasem.mysteriousquestions.DataBase.Models.Level;
 import com.wasem.mysteriousquestions.R;
+import com.wasem.mysteriousquestions.Views.LoginActivity;
 import com.wasem.mysteriousquestions.databinding.CustomLayoutLevelsBinding;
 
 import java.util.List;
@@ -49,11 +50,21 @@ public class LevelAdapter extends RecyclerView.Adapter<LevelHolder> {
         Level level = levels.get(position);
         holder.binding.tvLevelNumber.setText(String.valueOf(level.level_no));
         holder.binding.tvPointsRequired.setText(String.valueOf(level.unlockPoints));
+
         if (level.level_no == 1) {
             holder.binding.imgRating.setImageResource(AppSharedPreferences.getInstance(getContext()).getLvlOneRating());
         }
-        else {
+        else if (level.level_no == 2) {
             holder.binding.imgRating.setImageResource(AppSharedPreferences.getInstance(getContext()).getLvlTwoRating());
+        }
+        else if (level.level_no == 3) {
+            holder.binding.imgRating.setImageResource(AppSharedPreferences.getInstance(getContext()).getLvlThreeRating());
+        }
+        else if (level.level_no == 4) {
+            holder.binding.imgRating.setImageResource(AppSharedPreferences.getInstance(getContext()).getLvlFourRating());
+        }
+        else if (level.level_no == 5) {
+            holder.binding.imgRating.setImageResource(AppSharedPreferences.getInstance(getContext()).getFiveTwoRating());
         }
 
         if (AppSharedPreferences.getInstance(getContext()).getScore() >= level.unlockPoints ) {
