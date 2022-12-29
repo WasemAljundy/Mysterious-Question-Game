@@ -86,8 +86,12 @@ public class LevelAdapter extends RecyclerView.Adapter<LevelHolder> {
                 }
             }
         });
+    }
 
-
+    @Override
+    public void onDetachedFromRecyclerView(@NonNull RecyclerView recyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView);
+        notifyDataSetChanged();
     }
 
     @Override

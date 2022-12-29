@@ -1,12 +1,12 @@
 package com.wasem.mysteriousquestions.Views;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -54,7 +54,7 @@ public class LevelsActivity extends AppCompatActivity {
                     getLevels = levels;
                     Log.d("newLEVEL-listSize", "onChanged: " + getLevels.size());
                 } else {
-                    readJson();
+                    insertLevelsAndQuestion();
                 }
 
                 adapter = new LevelAdapter(getLevels, getApplicationContext(), new SelectLevelListener() {
@@ -82,11 +82,17 @@ public class LevelsActivity extends AppCompatActivity {
 
 
     }
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        adapter.notifyDataSetChanged();
+    }
 
-//    @Override
-//    protected void onRestart() {
-//        super.onRestart();
-//    }
+        @Override
+    protected void onRestart() {
+        super.onRestart();
+        adapter.notifyDataSetChanged();
+    }
 
     public void initializeAdapter() {
         binding.rv.setAdapter(adapter);
@@ -110,7 +116,7 @@ public class LevelsActivity extends AppCompatActivity {
         return json;
     }
 
-    public void readJson() {
+    public void insertLevelsAndQuestion() {
         try {
             JSONArray jsonArray = new JSONArray(loadJSONFromAsset());
 
