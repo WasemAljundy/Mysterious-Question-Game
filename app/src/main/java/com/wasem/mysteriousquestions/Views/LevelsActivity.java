@@ -61,7 +61,6 @@ public class LevelsActivity extends AppCompatActivity {
                         viewModel.getAllLevelQuestions(level.level_no).observe(LevelsActivity.this, new Observer<List<Question>>() {
                             @Override
                             public void onChanged(List<Question> questions) {
-//                                adapter.notifyDataSetChanged();
                                 Intent intent = new Intent(getApplicationContext(), GameActivity.class);
                                 Gson gson = new Gson();
                                 String myJson = gson.toJson(questions);

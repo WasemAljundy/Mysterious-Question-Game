@@ -3,7 +3,6 @@ package com.wasem.mysteriousquestions.Views;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -29,17 +28,31 @@ public class SettingsActivity extends AppCompatActivity {
 
 
 
-
-
-
-
         binding.btnProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getBaseContext(),ProfileActivity.class);
+                Intent intent = new Intent(getBaseContext(), EditProfileActivity.class);
                 startActivity(intent);
             }
         });
+
+
+        binding.btnPlayerProgress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getBaseContext(), PlayerDetailsActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        binding.btnResetProgress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(SettingsActivity.this, "Deleted!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
     }
 
     public void musicButtonListener(){

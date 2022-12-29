@@ -1,11 +1,9 @@
 package com.wasem.mysteriousquestions.Views;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
@@ -21,9 +19,8 @@ import com.wasem.mysteriousquestions.DataBase.Listeners.UpdateDeleteListener;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wasem.mysteriousquestions.databinding.ActivityProfileBinding;
 import java.util.Calendar;
-import java.util.List;
 
-public class ProfileActivity extends AppCompatActivity {
+public class EditProfileActivity extends AppCompatActivity {
     ActivityProfileBinding binding;
     PlayerViewModel playerViewModel;
     Player updatedPlayer = new Player();

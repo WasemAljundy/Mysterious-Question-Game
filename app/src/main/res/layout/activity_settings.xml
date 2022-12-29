@@ -44,10 +44,10 @@
         app:colorBorder="@color/colorAccent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.42"
+        app:layout_constraintHorizontal_bias="0.433"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_settings"
-        app:layout_constraintVertical_bias="0.212"
+        app:layout_constraintVertical_bias="0.095"
         app:on="true" />
 
     <TextView
@@ -97,11 +97,12 @@
         android:background="@drawable/exit_shape"
         android:text="Reset Progress"
         app:backgroundTint="@null"
-        app:layout_constraintBottom_toBottomOf="@+id/btn_profile"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/btn_profile"
-        app:layout_constraintTop_toTopOf="@+id/btn_profile" />
+        app:layout_constraintHorizontal_bias="0.461"
+        app:layout_constraintStart_toStartOf="@+id/btn_profile"
+        app:layout_constraintTop_toBottomOf="@+id/btn_profile"
+        app:layout_constraintVertical_bias="0.336" />
 
     <Button
         android:id="@+id/btn_profile"
@@ -111,12 +112,25 @@
         android:text="Edit Profile"
         app:backgroundTint="@null"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/switch_notification"
-        app:layout_constraintEnd_toStartOf="@+id/btn_resetProgress"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.068"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/switch_notification"
-        app:layout_constraintVertical_bias="0.4" />
+        app:layout_constraintVertical_bias="0.212" />
+
+    <Button
+        android:id="@+id/btn_playerProgress"
+        android:layout_width="@dimen/_135sdp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/settings_shape"
+        android:text="Player Progress"
+        app:backgroundTint="@null"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.917"
+        app:layout_constraintStart_toStartOf="@+id/btn_profile"
+        app:layout_constraintTop_toTopOf="@+id/btn_profile"
+        app:layout_constraintVertical_bias="0.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
