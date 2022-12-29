@@ -16,6 +16,7 @@ import com.wasem.mysteriousquestions.DataBase.Listeners.InsertListener;
 import com.wasem.mysteriousquestions.DataBase.Listeners.SelectLevelListener;
 import com.wasem.mysteriousquestions.DataBase.Models.Level;
 import com.wasem.mysteriousquestions.Adapters.LevelAdapter;
+import com.wasem.mysteriousquestions.DataBase.Models.PlayerQuestion;
 import com.wasem.mysteriousquestions.DataBase.Models.Question;
 import com.wasem.mysteriousquestions.DataBase.PlayerViewModel;
 import com.wasem.mysteriousquestions.databinding.ActivityLevelsBinding;
@@ -35,6 +36,7 @@ public class LevelsActivity extends AppCompatActivity {
     LevelAdapter adapter;
     PlayerViewModel viewModel;
     List<Level> getLevels = new ArrayList<>();
+    List<PlayerQuestion> getPlayerDetails = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,17 +44,13 @@ public class LevelsActivity extends AppCompatActivity {
         binding = ActivityLevelsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        binding.tvTotalPoints.setText(String.valueOf(AppSharedPreferences.getInstance(getApplicationContext()).getScore()));
-
         viewModel = new ViewModelProvider(this).get(PlayerViewModel.class);
 
         viewModel.getAllLevels().observe(this, new Observer<List<Level>>() {
             @Override
             public void onChanged(List<Level> levels) {
                 if (levels.size() > 0) {
-                    Log.d("LEVEL-listSize", "onChanged: " + levels.size());
                     getLevels = levels;
-                    Log.d("newLEVEL-listSize", "onChanged: " + getLevels.size());
                 } else {
                     insertLevelsAndQuestion();
                 }
@@ -60,12 +58,10 @@ public class LevelsActivity extends AppCompatActivity {
                 adapter = new LevelAdapter(getLevels, getApplicationContext(), new SelectLevelListener() {
                     @Override
                     public void onSelectedLevelListener(Level level) {
-                        Log.d("LEVEL-SELECTED-NUMBER", "onSelectedLevelListener: " + level.level_no);
                         viewModel.getAllLevelQuestions(level.level_no).observe(LevelsActivity.this, new Observer<List<Question>>() {
                             @Override
                             public void onChanged(List<Question> questions) {
-                                Log.d("LEVEL-QUESTIONS-SIZE", "onChanged: " + questions.size());
-                                adapter.notifyDataSetChanged();
+//                                adapter.notifyDataSetChanged();
                                 Intent intent = new Intent(getApplicationContext(), GameActivity.class);
                                 Gson gson = new Gson();
                                 String myJson = gson.toJson(questions);
@@ -79,6 +75,21 @@ public class LevelsActivity extends AppCompatActivity {
                 initializeAdapter();
             }
         });
+
+
+        viewModel.getAllPlayerQuestionInfo(LoginActivity.currentPlayerId).observe(this, new Observer<List<PlayerQuestion>>() {
+            @Override
+            public void onChanged(List<PlayerQuestion> playerQuestions) {
+                if (playerQuestions.size() > 0) {
+                    getPlayerDetails = playerQuestions;
+                    for (int i = 0; i < getPlayerDetails.size(); i++) {
+                        int playerPoints = getPlayerDetails.get(i).playerPoints;
+                        binding.tvTotalPoints.setText(String.valueOf(playerPoints));
+                    }
+                }
+            }
+        });
+
 
 
     }

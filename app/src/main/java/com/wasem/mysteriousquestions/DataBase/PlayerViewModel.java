@@ -112,5 +112,9 @@ public class PlayerViewModel extends AndroidViewModel {
         return repository.getAllPlayerQuestionInfo(playerId);
     }
 
+    public LiveData<List<PlayerQuestion>> getAllPlayerQuestionProgress(int playerId){
+        return repository.getAllPlayerQuestionProgress(playerId);
+    }
+
 
 }

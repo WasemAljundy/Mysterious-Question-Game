@@ -179,4 +179,8 @@ public class Repository {
         return playerQuestionDao.getAllPlayerQuestionInfo(playerId);
     }
 
+    public LiveData<List<PlayerQuestion>> getAllPlayerQuestionProgress(int playerId){
+        return playerQuestionDao.getAllPlayerQuestionProgress(playerId);
+    }
+
 }

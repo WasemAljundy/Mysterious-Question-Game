@@ -31,10 +31,4 @@ public class PlayerQuestion {
         this.wrongAnswers = wrongAnswers;
     }
 
-    public PlayerQuestion(int playerPoints, int skipTimes, int correctAnswers, int wrongAnswers) {
-        this.playerPoints = playerPoints;
-        this.skipTimes = skipTimes;
-        this.correctAnswers = correctAnswers;
-        this.wrongAnswers = wrongAnswers;
-    }
 }
