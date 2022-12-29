@@ -31,12 +31,10 @@ public class HomeActivity extends AppCompatActivity {
 
         musicSettingsStatus();
 
-
         binding.btnStartGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getBaseContext(), LevelsActivity.class);
-                startActivity(intent);
+                checkPlayerStatus();
             }
         });
 
@@ -80,10 +78,7 @@ public class HomeActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.menu_logout:
                 Intent intent_logout = new Intent(getBaseContext(),LoginActivity.class);
-                sp = getSharedPreferences("Player",MODE_PRIVATE);
-                edit = sp.edit();
-                edit.putString("remember","false");
-                edit.apply();
+                AppSharedPreferences.getInstance(getApplicationContext()).rememberMePlayerBtnUnChecked();
                 FancyToast.makeText(getBaseContext(),"Logged Out Successfully!",FancyToast.LENGTH_SHORT, FancyToast.WARNING,false).show();
                 finish();
                 startActivity(intent_logout);
@@ -102,6 +97,21 @@ public class HomeActivity extends AppCompatActivity {
         else if (AppSharedPreferences.getInstance(this).getMusicStatus().equals("false")) {
             Intent intent = new Intent(getApplicationContext(),MyService.class);
             stopService(intent);
+        }
+    }
+
+
+    private void checkPlayerStatus(){
+        if (LoginActivity.currentPlayerId == 0) {
+            AppSharedPreferences.getInstance(getApplicationContext()).rememberMePlayerBtnUnChecked();
+            FancyToast.makeText(getBaseContext(),"Please login again to save your progress!", FancyToast.LENGTH_SHORT, FancyToast.WARNING, false).show();
+            Intent intent = new Intent(getBaseContext(),LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }
+        else {
+            Intent intent = new Intent(getBaseContext(), LevelsActivity.class);
+            startActivity(intent);
         }
     }
 

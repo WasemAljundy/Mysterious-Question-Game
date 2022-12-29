@@ -23,10 +23,13 @@ import com.wasem.mysteriousquestions.DataBase.PlayerViewModel;
 import com.wasem.mysteriousquestions.MyService;
 import com.wasem.mysteriousquestions.databinding.ActivityLoginBinding;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
     ActivityLoginBinding binding;
+    Player player;
     PlayerViewModel playerViewModel;
     public static int currentPlayerId;
 
@@ -54,21 +57,29 @@ public class LoginActivity extends AppCompatActivity {
                     public void onClick(View view) {
                         String user = binding.etLoginUsername.getText().toString();
                         String pass = binding.etLoginPassword.getText().toString();
-                        for (Player p : players) {
-                            if (p.getUsername().equals(user) && p.getPassword().equals(pass)) {
-                                currentPlayerId = p.getPlayerId();
-                                FancyToast.makeText(getBaseContext(), "Logged In Successfully", FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, false).show();
-                                Intent intent = new Intent(getBaseContext(), HomeActivity.class);
-                                startActivity(intent);
-                                finish();
-                            } else
-                                FancyToast.makeText(getBaseContext(), "Incorrect Email Or Password", FancyToast.LENGTH_SHORT, FancyToast.ERROR, false).show();
+                        for (int i = 0; i < players.size(); i++) {
+                            int playerId = players.get(i).getPlayerId();
+                            String username = players.get(i).getUsername();
+                            String password = players.get(i).getPassword();
+                            String email = players.get(i).getEmail();
+                            String countryName = players.get(i).getCountryName();
+                            String dateOfBirth = players.get(i).getDateOfBirth();
+                            String gender = players.get(i).getGender();
+                            player = new Player(playerId,username,email,password,dateOfBirth,countryName,gender);
                         }
+
+                        if (player.getUsername().equals(user) && player.getPassword().equals(pass)) {
+                            currentPlayerId = player.getPlayerId();
+                            FancyToast.makeText(getBaseContext(), "Logged In Successfully", FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, false).show();
+                            Intent intent = new Intent(getBaseContext(), HomeActivity.class);
+                            startActivity(intent);
+                            finish();
+                        } else
+                            FancyToast.makeText(getBaseContext(), "Incorrect Email Or Password", FancyToast.LENGTH_SHORT, FancyToast.ERROR, false).show();
                     }
                 });
             }
         });
-
 
         binding.tvCreateNow.setOnClickListener(new View.OnClickListener() {
             @Override

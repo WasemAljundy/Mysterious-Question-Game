@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +14,7 @@ import android.view.View;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.shashank.sony.fancytoastlib.FancyToast;
+import com.wasem.mysteriousquestions.AppSharedPreferences;
 import com.wasem.mysteriousquestions.DataBase.Models.Player;
 import com.wasem.mysteriousquestions.DataBase.PlayerViewModel;
 import com.wasem.mysteriousquestions.DataBase.Listeners.UpdateDeleteListener;
@@ -23,8 +25,6 @@ import java.util.List;
 
 public class ProfileActivity extends AppCompatActivity {
     ActivityProfileBinding binding;
-    SharedPreferences sp;
-    SharedPreferences.Editor edit;
     PlayerViewModel playerViewModel;
     Player updatedPlayer = new Player();
     String date;
@@ -36,9 +36,6 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         playerViewModel = new ViewModelProvider(this).get(PlayerViewModel.class);
-
-        sp = getSharedPreferences("Player", MODE_PRIVATE);
-        edit = sp.edit();
 
         binding.tvNewBirthDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,17 +68,28 @@ public class ProfileActivity extends AppCompatActivity {
                 gender_Country();
 
                 if (userValid && emailValid && passValid){
-                    playerViewModel.updatePlayer(LoginActivity.currentPlayerId,updatedPlayer.getUsername(),updatedPlayer.getEmail(),updatedPlayer.getPassword(),updatedPlayer.getDateOfBirth(),updatedPlayer.getCountryName(),updatedPlayer.getGender(), new UpdateDeleteListener() {
-                        @Override
-                        public void onUpdateDeleteListener(int rowsAffected) {
-                            Log.d("PLAYER-ID", "onUpdateDeleteListener: "+LoginActivity.currentPlayerId);
-                            Log.d("rowsAffected", "onUpdateListener: "+rowsAffected);
-                        }
-                    });
 
-                    FancyToast.makeText(getBaseContext(),"Your Profile data changed successfully!", FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, false).show();
-                    onBackPressed();
+                    if (LoginActivity.currentPlayerId != 0) {
+                        playerViewModel.updatePlayer(LoginActivity.currentPlayerId,updatedPlayer.getUsername(),updatedPlayer.getEmail(),updatedPlayer.getPassword(),updatedPlayer.getDateOfBirth(),updatedPlayer.getCountryName(),updatedPlayer.getGender(), new UpdateDeleteListener() {
+                            @Override
+                            public void onUpdateDeleteListener(int rowsAffected) {
+                                Log.d("PLAYER-ID", "onUpdateDeleteListener: "+LoginActivity.currentPlayerId);
+                                Log.d("rowsAffected", "onUpdateListener: "+rowsAffected);
+                            }
+                        });
+                        FancyToast.makeText(getBaseContext(),"Your Profile data changed successfully!", FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, false).show();
+                        onBackPressed();
+                    }
+                    else {
+                        AppSharedPreferences.getInstance(getApplicationContext()).rememberMePlayerBtnUnChecked();
+                        FancyToast.makeText(getBaseContext(),"Please login again to Update!", FancyToast.LENGTH_SHORT, FancyToast.WARNING, false).show();
+                        Intent intent = new Intent(getBaseContext(),LoginActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
                 }
+
+
             }
         });
         

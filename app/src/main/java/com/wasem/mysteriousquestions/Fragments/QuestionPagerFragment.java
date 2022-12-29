@@ -1,6 +1,7 @@
 package com.wasem.mysteriousquestions.Fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 
@@ -261,7 +262,6 @@ public class QuestionPagerFragment extends Fragment {
 
          else if (pattern == GameActivity.PATTERN_COMPLETION) {
 
-
             CustomCompletionQuestionBinding binding = CustomCompletionQuestionBinding.inflate(inflater, container, false);
 
             Toast.makeText(getContext(), fillQuestionByPattern().title, Toast.LENGTH_SHORT).show();
@@ -287,16 +287,13 @@ public class QuestionPagerFragment extends Fragment {
                 public void onClick(View view) {
                     if (binding.etAnswer.getText().toString().equals(fillQuestionByPattern().trueAnswer)) {
                         rightAnswerValidation(binding.tvTotalPoints);
-                        isAnswered = true;
-                        finishedLevelValidation(binding.tvSkipQuestion);
-                        binding.btnConfirm.setEnabled(false);
                     }
                     else {
                         wrongAnswerValidation(binding.tvTotalPoints);
-                        isAnswered = true;
-                        finishedLevelValidation(binding.tvSkipQuestion);
-                        binding.btnConfirm.setEnabled(false);
                     }
+                    isAnswered = true;
+                    finishedLevelValidation(binding.tvSkipQuestion);
+                    binding.btnConfirm.setEnabled(false);
                 }
             });
             return binding.getRoot();
@@ -311,8 +308,9 @@ public class QuestionPagerFragment extends Fragment {
             if (fillQuestionByPattern().level_no == 1) {
                 AppSharedPreferences.getInstance(getContext()).lvlOneRatingSave(firstLevelRating(fillQuestionByPattern().level_no));
             }
-            else
+            else {
                 AppSharedPreferences.getInstance(getContext()).lvlTwoRatingSave(secondLevelRating(fillQuestionByPattern().level_no));
+            }
 //            getActivity().onBackPressed();
 //            insertPlayerQuestionDetails();
         }
