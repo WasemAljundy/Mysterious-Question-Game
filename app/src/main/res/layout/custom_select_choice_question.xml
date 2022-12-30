@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_70sdp"
         android:fontFamily="monospace"
-        android:text="Level"
+        android:text="@string/level"
         android:textColor="@color/white"
         android:textSize="20sp"
         android:textStyle="italic"
@@ -37,7 +37,7 @@
         android:id="@+id/tv_level"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="50"
+        android:text="@string/_0"
         android:textColor="@color/white"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -52,7 +52,7 @@
         android:id="@+id/tv_total_points"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="0"
+        android:text="@string/_0"
         android:textColor="@color/white"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -79,7 +79,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_15sdp"
-            android:text="RadioButton"
+            android:text="@string/radiobutton"
             android:textColor="@color/white"
             android:textSize="22sp" />
 
@@ -88,7 +88,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_15sdp"
-            android:text="RadioButton"
+            android:text="@string/radiobutton"
             android:textColor="@color/white"
             android:textSize="22sp" />
 
@@ -97,7 +97,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_15sdp"
-            android:text="RadioButton"
+            android:text="@string/radiobutton"
             android:textColor="@color/white"
             android:textSize="22sp" />
 
@@ -106,7 +106,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_15sdp"
-            android:text="RadioButton"
+            android:text="@string/radiobutton"
             android:textColor="@color/white"
             android:textSize="22sp" />
 
@@ -117,7 +117,7 @@
         android:layout_width="@dimen/_130sdp"
         android:layout_height="@dimen/_40sdp"
         android:background="@drawable/exit_shape"
-        android:text="Confirm"
+        android:text="@string/confirm"
         app:backgroundTint="@null"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -131,7 +131,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_10sdp"
-        android:text="Skip"
+        android:text="@string/skip"
         android:textColor="@color/white"
         android:textSize="21sp"
         android:textStyle="italic"
@@ -146,7 +146,7 @@
         android:id="@+id/tv_timerSeconds"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="00"
+        android:text="@string/_0"
         android:textColor="#FF0000"
         android:textSize="27sp"
         app:layout_constraintBottom_toTopOf="@+id/btn_confirm"
@@ -158,11 +158,12 @@
 
     <TextView
         android:id="@+id/tv_questionTitle_select_choice"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/_200sdp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:fontFamily="sans-serif-condensed-medium"
-        android:text="Question Title"
+        android:text="@string/question_title"
+        android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="25sp"
         app:layout_constraintEnd_toEndOf="parent"

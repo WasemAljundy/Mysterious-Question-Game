@@ -1,0 +1,74 @@
+<resources>
+    <string name="app_name">Mysterious Questions</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="start_game">ابدأ اللعب</string>
+    <string name="settings">الاعدادات</string>
+    <string name="exit">خروج</string>
+    <string name="welcome">مرحباً</string>
+    <string name="username">اسم المستخدم</string>
+    <string name="password">كلمة المرور</string>
+    <string name="ok">موافق</string>
+    <string name="remember_me">تذكرني</string>
+    <string name="don_t_have_an_account">ليس لديك حساب؟</string>
+    <string name="create_now">انشئ حساب الان!</string>
+    <string name="number_of_skipped_question">عدد الأسئلة المتخطاه</string>
+    <string name="number_of_correct_answers">عدد الأجوبة الصحيحة</string>
+    <string name="_0">0</string>
+    <string name="number_of_wrong_answers">عدد الأجوبة الخاطئة</string>
+    <string name="new_user_name">اسم مستخدم جديد</string>
+    <string name="new_email">ايميل جديد</string>
+    <string name="new_password">كلمة مرور</string>
+    <string name="confirm_pass">تأكيد الكلمة</string>
+    <string name="selected_date">التاريخ المحدد</string>
+    <string name="male">ذكر</string>
+    <string name="female">انثى</string>
+    <string name="apply_changes">تطبيق التغييرات</string>
+    <string name="user_name">اسم المستخدم</string>
+    <string name="email">الايميل</string>
+    <string name="register">تسجيل</string>
+    <string name="sounds">الموسيقى</string>
+    <string name="notifications">الاشعارات</string>
+    <string name="reset_progress">اعادة التقدم</string>
+    <string name="edit_profile">تعديل البيانات</string>
+    <string name="player_progress">تقدم اللاعب</string>
+    <string name="level">المرحلة</string>
+    <string name="question_title">عنوان السؤال</string>
+    <string name="write_your_answer_here">اكتب اجابتك هنا</string>
+    <string name="confirm">تأكيد</string>
+    <string name="skip">تخطي</string>
+    <string name="radiobutton">RadioButton</string>
+    <string name="question_title2">عنوان السؤال</string>
+    <string name="logout">تسجيل خروج</string>
+    <string name="your_profile_data_changed_successfully">تم تحديث بياناتك بنجاح!</string>
+    <string name="please_login_again_to_update">يرجى تسجيل الدخول مرة اخرى للتحديث!</string>
+    <string name="dont_leave_it_empty">لا يجب تركه فارغاً!</string>
+    <string name="enter_valid_email">يرجى ادخال بريد صالح!</string>
+    <string name="user_name_should_be_above_3_characters">اسم الستخدم يجب ان يكون اكبر من 3 حروف</string>
+    <string name="passwordShouldBeAtLeast8Characters">كلمة المرور يجب ان لا تقل عن 8 حروف</string>
+    <string name="password_didnt_match">كلمة المرور لا تتطابق</string>
+    <string name="logged_out_successfully">تم تسجيل الخروج</string>
+    <string name="please_login_again_to_save_your_progress">يرجى تسجيل الدخول لحفظ التقدم</string>
+    <string name="logged_in_successfully">تم تسجيل الدخول</string>
+    <string name="incorrect_email_or_password">خطأ في البريد او كلمة المرور</string>
+    <string name="please_sign_in">يرجى تسجيل الدخول</string>
+    <string name="checked">تم التحديد</string>
+    <string name="unChecked">تمت ازالة التحديد</string>
+    <string name="no_gameplay_history">لا يوجد سجل العاب سابقة</string>
+    <string name="please_login_first">يرجى تسجيل الدخول اولا</string>
+    <string name="please_login_again_to_reset">يرجى تسجيل الدخول لاعادة التقدم</string>
+    <string name="game_progress_reset">تم حذف التقدم بنجاح</string>
+    <string name="music_is_on">تم تفعيل الموسيقى</string>
+    <string name="music_is_off">تم ايقاف تفعيل الموسيقى</string>
+    <string name="there_is_some_question_need_answers">هنا بعض الاسئلة تحتاج للحل 👀</string>
+    <string name="notification_comeback_push">لم نرك منذ يوم! ارجع لحل المزيد واختبر ذكائك ✨</string>
+    <string name="you_dont_have_enough_points">ليس لديك النقاط الكافية 🙁</string>
+    <string name="level_finished">تم انهاء المرحلة !</string>
+    <string name="good_job">احسنت صنعاً 😍</string>
+    <string name="right_answer_dialog_tag">Right Answer Dialog</string>
+    <string name="wrong_answer">اجابة خاطئة 🙁</string>
+    <string name="wrong_answer_dialog_tag">Wrong Answer Dialog</string>
+    <string name="time_is_up">انتهى الوقت!</string>
+    <string name="time_is_up_tag">Time Up Dialog</string>
+    <string name="question_skipped">تم تخطي السؤال!</string>
+</resources>

@@ -17,6 +17,7 @@ import com.wasem.mysteriousquestions.DataBase.Models.PlayerLevel;
 import com.wasem.mysteriousquestions.DataBase.Models.PlayerQuestion;
 import com.wasem.mysteriousquestions.DataBase.PlayerViewModel;
 import com.wasem.mysteriousquestions.MyService;
+import com.wasem.mysteriousquestions.R;
 import com.wasem.mysteriousquestions.databinding.ActivitySettingsBinding;
 
 import java.util.List;
@@ -37,20 +38,31 @@ public class SettingsActivity extends AppCompatActivity {
 
         viewModel = new ViewModelProvider(this).get(PlayerViewModel.class);
 
+
         viewModel.getAllPlayerQuestionInfo(LoginActivity.currentPlayerId).observe(this, new Observer<List<PlayerQuestion>>() {
             @Override
             public void onChanged(List<PlayerQuestion> playerQuestions) {
-                for (PlayerQuestion player:playerQuestions) {
-                    int id = player.id;
-                    int playerId = player.playerId;
-                    int playerPoint = player.playerPoints;
-                    int correctAnswers = player.correctAnswers;
-                    int wrongAnswers = player.wrongAnswers;
-                    int skipTimes = player.skipTimes;
-                    playerQuestion = new PlayerQuestion(id,playerId,playerPoint,skipTimes,correctAnswers,wrongAnswers);
+                for (int i = 0; i < playerQuestions.size(); i++) {
+                    playerQuestion = new PlayerQuestion(playerQuestions.get(i).id,playerQuestions.get(i).playerId,
+                            playerQuestions.get(i).skipTimes,playerQuestions.get(i).correctAnswers,playerQuestions.get(i).wrongAnswers);
                 }
             }
         });
+
+//        viewModel.getAllPlayerQuestionInfo(LoginActivity.currentPlayerId).observe(this, new Observer<List<PlayerQuestion>>() {
+//            @Override
+//            public void onChanged(List<PlayerQuestion> playerQuestions) {
+//                for (PlayerQuestion player:playerQuestions) {
+//                    int id = player.id;
+//                    int playerId = player.playerId;
+//                    int playerPoint = player.playerPoints;
+//                    int correctAnswers = player.correctAnswers;
+//                    int wrongAnswers = player.wrongAnswers;
+//                    int skipTimes = player.skipTimes;
+//                    playerQuestion = new PlayerQuestion(id,playerId,playerPoint,skipTimes,correctAnswers,wrongAnswers);
+//                }
+//            }
+//        });
 
         binding.btnProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,14 +86,14 @@ public class SettingsActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (LoginActivity.currentPlayerId == 0) {
                     AppSharedPreferences.getInstance(getApplicationContext()).rememberMePlayerBtnUnChecked();
-                    FancyToast.makeText(getBaseContext(),"Please login again to Reset!", FancyToast.LENGTH_SHORT, FancyToast.WARNING, false).show();
+                    FancyToast.makeText(getBaseContext(),getString(R.string.please_login_again_to_reset), FancyToast.LENGTH_SHORT, FancyToast.WARNING, false).show();
                     Intent intent = new Intent(getBaseContext(),LoginActivity.class);
                     startActivity(intent);
                     finish();
                 }
                 viewModel.deletePlayerQuestion(playerQuestion);
                 AppSharedPreferences.getInstance(getApplicationContext()).clearAll();
-                FancyToast.makeText(getBaseContext(),"Game Progress Reset!", FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, false).show();
+                FancyToast.makeText(getBaseContext(),getString(R.string.game_progress_reset), FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, false).show();
             }
         });
 
@@ -95,13 +107,13 @@ public class SettingsActivity extends AppCompatActivity {
             public void onSwitched(ToggleableView toggleableView, boolean isOn) {
                 if (toggleableView.isOn()) {
                     AppSharedPreferences.getInstance(getApplicationContext()).musicStatusOn();
-                    FancyToast.makeText(getApplicationContext(),"Music is On!",Toast.LENGTH_SHORT,FancyToast.WARNING,false).show();
+                    FancyToast.makeText(getApplicationContext(),getString(R.string.music_is_on),Toast.LENGTH_SHORT,FancyToast.WARNING,false).show();
                     Intent intent = new Intent(getApplicationContext(),MyService.class);
                     startService(intent);
                 }
                 else {
                     AppSharedPreferences.getInstance(getApplicationContext()).musicStatusOff();
-                    FancyToast.makeText(getApplicationContext(),"Music turned off!",Toast.LENGTH_SHORT,FancyToast.WARNING,false).show();
+                    FancyToast.makeText(getApplicationContext(),getString(R.string.music_is_off),Toast.LENGTH_SHORT,FancyToast.WARNING,false).show();
                     Intent intent = new Intent(getApplicationContext(),MyService.class);
                     stopService(intent);
                 }

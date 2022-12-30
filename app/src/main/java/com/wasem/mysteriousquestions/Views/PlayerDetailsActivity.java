@@ -1,5 +1,7 @@
 package com.wasem.mysteriousquestions.Views;
 
+import static com.wasem.mysteriousquestions.R.string.no_gameplay_history;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -12,6 +14,7 @@ import com.shashank.sony.fancytoastlib.FancyToast;
 import com.wasem.mysteriousquestions.AppSharedPreferences;
 import com.wasem.mysteriousquestions.DataBase.Models.PlayerQuestion;
 import com.wasem.mysteriousquestions.DataBase.PlayerViewModel;
+import com.wasem.mysteriousquestions.R;
 import com.wasem.mysteriousquestions.ViewPager.DepthPageTransformer;
 import com.wasem.mysteriousquestions.databinding.ActivityPlayerDetailsBinding;
 
@@ -50,7 +53,7 @@ public class PlayerDetailsActivity extends AppCompatActivity {
                     }
                 }
                 else
-                    Toast.makeText(PlayerDetailsActivity.this, "No gameplay history!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PlayerDetailsActivity.this, no_gameplay_history, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -62,7 +65,7 @@ public class PlayerDetailsActivity extends AppCompatActivity {
     private void checkPlayerIdStatus() {
         if (LoginActivity.currentPlayerId == 0) {
             AppSharedPreferences.getInstance(getApplicationContext()).rememberMePlayerBtnUnChecked();
-            FancyToast.makeText(getBaseContext(), "Please login again to Update!", FancyToast.LENGTH_SHORT, FancyToast.WARNING, false).show();
+            FancyToast.makeText(getBaseContext(), getString(R.string.please_login_first), FancyToast.LENGTH_SHORT, FancyToast.WARNING, false).show();
             Intent intent = new Intent(getBaseContext(), LoginActivity.class);
             startActivity(intent);
             finish();

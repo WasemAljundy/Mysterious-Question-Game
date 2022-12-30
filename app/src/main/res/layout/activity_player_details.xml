@@ -37,7 +37,7 @@
         android:id="@+id/txt_skipTimes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Number of Skipped question"
+        android:text="@string/number_of_skipped_question"
         android:textColor="@color/white"
         android:textSize="22sp"
         android:textStyle="italic"
@@ -66,7 +66,7 @@
         android:id="@+id/txt_correct_answer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Number of Correct answers"
+        android:text="@string/number_of_correct_answers"
         android:textColor="@color/white"
         android:textSize="22sp"
         android:textStyle="italic"
@@ -81,7 +81,7 @@
         android:id="@+id/tv_correctAnswers"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="0"
+        android:text="@string/_0"
         android:textColor="@color/white"
         android:textSize="25sp"
         android:textStyle="bold"
@@ -95,7 +95,7 @@
         android:id="@+id/txt_wrong_answer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Number of Wrong answers"
+        android:text="@string/number_of_wrong_answers"
         android:textColor="@color/white"
         android:textSize="22sp"
         android:textStyle="italic"
@@ -110,7 +110,7 @@
         android:id="@+id/tv_wrongAnswers"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="0"
+        android:text="@string/_0"
         android:textColor="@color/white"
         android:textSize="25sp"
         android:textStyle="bold"
@@ -120,11 +120,6 @@
         app:layout_constraintStart_toStartOf="@+id/txt_wrong_answer"
         app:layout_constraintTop_toBottomOf="@+id/txt_wrong_answer"
         app:layout_constraintVertical_bias="0.319" />
-
-
-
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

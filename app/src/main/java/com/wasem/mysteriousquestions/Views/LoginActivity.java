@@ -21,6 +21,7 @@ import com.wasem.mysteriousquestions.AppSharedPreferences;
 import com.wasem.mysteriousquestions.DataBase.Models.Player;
 import com.wasem.mysteriousquestions.DataBase.PlayerViewModel;
 import com.wasem.mysteriousquestions.MyService;
+import com.wasem.mysteriousquestions.R;
 import com.wasem.mysteriousquestions.databinding.ActivityLoginBinding;
 
 import java.util.HashMap;
@@ -70,12 +71,12 @@ public class LoginActivity extends AppCompatActivity {
 
                         if (player.getUsername().equals(user) && player.getPassword().equals(pass)) {
                             currentPlayerId = player.getPlayerId();
-                            FancyToast.makeText(getBaseContext(), "Logged In Successfully", FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, false).show();
+                            FancyToast.makeText(getBaseContext(), getString(R.string.logged_in_successfully), FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, false).show();
                             Intent intent = new Intent(getBaseContext(), HomeActivity.class);
                             startActivity(intent);
                             finish();
                         } else
-                            FancyToast.makeText(getBaseContext(), "Incorrect Email Or Password", FancyToast.LENGTH_SHORT, FancyToast.ERROR, false).show();
+                            FancyToast.makeText(getBaseContext(), getString(R.string.incorrect_email_or_password), FancyToast.LENGTH_SHORT, FancyToast.ERROR, false).show();
                     }
                 });
             }
@@ -135,7 +136,7 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         } else if (checkbox.equals("false")) {
-            FancyToast.makeText(getBaseContext(), "Please SignIn!", FancyToast.LENGTH_SHORT, FancyToast.WARNING, true).show();
+            FancyToast.makeText(getBaseContext(), getString(R.string.please_sign_in), FancyToast.LENGTH_SHORT, FancyToast.WARNING, true).show();
         }
     }
 
@@ -146,10 +147,10 @@ public class LoginActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (compoundButton.isChecked()) {
                     AppSharedPreferences.getInstance(getApplicationContext()).rememberMePlayerBtnChecked();
-                    FancyToast.makeText(getBaseContext(), "Checked!", FancyToast.LENGTH_SHORT, FancyToast.WARNING, false).show();
+                    FancyToast.makeText(getBaseContext(), getString(R.string.checked), FancyToast.LENGTH_SHORT, FancyToast.WARNING, false).show();
                 } else if (!compoundButton.isChecked()) {
                     AppSharedPreferences.getInstance(getApplicationContext()).rememberMePlayerBtnUnChecked();
-                    FancyToast.makeText(getBaseContext(), "Unchecked!", FancyToast.LENGTH_SHORT, FancyToast.WARNING, false).show();
+                    FancyToast.makeText(getBaseContext(), getString(R.string.unChecked), FancyToast.LENGTH_SHORT, FancyToast.WARNING, false).show();
                 }
             }
         });

@@ -16,6 +16,7 @@ import com.shashank.sony.fancytoastlib.FancyToast;
 import com.wasem.mysteriousquestions.DataBase.Listeners.InsertListener;
 import com.wasem.mysteriousquestions.DataBase.Models.Player;
 import com.wasem.mysteriousquestions.DataBase.PlayerViewModel;
+import com.wasem.mysteriousquestions.R;
 import com.wasem.mysteriousquestions.databinding.ActivityRegisterBinding;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
@@ -99,16 +100,16 @@ public class RegisterActivity extends AppCompatActivity {
         String password = binding.etRegisterPassword.getText().toString().trim();
         String confirm_password = binding.etRegisterConfirmPassword.getText().toString().trim();
         if (password.isEmpty()) {
-            binding.etRegisterPassword.setError("Don't Leave it Empty!");
+            binding.etRegisterPassword.setError(getString(R.string.dont_leave_it_empty));
             return false;
         } else if (!(password.length() > 7 && password.length() < 16)) {
-            binding.etRegisterPassword.setError("Password Should be at least 8 Characters!");
+            binding.etRegisterPassword.setError(getString(R.string.passwordShouldBeAtLeast8Characters));
             return false;
         } else if (password.equals(confirm_password)) {
             player.setPassword(password);
             return true;
         } else {
-            FancyToast.makeText(getBaseContext(), "Password Didn't Match!", FancyToast.LENGTH_SHORT, FancyToast.ERROR, false).show();
+            FancyToast.makeText(getBaseContext(), getString(R.string.password_didnt_match), FancyToast.LENGTH_SHORT, FancyToast.ERROR, false).show();
             YoYo.with(Techniques.Bounce).duration(700).playOn(binding.etRegisterPassword);
             YoYo.with(Techniques.Bounce).duration(700).playOn(binding.etRegisterConfirmPassword);
             return false;
@@ -119,11 +120,11 @@ public class RegisterActivity extends AppCompatActivity {
     boolean emailValidation() {
         String email = binding.etEmail.getText().toString().trim();
         if (email.isEmpty()) {
-            FancyToast.makeText(getBaseContext(), "Don't Leave it Empty!", FancyToast.LENGTH_SHORT, FancyToast.ERROR, false).show();
+            FancyToast.makeText(getBaseContext(), getString(R.string.dont_leave_it_empty), FancyToast.LENGTH_SHORT, FancyToast.ERROR, false).show();
             YoYo.with(Techniques.Bounce).duration(700).playOn(binding.etEmail);
             return false;
         } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            FancyToast.makeText(getBaseContext(), "Enter Valid Email!", FancyToast.LENGTH_SHORT, FancyToast.ERROR, false).show();
+            FancyToast.makeText(getBaseContext(), getString(R.string.enter_valid_email), FancyToast.LENGTH_SHORT, FancyToast.ERROR, false).show();
             YoYo.with(Techniques.Bounce).duration(700).playOn(binding.etEmail);
             return false;
         } else {
@@ -145,11 +146,11 @@ public class RegisterActivity extends AppCompatActivity {
         String username = binding.etUsername.getText().toString().trim();
 
         if (username.isEmpty()) {
-            binding.etUsername.setError("Don't Leave it Empty!");
+            binding.etUsername.setError(getString(R.string.dont_leave_it_empty));
             YoYo.with(Techniques.Bounce).duration(700).playOn(binding.etUsername);
             return false;
         } else if (!(username.length() > 3 && username.length() < 16)) {
-            binding.etUsername.setError("Level Name Should be above 3 characters");
+            binding.etUsername.setError(getString(R.string.user_name_should_be_above_3_characters));
             return false;
         } else {
             player.setUsername(username);

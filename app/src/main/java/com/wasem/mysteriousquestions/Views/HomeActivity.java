@@ -79,7 +79,7 @@ public class HomeActivity extends AppCompatActivity {
             case R.id.menu_logout:
                 Intent intent_logout = new Intent(getBaseContext(),LoginActivity.class);
                 AppSharedPreferences.getInstance(getApplicationContext()).rememberMePlayerBtnUnChecked();
-                FancyToast.makeText(getBaseContext(),"Logged Out Successfully!",FancyToast.LENGTH_SHORT, FancyToast.WARNING,false).show();
+                FancyToast.makeText(getBaseContext(),getString(R.string.logged_out_successfully),FancyToast.LENGTH_SHORT, FancyToast.WARNING,false).show();
                 finish();
                 startActivity(intent_logout);
                 return true;
@@ -104,7 +104,7 @@ public class HomeActivity extends AppCompatActivity {
     private void checkPlayerStatus(){
         if (LoginActivity.currentPlayerId == 0) {
             AppSharedPreferences.getInstance(getApplicationContext()).rememberMePlayerBtnUnChecked();
-            FancyToast.makeText(getBaseContext(),"Please login again to save your progress!", FancyToast.LENGTH_SHORT, FancyToast.WARNING, false).show();
+            FancyToast.makeText(getBaseContext(),getString(R.string.please_login_again_to_save_your_progress), FancyToast.LENGTH_SHORT, FancyToast.WARNING, false).show();
             Intent intent = new Intent(getBaseContext(),LoginActivity.class);
             startActivity(intent);
             finish();

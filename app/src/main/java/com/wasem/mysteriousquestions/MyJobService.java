@@ -1,5 +1,7 @@
 package com.wasem.mysteriousquestions;
 
+import static com.wasem.mysteriousquestions.R.string.there_is_some_question_need_answers;
+
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.job.JobParameters;
@@ -23,8 +25,8 @@ public class MyJobService extends JobService {
             notificationManager.createNotificationChannel(channel);
         }
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(),CHANNEL_NAME)
-                .setContentTitle("There is some Question need answers 👀")
-                .setContentText("We haven't seen you in a DAY! , Comeback and solve more Question ✨")
+                .setContentTitle(getString(there_is_some_question_need_answers))
+                .setContentText(getString(R.string.notification_comeback_push))
                 .setSmallIcon(R.drawable.img_logo)
                 .setVibrate(new long[]{1000, 2000, 200})
                 .setPriority(NotificationCompat.PRIORITY_HIGH);

@@ -192,7 +192,7 @@ public class QuestionPagerFragment extends Fragment {
                         listener.onQuestionInteractionListener();
                     }
                     else
-                        FancyToast.makeText(getContext(),"You don't have enough points 🙁",Toast.LENGTH_SHORT,FancyToast.ERROR,false).show();
+                        FancyToast.makeText(getContext(),getString(R.string.you_dont_have_enough_points),Toast.LENGTH_SHORT,FancyToast.ERROR,false).show();
                 }
             });
 
@@ -261,7 +261,7 @@ public class QuestionPagerFragment extends Fragment {
                         listener.onQuestionInteractionListener();
                     }
                     else
-                        FancyToast.makeText(getContext(),"You don't have enough points 🙁",Toast.LENGTH_SHORT,FancyToast.ERROR,false).show();
+                        FancyToast.makeText(getContext(),getString(R.string.you_dont_have_enough_points),Toast.LENGTH_SHORT,FancyToast.ERROR,false).show();
                 }
             });
 
@@ -333,7 +333,7 @@ public class QuestionPagerFragment extends Fragment {
                         listener.onQuestionInteractionListener();
                     }
                     else
-                        FancyToast.makeText(getContext(),"You don't have enough points 🙁",Toast.LENGTH_SHORT,FancyToast.ERROR,false).show();
+                        FancyToast.makeText(getContext(),getString(R.string.you_dont_have_enough_points),Toast.LENGTH_SHORT,FancyToast.ERROR,false).show();
                 }
             });
 
@@ -360,7 +360,7 @@ public class QuestionPagerFragment extends Fragment {
 
     public void finishedLevelValidation(TextView skipBtn){
         if (isAnswered && isFinishedLevel){
-            FancyToast.makeText(getContext(),"LEVEL FINISHED!",Toast.LENGTH_SHORT,FancyToast.SUCCESS,false).show();
+            FancyToast.makeText(getContext(),getString(R.string.level_finished),Toast.LENGTH_SHORT,FancyToast.SUCCESS,false).show();
             skipBtn.setEnabled(false);
             if (fillQuestionByPattern().level_no == 1 && isAnswered && isFinishedLevel ) {
                 AppSharedPreferences.getInstance(getContext()).lvlOneRatingSave(firstLevelRating(fillQuestionByPattern().level_no,isFinishedLevel));
@@ -407,8 +407,8 @@ public class QuestionPagerFragment extends Fragment {
     }
 
     private void rightAnswerValidation(TextView scoreView){
-        DialogFragment dialogFragment = DialogFragment.newInstance("Good Job! 😍",fillQuestionByPattern().hint, R.drawable.true_ans_btn_shape);
-        dialogFragment.show(getActivity().getSupportFragmentManager(),"Right Answer Dialog");
+        DialogFragment dialogFragment = DialogFragment.newInstance(getString(R.string.good_job),fillQuestionByPattern().hint, R.drawable.true_ans_btn_shape);
+        dialogFragment.show(getActivity().getSupportFragmentManager(),getString(R.string.right_answer_dialog_tag));
         dialogFragment.setCancelable(false);
         mp = MediaPlayer.create(getContext(),R.raw.correct_answer);
         mp.start();
@@ -421,8 +421,8 @@ public class QuestionPagerFragment extends Fragment {
     }
 
     private void wrongAnswerValidation(TextView scoreView){
-        DialogFragment dialogFragment = DialogFragment.newInstance("Wrong Answer 🙁",fillQuestionByPattern().hint, R.drawable.img_wrong_answer_red);
-        dialogFragment.show(getActivity().getSupportFragmentManager(),"Wrong Answer Dialog");
+        DialogFragment dialogFragment = DialogFragment.newInstance(getString(R.string.wrong_answer),fillQuestionByPattern().hint, R.drawable.img_wrong_answer_red);
+        dialogFragment.show(getActivity().getSupportFragmentManager(),getString(R.string.wrong_answer_dialog_tag));
         dialogFragment.setCancelable(false);
         mp = MediaPlayer.create(getContext(),R.raw.wrong_answer);
         mp.start();
@@ -441,8 +441,8 @@ public class QuestionPagerFragment extends Fragment {
     }
 
     private void timerIsUpValidation(TextView scoreView, Button btn_confirm){
-        DialogFragment dialogFragment = DialogFragment.newInstance("Time is Up!",fillQuestionByPattern().hint,R.drawable.img_wrong_answer_red);
-        dialogFragment.show(getActivity().getSupportFragmentManager(),"Time Up Dialog");
+        DialogFragment dialogFragment = DialogFragment.newInstance(getString(R.string.time_is_up),fillQuestionByPattern().hint,R.drawable.img_wrong_answer_red);
+        dialogFragment.show(getActivity().getSupportFragmentManager(),getString(R.string.time_is_up_tag));
         dialogFragment.setCancelable(false);
         mp = MediaPlayer.create(getContext(),R.raw.dialog_shown);
         mp.start();
@@ -462,7 +462,7 @@ public class QuestionPagerFragment extends Fragment {
     }
 
     private void skipQuestionValidation(TextView scoreView,Button confirm){
-        FancyToast.makeText(getContext(),"Question Skipped!",Toast.LENGTH_SHORT,FancyToast.WARNING,false).show();
+        FancyToast.makeText(getContext(),getString(R.string.question_skipped),Toast.LENGTH_SHORT,FancyToast.WARNING,false).show();
         int oldScore = Integer.parseInt(scoreView.getText().toString());
         score = oldScore - 3;
         totalLevelScore -= 3;

@@ -16,6 +16,7 @@ import com.wasem.mysteriousquestions.AppSharedPreferences;
 import com.wasem.mysteriousquestions.DataBase.Models.Player;
 import com.wasem.mysteriousquestions.DataBase.PlayerViewModel;
 import com.wasem.mysteriousquestions.DataBase.Listeners.UpdateDeleteListener;
+import com.wasem.mysteriousquestions.R;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wasem.mysteriousquestions.databinding.ActivityProfileBinding;
 import java.util.Calendar;
@@ -74,12 +75,12 @@ public class EditProfileActivity extends AppCompatActivity {
                                 Log.d("rowsAffected", "onUpdateListener: "+rowsAffected);
                             }
                         });
-                        FancyToast.makeText(getBaseContext(),"Your Profile data changed successfully!", FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, false).show();
+                        FancyToast.makeText(getBaseContext(),getString(R.string.your_profile_data_changed_successfully), FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, false).show();
                         onBackPressed();
                     }
                     else {
                         AppSharedPreferences.getInstance(getApplicationContext()).rememberMePlayerBtnUnChecked();
-                        FancyToast.makeText(getBaseContext(),"Please login again to Update!", FancyToast.LENGTH_SHORT, FancyToast.WARNING, false).show();
+                        FancyToast.makeText(getBaseContext(),getString(R.string.please_login_again_to_update), FancyToast.LENGTH_SHORT, FancyToast.WARNING, false).show();
                         Intent intent = new Intent(getBaseContext(),LoginActivity.class);
                         startActivity(intent);
                         finish();
@@ -99,12 +100,12 @@ public class EditProfileActivity extends AppCompatActivity {
     boolean emailValidation () {
         String email = binding.etNewEmail.getText().toString().trim();
         if (email.isEmpty() ) {
-            FancyToast.makeText(getBaseContext(), "Don't Leave it Empty!", FancyToast.LENGTH_SHORT, FancyToast.ERROR, false).show();
+            FancyToast.makeText(getBaseContext(), getString(R.string.dont_leave_it_empty), FancyToast.LENGTH_SHORT, FancyToast.ERROR, false).show();
             YoYo.with(Techniques.Bounce).duration(700).playOn(binding.etNewEmail);
             return false; }
 
         else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            FancyToast.makeText(getBaseContext(), "Enter Valid Email!", FancyToast.LENGTH_SHORT, FancyToast.ERROR, false).show();
+            FancyToast.makeText(getBaseContext(), getString(R.string.enter_valid_email), FancyToast.LENGTH_SHORT, FancyToast.ERROR, false).show();
             YoYo.with(Techniques.Bounce).duration(700).playOn(binding.etNewEmail);
             return false; }
 
@@ -125,12 +126,12 @@ public class EditProfileActivity extends AppCompatActivity {
         String username = binding.etNewUsername.getText().toString().trim();
 
         if (username.isEmpty()) {
-            binding.etNewUsername.setError("Don't Leave it Empty!");
+            binding.etNewUsername.setError(getString(R.string.dont_leave_it_empty));
             YoYo.with(Techniques.Bounce).duration(700).playOn(binding.etNewUsername);
             return false; }
 
         else if(!(username.length()>3 && username.length()<16)){
-            binding.etNewUsername.setError("Level Name Should be above 3 characters");
+            binding.etNewUsername.setError(getString(R.string.user_name_should_be_above_3_characters));
             return false; }
 
         else {
@@ -143,16 +144,16 @@ public class EditProfileActivity extends AppCompatActivity {
         String password = binding.etNewPassword.getText().toString().trim();
         String confirm_password = binding.etNewConfirmPassword.getText().toString().trim();
         if (password.isEmpty()) {
-            binding.etNewPassword.setError("Don't Leave it Empty!");
+            binding.etNewPassword.setError(getString(R.string.dont_leave_it_empty));
             return false;
         } else if (!(password.length() > 7 && password.length() < 16)) {
-            binding.etNewPassword.setError("Password Should be at least 8 Characters!");
+            binding.etNewPassword.setError(getString(R.string.passwordShouldBeAtLeast8Characters));
             return false;
         } else if (password.equals(confirm_password)) {
             updatedPlayer.setPassword(password);
             return true;
         } else {
-            FancyToast.makeText(getBaseContext(), "Password Didn't Match!", FancyToast.LENGTH_SHORT, FancyToast.ERROR, false).show();
+            FancyToast.makeText(getBaseContext(), getString(R.string.password_didnt_match), FancyToast.LENGTH_SHORT, FancyToast.ERROR, false).show();
             YoYo.with(Techniques.Bounce).duration(700).playOn(binding.etNewPassword);
             YoYo.with(Techniques.Bounce).duration(700).playOn(binding.etNewConfirmPassword);
             return false;
