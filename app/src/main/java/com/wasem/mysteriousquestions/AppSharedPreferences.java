@@ -32,6 +32,16 @@ public class AppSharedPreferences {
         return sharedPreferences.getInt("score",0);
     }
 
+    public void levelScoreSave(int levelScore){
+        editor = sharedPreferences.edit();
+        editor.putInt("levelScore",levelScore);
+        editor.apply();
+    }
+
+    public int getLevelScore(){
+        return sharedPreferences.getInt("levelScore",0);
+    }
+
     public void rememberMePlayerBtnChecked(){
         editor = sharedPreferences.edit();
         editor.putString("remember", "true");
@@ -69,35 +79,6 @@ public class AppSharedPreferences {
         return sharedPreferences.getInt("lvlTwoRating",0);
     }
 
-    public void lvlThreeRatingSave(int rating){
-        editor = sharedPreferences.edit();
-        editor.putInt("lvlThreeRating",rating);
-        editor.apply();
-    }
-
-    public int getLvlThreeRating(){
-        return sharedPreferences.getInt("lvlThreeRating",0);
-    }
-
-    public void lvlFourRatingSave(int rating){
-        editor = sharedPreferences.edit();
-        editor.putInt("lvlFourRating",rating);
-        editor.apply();
-    }
-
-    public int getLvlFourRating(){
-        return sharedPreferences.getInt("lvlFourRating",0);
-    }
-
-    public void lvlFiveRatingSave(int rating){
-        editor = sharedPreferences.edit();
-        editor.putInt("lvlFiveRating",rating);
-        editor.apply();
-    }
-
-    public int getFiveTwoRating(){
-        return sharedPreferences.getInt("lvlFiveRating",0);
-    }
 
     public void musicStatusOn(){
         editor = sharedPreferences.edit();

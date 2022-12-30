@@ -71,4 +71,5 @@
     <string name="time_is_up">Time is Up!</string>
     <string name="time_is_up_tag">Time Up Dialog</string>
     <string name="question_skipped">Question Skipped!</string>
+    <string name="please_collect_required_points">Please collect the required points</string>
 </resources>

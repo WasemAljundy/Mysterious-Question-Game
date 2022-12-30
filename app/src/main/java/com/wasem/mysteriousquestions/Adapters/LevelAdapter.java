@@ -54,17 +54,8 @@ public class LevelAdapter extends RecyclerView.Adapter<LevelHolder> {
         if (level.level_no == 1) {
             holder.binding.imgRating.setImageResource(AppSharedPreferences.getInstance(getContext()).getLvlOneRating());
         }
-        else if (level.level_no == 2) {
+        else if (level.level_no >= 2) {
             holder.binding.imgRating.setImageResource(AppSharedPreferences.getInstance(getContext()).getLvlTwoRating());
-        }
-        else if (level.level_no == 3) {
-            holder.binding.imgRating.setImageResource(AppSharedPreferences.getInstance(getContext()).getLvlThreeRating());
-        }
-        else if (level.level_no == 4) {
-            holder.binding.imgRating.setImageResource(AppSharedPreferences.getInstance(getContext()).getLvlFourRating());
-        }
-        else if (level.level_no == 5) {
-            holder.binding.imgRating.setImageResource(AppSharedPreferences.getInstance(getContext()).getFiveTwoRating());
         }
 
         if (AppSharedPreferences.getInstance(getContext()).getScore() >= level.unlockPoints ) {
@@ -81,7 +72,7 @@ public class LevelAdapter extends RecyclerView.Adapter<LevelHolder> {
                     selectLevelListener.onSelectedLevelListener(level);
                 }
                 else {
-                    FancyToast.makeText(getContext(),"Please collect the required points",Toast.LENGTH_SHORT,
+                    FancyToast.makeText(getContext(),context.getString(R.string.please_collect_required_points),Toast.LENGTH_SHORT,
                             FancyToast.WARNING,R.drawable.img_logo,false).show();
                 }
             }

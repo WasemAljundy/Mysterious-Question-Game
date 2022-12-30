@@ -36,7 +36,6 @@ public class LevelsActivity extends AppCompatActivity {
     LevelAdapter adapter;
     PlayerViewModel viewModel;
     List<Level> getLevels = new ArrayList<>();
-    List<PlayerQuestion> getPlayerDetails = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +44,6 @@ public class LevelsActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         binding.tvTotalPoints.setText(String.valueOf(AppSharedPreferences.getInstance(this).getScore()));
-
 
         viewModel = new ViewModelProvider(this).get(PlayerViewModel.class);
 
