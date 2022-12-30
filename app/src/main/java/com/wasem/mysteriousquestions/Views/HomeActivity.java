@@ -78,6 +78,8 @@ public class HomeActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.menu_logout:
                 Intent intent_logout = new Intent(getBaseContext(),LoginActivity.class);
+                AppSharedPreferences.getInstance(getApplicationContext()).clearPlayerLevelScore();
+                AppSharedPreferences.getInstance(getApplicationContext()).clearPlayerTotalScore();
                 AppSharedPreferences.getInstance(getApplicationContext()).rememberMePlayerBtnUnChecked();
                 FancyToast.makeText(getBaseContext(),getString(R.string.logged_out_successfully),FancyToast.LENGTH_SHORT, FancyToast.WARNING,false).show();
                 finish();

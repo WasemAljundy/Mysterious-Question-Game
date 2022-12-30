@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.shashank.sony.fancytoastlib.FancyToast;
 import com.wasem.mysteriousquestions.AppSharedPreferences;
 import com.wasem.mysteriousquestions.DataBase.Listeners.InsertListener;
 import com.wasem.mysteriousquestions.DataBase.Listeners.SelectLevelListener;
@@ -19,6 +20,7 @@ import com.wasem.mysteriousquestions.Adapters.LevelAdapter;
 import com.wasem.mysteriousquestions.DataBase.Models.PlayerQuestion;
 import com.wasem.mysteriousquestions.DataBase.Models.Question;
 import com.wasem.mysteriousquestions.DataBase.PlayerViewModel;
+import com.wasem.mysteriousquestions.R;
 import com.wasem.mysteriousquestions.databinding.ActivityLevelsBinding;
 
 import org.json.JSONArray;
@@ -44,6 +46,8 @@ public class LevelsActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         binding.tvTotalPoints.setText(String.valueOf(AppSharedPreferences.getInstance(this).getScore()));
+
+        checkPlayerIdStatus();
 
         viewModel = new ViewModelProvider(this).get(PlayerViewModel.class);
 
@@ -77,21 +81,6 @@ public class LevelsActivity extends AppCompatActivity {
         });
 
 
-//        viewModel.getAllPlayerQuestionInfo(LoginActivity.currentPlayerId).observe(this, new Observer<List<PlayerQuestion>>() {
-//            @Override
-//            public void onChanged(List<PlayerQuestion> playerQuestions) {
-//                if (playerQuestions.size() > 0) {
-//                    getPlayerDetails = playerQuestions;
-//                    for (int i = 0; i < getPlayerDetails.size(); i++) {
-//                        int playerPoints = getPlayerDetails.get(i).playerPoints;
-//                        binding.tvTotalPoints.setText(String.valueOf(playerPoints));
-//                    }
-//                }
-//            }
-//        });
-
-
-
     }
 
         @Override
@@ -105,6 +94,16 @@ public class LevelsActivity extends AppCompatActivity {
         binding.rv.setAdapter(adapter);
         binding.rv.setHasFixedSize(true);
         binding.rv.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
+    }
+
+    private void checkPlayerIdStatus() {
+        if (LoginActivity.currentPlayerId == 0) {
+            AppSharedPreferences.getInstance(getApplicationContext()).rememberMePlayerBtnUnChecked();
+            FancyToast.makeText(getBaseContext(), getString(R.string.please_login_first), FancyToast.LENGTH_SHORT, FancyToast.WARNING, false).show();
+            Intent intent = new Intent(getBaseContext(), LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 
     public String loadJSONFromAsset() {
