@@ -44,6 +44,9 @@ public class LevelsActivity extends AppCompatActivity {
         binding = ActivityLevelsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        binding.tvTotalPoints.setText(String.valueOf(AppSharedPreferences.getInstance(this).getScore()));
+
+
         viewModel = new ViewModelProvider(this).get(PlayerViewModel.class);
 
         viewModel.getAllLevels().observe(this, new Observer<List<Level>>() {
@@ -76,32 +79,28 @@ public class LevelsActivity extends AppCompatActivity {
         });
 
 
-        viewModel.getAllPlayerQuestionInfo(LoginActivity.currentPlayerId).observe(this, new Observer<List<PlayerQuestion>>() {
-            @Override
-            public void onChanged(List<PlayerQuestion> playerQuestions) {
-                if (playerQuestions.size() > 0) {
-                    getPlayerDetails = playerQuestions;
-                    for (int i = 0; i < getPlayerDetails.size(); i++) {
-                        int playerPoints = getPlayerDetails.get(i).playerPoints;
-                        binding.tvTotalPoints.setText(String.valueOf(playerPoints));
-                    }
-                }
-            }
-        });
+//        viewModel.getAllPlayerQuestionInfo(LoginActivity.currentPlayerId).observe(this, new Observer<List<PlayerQuestion>>() {
+//            @Override
+//            public void onChanged(List<PlayerQuestion> playerQuestions) {
+//                if (playerQuestions.size() > 0) {
+//                    getPlayerDetails = playerQuestions;
+//                    for (int i = 0; i < getPlayerDetails.size(); i++) {
+//                        int playerPoints = getPlayerDetails.get(i).playerPoints;
+//                        binding.tvTotalPoints.setText(String.valueOf(playerPoints));
+//                    }
+//                }
+//            }
+//        });
 
 
 
-    }
-    @Override
-    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        adapter.notifyDataSetChanged();
     }
 
         @Override
     protected void onRestart() {
         super.onRestart();
         adapter.notifyDataSetChanged();
+        binding.tvTotalPoints.setText(String.valueOf(AppSharedPreferences.getInstance(this).getScore()));
     }
 
     public void initializeAdapter() {

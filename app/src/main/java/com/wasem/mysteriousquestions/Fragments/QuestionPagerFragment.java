@@ -3,7 +3,9 @@ import android.content.Context;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.util.Log;
@@ -308,7 +310,7 @@ public class QuestionPagerFragment extends Fragment {
 
 //--------------------------------------- 3.   Completion Pattern     -----------------------------------------------------------------------//
 
-         else if (pattern == GameActivity.PATTERN_COMPLETION) {
+        else if (pattern == GameActivity.PATTERN_COMPLETION) {
 
             CustomCompletionQuestionBinding binding = CustomCompletionQuestionBinding.inflate(inflater, container, false);
 
@@ -431,8 +433,10 @@ public class QuestionPagerFragment extends Fragment {
             AppSharedPreferences.getInstance(getContext()).scoreSave(0);
             scoreView.setText(String.valueOf(0));
         }
-        AppSharedPreferences.getInstance(getContext()).scoreSave(score);
-        scoreView.setText(String.valueOf(score));
+        else {
+            AppSharedPreferences.getInstance(getContext()).scoreSave(score);
+            scoreView.setText(String.valueOf(score));
+        }
         timer.cancel();
     }
 
@@ -449,8 +453,10 @@ public class QuestionPagerFragment extends Fragment {
             AppSharedPreferences.getInstance(getContext()).scoreSave(0);
             scoreView.setText(String.valueOf(0));
         }
-        AppSharedPreferences.getInstance(getContext()).scoreSave(score);
-        scoreView.setText(String.valueOf(score));
+        else {
+            AppSharedPreferences.getInstance(getContext()).scoreSave(score);
+            scoreView.setText(String.valueOf(score));
+        }
         timer.cancel();
         btn_confirm.setEnabled(false);
     }
@@ -460,8 +466,14 @@ public class QuestionPagerFragment extends Fragment {
         int oldScore = Integer.parseInt(scoreView.getText().toString());
         score = oldScore - 3;
         totalLevelScore -= 3;
-        AppSharedPreferences.getInstance(getContext()).scoreSave(score);
-        scoreView.setText(String.valueOf(score));
+        if (score <= 0) {
+            AppSharedPreferences.getInstance(getContext()).scoreSave(0);
+            scoreView.setText(String.valueOf(0));
+        }
+        else {
+            AppSharedPreferences.getInstance(getContext()).scoreSave(score);
+            scoreView.setText(String.valueOf(score));
+        }
         confirm.setEnabled(false);
         timer.cancel();
     }
@@ -500,6 +512,5 @@ public class QuestionPagerFragment extends Fragment {
             viewModel.insertPlayerLevel(playerLevel);
         }
     }
-
 
 }

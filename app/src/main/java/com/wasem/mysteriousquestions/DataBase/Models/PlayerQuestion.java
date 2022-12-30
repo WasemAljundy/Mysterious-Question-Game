@@ -23,6 +23,15 @@ public class PlayerQuestion {
     public PlayerQuestion() {
     }
 
+    public PlayerQuestion(int id, int playerId, int playerPoints, int skipTimes, int correctAnswers, int wrongAnswers) {
+        this.id = id;
+        this.playerId = playerId;
+        this.playerPoints = playerPoints;
+        this.skipTimes = skipTimes;
+        this.correctAnswers = correctAnswers;
+        this.wrongAnswers = wrongAnswers;
+    }
+
     public PlayerQuestion(int playerId, int playerPoints, int skipTimes, int correctAnswers, int wrongAnswers) {
         this.playerId = playerId;
         this.playerPoints = playerPoints;
