@@ -25,11 +25,11 @@
         </activity>
 
         <service
-            android:name=".MyService"
+            android:name=".MusicService"
             android:enabled="true"
             android:exported="true" />
         <service
-            android:name=".MyJobService"
+            android:name=".NotificationJobService"
             android:exported="true"
             android:permission="android.permission.BIND_JOB_SERVICE" />
 

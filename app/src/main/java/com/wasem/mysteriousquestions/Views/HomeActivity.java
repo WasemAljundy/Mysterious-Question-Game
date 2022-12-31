@@ -12,7 +12,7 @@ import android.view.View;
 
 import com.shashank.sony.fancytoastlib.FancyToast;
 import com.wasem.mysteriousquestions.AppSharedPreferences;
-import com.wasem.mysteriousquestions.MyService;
+import com.wasem.mysteriousquestions.MusicService;
 import com.wasem.mysteriousquestions.R;
 import com.wasem.mysteriousquestions.databinding.ActivityHomeBinding;
 
@@ -50,7 +50,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 finish();
-                Intent intent = new Intent(getBaseContext(), MyService.class);
+                Intent intent = new Intent(getBaseContext(), MusicService.class);
                 stopService(intent);
             }
         });
@@ -60,7 +60,7 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Intent intent = new Intent(getBaseContext(), MyService.class);
+        Intent intent = new Intent(getBaseContext(), MusicService.class);
         stopService(intent);
     }
 
@@ -93,11 +93,11 @@ public class HomeActivity extends AppCompatActivity {
     public void musicSettingsStatus() {
 
         if (AppSharedPreferences.getInstance(this).getMusicStatus().equals("true")) {
-            Intent intent = new Intent(getApplicationContext(), MyService.class);
+            Intent intent = new Intent(getApplicationContext(), MusicService.class);
             startService(intent);
         }
         else if (AppSharedPreferences.getInstance(this).getMusicStatus().equals("false")) {
-            Intent intent = new Intent(getApplicationContext(),MyService.class);
+            Intent intent = new Intent(getApplicationContext(), MusicService.class);
             stopService(intent);
         }
     }

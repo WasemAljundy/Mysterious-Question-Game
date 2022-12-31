@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
-import android.app.job.JobService;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Build;
@@ -14,9 +13,10 @@ import android.os.Handler;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.wasem.mysteriousquestions.AppSharedPreferences;
-import com.wasem.mysteriousquestions.MyJobService;
-import com.wasem.mysteriousquestions.MyService;
+import com.wasem.mysteriousquestions.NotificationJobService;
 import com.wasem.mysteriousquestions.databinding.ActivitySplashBinding;
+
+import java.util.concurrent.TimeUnit;
 
 public class SplashActivity extends AppCompatActivity {
     ActivitySplashBinding binding;
@@ -27,9 +27,9 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         YoYo.with(Techniques.RotateIn).duration(1500).playOn(binding.splashLogo);
-        YoYo.with(Techniques.Wave).duration(2000).playOn(binding.splashName);
+        YoYo.with(Techniques.RubberBand).duration(2000).playOn(binding.splashName);
 
-        launchJobService();
+        notificationSettingsStatus();
     }
 
     @Override
@@ -56,24 +56,33 @@ public class SplashActivity extends AppCompatActivity {
     }
 
 
-    private void launchJobService(){
-        ComponentName componentName = new ComponentName(getApplicationContext(), MyJobService.class);
-        JobInfo jobInfo;
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-            jobInfo = new JobInfo.Builder(1,componentName)
-                    .setPeriodic(2000)
-                    .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
-                    .build();
-        }
-        else {
-            jobInfo = new JobInfo.Builder(1,componentName)
-                    .setMinimumLatency(2000)
-                    .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
-                    .build();
-        }
+    public boolean notificationSettingsStatus() {
 
-        JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
-        scheduler.schedule(jobInfo);
+        if (AppSharedPreferences.getInstance(this).getNotificationStatus().equals("true")) {
+            ComponentName componentName = new ComponentName(getApplicationContext(), NotificationJobService.class);
+            JobInfo jobInfo;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                jobInfo = new JobInfo.Builder(1,componentName)
+                        .setPeriodic(TimeUnit.HOURS.toMillis(24),TimeUnit.MINUTES.toMillis(15))
+                        .setPersisted(true)
+                        .build();
+            }
+            else {
+                jobInfo = new JobInfo.Builder(1,componentName)
+                        .setMinimumLatency(TimeUnit.HOURS.toMillis(24))
+                        .setPersisted(true)
+                        .build();
+            }
+            JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
+            scheduler.schedule(jobInfo);
+            return true;
+        }
+        else if (AppSharedPreferences.getInstance(this).getNotificationStatus().equals("false")) {
+            JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
+            scheduler.cancel(1);
+            return false;
+        }
+        return true;
     }
 
 

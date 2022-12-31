@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModelProvider;
 
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -20,13 +19,11 @@ import com.shashank.sony.fancytoastlib.FancyToast;
 import com.wasem.mysteriousquestions.AppSharedPreferences;
 import com.wasem.mysteriousquestions.DataBase.Models.Player;
 import com.wasem.mysteriousquestions.DataBase.PlayerViewModel;
-import com.wasem.mysteriousquestions.MyService;
+import com.wasem.mysteriousquestions.MusicService;
 import com.wasem.mysteriousquestions.R;
 import com.wasem.mysteriousquestions.databinding.ActivityLoginBinding;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
     ActivityLoginBinding binding;
@@ -95,7 +92,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
     public void backgroundMusic(View view){
-        Intent intent = new Intent(getApplicationContext(), MyService.class);
+        Intent intent = new Intent(getApplicationContext(), MusicService.class);
         startService(intent);
             if (AppSharedPreferences.getInstance(this).getMusicStatus().equals("true")) {
                 startService(intent);

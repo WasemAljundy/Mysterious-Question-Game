@@ -79,8 +79,6 @@ public class LevelsActivity extends AppCompatActivity {
                 initializeAdapter();
             }
         });
-
-
     }
 
         @Override
@@ -146,7 +144,6 @@ public class LevelsActivity extends AppCompatActivity {
 
                                 JSONObject jsonObject1 = array.getJSONObject(j);
 
-                                int id = jsonObject1.getInt("id");
                                 String title = jsonObject1.getString("title");
                                 String answer1 = jsonObject1.getString("answer_1");
                                 String answer2 = jsonObject1.getString("answer_2");
@@ -173,12 +170,8 @@ public class LevelsActivity extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
-
                     }
                 });
-
-
             }
 
         } catch (JSONException e) {

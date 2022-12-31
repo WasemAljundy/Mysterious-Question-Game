@@ -92,6 +92,16 @@ public class AppSharedPreferences {
         return sharedPreferences.getInt("lvlFiveRating",0);
     }
 
+    public void lastQuestionIndex(int index){
+        editor = sharedPreferences.edit();
+        editor.putInt("lastQuestionIndex",index);
+        editor.apply();
+    }
+
+    public int getLastQuestionIndex(){
+        return sharedPreferences.getInt("lastQuestionIndex",0);
+    }
+
     public void rememberMePlayerBtnChecked(){
         editor = sharedPreferences.edit();
         editor.putString("remember", "true");
@@ -108,6 +118,22 @@ public class AppSharedPreferences {
         return sharedPreferences.getString("remember","");
     }
 
+
+    public void notificationStatusOn(){
+        editor = sharedPreferences.edit();
+        editor.putString("notification_status","true");
+        editor.apply();
+    }
+
+    public void notificationStatusOff(){
+        editor = sharedPreferences.edit();
+        editor.putString("notification_status","false");
+        editor.apply();
+    }
+
+    public String getNotificationStatus(){
+        return sharedPreferences.getString("notification_status","");
+    }
 
     public void musicStatusOn(){
         editor = sharedPreferences.edit();

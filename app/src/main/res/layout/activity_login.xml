@@ -104,12 +104,14 @@
 
     <TextView
         android:id="@+id/tv_login_ok"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/_60sdp"
+        android:layout_height="@dimen/_30sdp"
         android:layout_marginTop="@dimen/_6sdp"
+        android:paddingTop="@dimen/_2sdp"
         android:clickable="true"
         android:focusable="true"
         android:text="@string/ok"
+        android:textAlignment="center"
         android:textAllCaps="true"
         android:textSize="17sp"
         android:textStyle="bold"

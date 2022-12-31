@@ -72,4 +72,6 @@
     <string name="time_is_up_tag">Time Up Dialog</string>
     <string name="question_skipped">تم تخطي السؤال!</string>
     <string name="please_collect_required_points">يجب تجميع عدد النقاط المطلوبة</string>
+    <string name="notification_is_on">تم تفعيل الاشعارات!</string>
+    <string name="notification_turned_off">تم ايقاف تشغيل الاشعارات!</string>
 </resources>

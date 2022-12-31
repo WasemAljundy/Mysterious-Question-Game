@@ -1,28 +1,18 @@
 package com.wasem.mysteriousquestions;
 
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Intent;
 import android.media.MediaPlayer;
-import android.os.Build;
 import android.os.IBinder;
 
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
-
-
-import java.util.Timer;
-
-public class MyService extends Service {
+public class MusicService extends Service {
 
     MediaPlayer mediaPlayer;
 
 //    public static String CHANNEL_ID = "CHANNEL1";
 //    public static String CHANNEL_NAME = "NotificationTest";
 
-    public MyService() {}
+    public MusicService() {}
 
     @Override
     public void onCreate() {

@@ -1,25 +1,21 @@
 package com.wasem.mysteriousquestions.Views;
-
-import static androidx.viewpager2.widget.ViewPager2.OFFSCREEN_PAGE_LIMIT_DEFAULT;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.wasem.mysteriousquestions.AppSharedPreferences;
 import com.wasem.mysteriousquestions.Fragments.QuestionInteractionListener;
 import com.wasem.mysteriousquestions.ViewPager.DepthPageTransformer;
 import com.wasem.mysteriousquestions.Fragments.DialogInteractionListener;
 import com.wasem.mysteriousquestions.DataBase.Models.Question;
 import com.wasem.mysteriousquestions.ViewPager.PagerAdapter;
 import com.wasem.mysteriousquestions.databinding.ActivityGameBinding;
-
 import java.lang.reflect.Type;
 import java.util.List;
 
@@ -39,8 +35,34 @@ public class GameActivity extends AppCompatActivity implements DialogInteraction
         binding = ActivityGameBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         initializeMethods();
+        binding.pager.setCurrentItem(AppSharedPreferences.getInstance(getApplicationContext()).getLastQuestionIndex(),false);
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        currentIndex = binding.pager.getCurrentItem();
+        AppSharedPreferences.getInstance(getApplicationContext()).lastQuestionIndex(currentIndex);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        currentIndex = binding.pager.getCurrentItem();
+        AppSharedPreferences.getInstance(getApplicationContext()).lastQuestionIndex(currentIndex);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        binding.pager.setCurrentItem(AppSharedPreferences.getInstance(getApplicationContext()).getLastQuestionIndex(),false);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        binding.pager.setCurrentItem(AppSharedPreferences.getInstance(getApplicationContext()).getLastQuestionIndex(),false);
+    }
 
     @Override
     public void onOkButtonClicked() {
