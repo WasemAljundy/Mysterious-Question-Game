@@ -14,8 +14,8 @@ import java.util.List;
 public interface PlayerQuestionDao {
     @Insert
     long insertPlayerQuestion (PlayerQuestion playerQuestion);
-    @Delete
-    int deletePlayerQuestion (PlayerQuestion playerQuestion);
+    @Query("delete from PlayerQuestion")
+    int deletePlayerQuestion ();
     @Query("select * from PlayerQuestion where playerId = :playerId")
     LiveData<List<PlayerQuestion>> getAllPlayerQuestionInfo(int playerId);
 

@@ -3,6 +3,8 @@ package com.wasem.mysteriousquestions.Views;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.room.RoomDatabase;
+import androidx.room.migration.Migration;
 
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
@@ -18,6 +20,7 @@ import com.github.angads25.toggle.model.ToggleableView;
 import com.shashank.sony.fancytoastlib.FancyToast;
 import com.wasem.mysteriousquestions.AppSharedPreferences;
 import com.wasem.mysteriousquestions.DataBase.Models.PlayerQuestion;
+import com.wasem.mysteriousquestions.DataBase.MyRoomDataBase;
 import com.wasem.mysteriousquestions.DataBase.PlayerViewModel;
 import com.wasem.mysteriousquestions.NotificationJobService;
 import com.wasem.mysteriousquestions.MusicService;
@@ -30,7 +33,6 @@ import java.util.concurrent.TimeUnit;
 public class SettingsActivity extends AppCompatActivity {
     ActivitySettingsBinding binding;
     PlayerViewModel viewModel;
-    PlayerQuestion playerQuestion;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,18 +47,8 @@ public class SettingsActivity extends AppCompatActivity {
 
         notificationButtonListener();
 
+
         viewModel = new ViewModelProvider(this).get(PlayerViewModel.class);
-
-
-        viewModel.getAllPlayerQuestionInfo(LoginActivity.currentPlayerId).observe(this, new Observer<List<PlayerQuestion>>() {
-            @Override
-            public void onChanged(List<PlayerQuestion> playerQuestions) {
-                for (int i = 0; i < playerQuestions.size(); i++) {
-                    playerQuestion = new PlayerQuestion(playerQuestions.get(i).id,playerQuestions.get(i).playerId,
-                            playerQuestions.get(i).skipTimes,playerQuestions.get(i).correctAnswers,playerQuestions.get(i).wrongAnswers);
-                }
-            }
-        });
 
 
         binding.btnProfile.setOnClickListener(new View.OnClickListener() {
@@ -86,16 +78,15 @@ public class SettingsActivity extends AppCompatActivity {
                     startActivity(intent);
                     finish();
                 }
-                viewModel.deletePlayerQuestion(playerQuestion);
+                viewModel.deletePlayerQuestion();
+                viewModel.deletePlayerLevel();
                 AppSharedPreferences.getInstance(getApplicationContext()).clearAll();
                 FancyToast.makeText(getBaseContext(),getString(R.string.game_progress_reset), FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, false).show();
             }
         });
 
-
-
-
     }
+
 
     public void musicButtonListener(){
         binding.switchSound.setOn(musicSettingsStatus());
@@ -165,7 +156,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     public void notificationButtonListener(){
         binding.switchNotification.setOn(notificationSettingsStatus());
-        binding.switchSound.setOnToggledListener(new OnToggledListener() {
+        binding.switchNotification.setOnToggledListener(new OnToggledListener() {
             @Override
             public void onSwitched(ToggleableView toggleableView, boolean isOn) {
                 if (toggleableView.isOn()) {

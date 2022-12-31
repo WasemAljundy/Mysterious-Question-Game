@@ -1,14 +1,22 @@
 package com.wasem.mysteriousquestions.Fragments;
+
+import static com.wasem.mysteriousquestions.R.string.good_job;
+import static com.wasem.mysteriousquestions.R.string.level_finished;
+import static com.wasem.mysteriousquestions.R.string.question_skipped;
+import static com.wasem.mysteriousquestions.R.string.right_answer_dialog_tag;
+import static com.wasem.mysteriousquestions.R.string.time_is_up;
+import static com.wasem.mysteriousquestions.R.string.time_is_up_tag;
+import static com.wasem.mysteriousquestions.R.string.wrong_answer;
+import static com.wasem.mysteriousquestions.R.string.wrong_answer_dialog_tag;
+import static com.wasem.mysteriousquestions.R.string.you_dont_have_enough_points;
+
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,7 +53,7 @@ public class QuestionPagerFragment extends Fragment {
     private int question_id;
     private int pattern;
     private int timerSeconds;
-    private static int score = 0;
+    private static int totalPlayerScore = 0;
     private static int totalLevelScore = 0;
     private static int skipTimes = 0;
     private static int correctAnswers = 0;
@@ -111,10 +119,10 @@ public class QuestionPagerFragment extends Fragment {
 
 
     private int firstLevelRating (int levelNo, boolean isFinishedLevel) {
-        if ( levelNo == 1 && isFinishedLevel && AppSharedPreferences.getInstance(getContext()).getScore() >= 6) {
+        if ( levelNo == 1 && isFinishedLevel && AppSharedPreferences.getInstance(getContext()).getLevelScore() >= 6) {
             return  R.drawable.img_three_stars;
         }
-        else if ( levelNo == 1 && isFinishedLevel && AppSharedPreferences.getInstance(getContext()).getScore() >= 3) {
+        else if ( levelNo == 1 && isFinishedLevel && AppSharedPreferences.getInstance(getContext()).getLevelScore() >= 3) {
             return R.drawable.img_two_stars;
         }
         else {
@@ -122,10 +130,10 @@ public class QuestionPagerFragment extends Fragment {
         }
     }
     private int secondLevelRating (int levelNo, boolean isFinishedLevel) {
-        if ( levelNo == 2 && isFinishedLevel  && AppSharedPreferences.getInstance(getContext()).getScore() >= 15) {
+        if ( levelNo == 2 && isFinishedLevel  && AppSharedPreferences.getInstance(getContext()).getLevelScore() == 10) {
             return R.drawable.img_three_stars;
         }
-        else if ( levelNo == 2 && isFinishedLevel && AppSharedPreferences.getInstance(getContext()).getScore() >= 10) {
+        else if ( levelNo == 2 && isFinishedLevel && AppSharedPreferences.getInstance(getContext()).getLevelScore() >= 5) {
             return R.drawable.img_two_stars;
         }
         else {
@@ -133,10 +141,10 @@ public class QuestionPagerFragment extends Fragment {
         }
     }
     private int thirdLevelRating (int levelNo, boolean isFinishedLevel) {
-        if ( levelNo == 3 && isFinishedLevel  && AppSharedPreferences.getInstance(getContext()).getScore() >= 25) {
+        if ( levelNo == 3 && isFinishedLevel  && AppSharedPreferences.getInstance(getContext()).getLevelScore() == 10) {
             return R.drawable.img_three_stars;
         }
-        else if ( levelNo == 3 && isFinishedLevel && AppSharedPreferences.getInstance(getContext()).getScore() >= 15) {
+        else if ( levelNo == 3 && isFinishedLevel && AppSharedPreferences.getInstance(getContext()).getLevelScore() >= 5) {
             return R.drawable.img_two_stars;
         }
         else {
@@ -144,10 +152,10 @@ public class QuestionPagerFragment extends Fragment {
         }
     }
     private int forthLevelRating (int levelNo, boolean isFinishedLevel) {
-        if ( levelNo == 4 && isFinishedLevel  && AppSharedPreferences.getInstance(getContext()).getScore() >= 35) {
+        if ( levelNo == 4 && isFinishedLevel  && AppSharedPreferences.getInstance(getContext()).getLevelScore() == 10) {
             return R.drawable.img_three_stars;
         }
-        else if ( levelNo == 4 && isFinishedLevel && AppSharedPreferences.getInstance(getContext()).getScore() >= 20) {
+        else if ( levelNo == 4 && isFinishedLevel && AppSharedPreferences.getInstance(getContext()).getLevelScore() >= 5) {
             return R.drawable.img_two_stars;
         }
         else {
@@ -155,10 +163,10 @@ public class QuestionPagerFragment extends Fragment {
         }
     }
     private int fifthLevelRating (int levelNo, boolean isFinishedLevel) {
-        if ( levelNo == 5 && isFinishedLevel  && AppSharedPreferences.getInstance(getContext()).getScore() >= 40) {
+        if ( levelNo == 5 && isFinishedLevel  && AppSharedPreferences.getInstance(getContext()).getLevelScore() == 10) {
             return R.drawable.img_three_stars;
         }
-        else if ( levelNo == 5 && isFinishedLevel && AppSharedPreferences.getInstance(getContext()).getScore() >= 25) {
+        else if ( levelNo == 5 && isFinishedLevel && AppSharedPreferences.getInstance(getContext()).getLevelScore() >= 5) {
             return R.drawable.img_two_stars;
         }
         else {
@@ -177,14 +185,14 @@ public class QuestionPagerFragment extends Fragment {
 
             binding.tvQuestionTitleTrueFalse.setText(fillQuestionByPattern().title);
 
-            binding.tvTotalPoints.setText(String.valueOf(AppSharedPreferences.getInstance(getContext()).getScore()));
+            binding.tvTotalPoints.setText(String.valueOf(AppSharedPreferences.getInstance(getContext()).getLevelScore()));
 
             countDownTimer(binding.tvTimerSeconds,binding.tvTotalPoints,binding.btnTrueSubmit);
 
             binding.tvSkipQuestion.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (AppSharedPreferences.getInstance(getContext()).getScore() >= 3) {
+                    if (AppSharedPreferences.getInstance(getContext()).getLevelScore() >= 3) {
                         skipQuestionValidation(binding.tvTotalPoints,binding.btnTrueSubmit);
                         skipTimes += 1;
                         isAnswered = true;
@@ -192,7 +200,7 @@ public class QuestionPagerFragment extends Fragment {
                         listener.onQuestionInteractionListener();
                     }
                     else
-                        FancyToast.makeText(getContext(),"You don't have enough points 🙁",Toast.LENGTH_SHORT,FancyToast.ERROR,false).show();
+                        FancyToast.makeText(getContext(),getString(you_dont_have_enough_points),Toast.LENGTH_SHORT,FancyToast.ERROR,false).show();
                 }
             });
 
@@ -241,7 +249,7 @@ public class QuestionPagerFragment extends Fragment {
 
             binding.tvQuestionTitleSelectChoice.setText(fillQuestionByPattern().title);
 
-            binding.tvTotalPoints.setText(String.valueOf(AppSharedPreferences.getInstance(getContext()).getScore()));
+            binding.tvTotalPoints.setText(String.valueOf(AppSharedPreferences.getInstance(getContext()).getLevelScore()));
 
             binding.rbChoice1.setText(fillQuestionByPattern().answer1);
             binding.rbChoice2.setText(fillQuestionByPattern().answer2);
@@ -253,7 +261,7 @@ public class QuestionPagerFragment extends Fragment {
             binding.tvSkipQuestion.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (AppSharedPreferences.getInstance(getContext()).getScore() >= 3) {
+                    if (AppSharedPreferences.getInstance(getContext()).getLevelScore() >= 3) {
                         skipQuestionValidation(binding.tvTotalPoints,binding.btnConfirm);
                         skipTimes += 1;
                         isAnswered = true;
@@ -261,7 +269,7 @@ public class QuestionPagerFragment extends Fragment {
                         listener.onQuestionInteractionListener();
                     }
                     else
-                        FancyToast.makeText(getContext(),"You don't have enough points 🙁",Toast.LENGTH_SHORT,FancyToast.ERROR,false).show();
+                        FancyToast.makeText(getContext(),getString(you_dont_have_enough_points),Toast.LENGTH_SHORT,FancyToast.ERROR,false).show();
                 }
             });
 
@@ -318,14 +326,14 @@ public class QuestionPagerFragment extends Fragment {
 
             binding.tvQuestionTitleCompleteQuestion.setText(fillQuestionByPattern().title);
 
-            binding.tvTotalPoints.setText(String.valueOf(AppSharedPreferences.getInstance(getContext()).getScore()));
+            binding.tvTotalPoints.setText(String.valueOf(AppSharedPreferences.getInstance(getContext()).getLevelScore()));
 
             countDownTimer(binding.tvTimerSeconds,binding.tvTotalPoints,binding.btnConfirm);
 
             binding.tvSkipQuestion.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (AppSharedPreferences.getInstance(getContext()).getScore() >= 3) {
+                    if (AppSharedPreferences.getInstance(getContext()).getLevelScore() >= 3) {
                         skipQuestionValidation(binding.tvTotalPoints,binding.btnConfirm);
                         skipTimes += 1;
                         isAnswered = true;
@@ -333,7 +341,7 @@ public class QuestionPagerFragment extends Fragment {
                         listener.onQuestionInteractionListener();
                     }
                     else
-                        FancyToast.makeText(getContext(),"You don't have enough points 🙁",Toast.LENGTH_SHORT,FancyToast.ERROR,false).show();
+                        FancyToast.makeText(getContext(),getString(you_dont_have_enough_points),Toast.LENGTH_SHORT,FancyToast.ERROR,false).show();
                 }
             });
 
@@ -360,7 +368,7 @@ public class QuestionPagerFragment extends Fragment {
 
     public void finishedLevelValidation(TextView skipBtn){
         if (isAnswered && isFinishedLevel){
-            FancyToast.makeText(getContext(),"LEVEL FINISHED!",Toast.LENGTH_SHORT,FancyToast.SUCCESS,false).show();
+            FancyToast.makeText(getContext(),getText(level_finished),Toast.LENGTH_SHORT,FancyToast.SUCCESS,false).show();
             skipBtn.setEnabled(false);
             if (fillQuestionByPattern().level_no == 1 && isAnswered && isFinishedLevel ) {
                 AppSharedPreferences.getInstance(getContext()).lvlOneRatingSave(firstLevelRating(fillQuestionByPattern().level_no,isFinishedLevel));
@@ -382,6 +390,17 @@ public class QuestionPagerFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        AppSharedPreferences.getInstance(getContext()).clearPlayerLevelScore();
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        AppSharedPreferences.getInstance(getContext()).clearPlayerLevelScore();
+    }
 
     private void countDownTimer(TextView timerView, TextView scoreView, Button btn_confirm){
         timerSeconds = fillQuestionByPattern().duration / 1000;
@@ -407,79 +426,86 @@ public class QuestionPagerFragment extends Fragment {
     }
 
     private void rightAnswerValidation(TextView scoreView){
-        DialogFragment dialogFragment = DialogFragment.newInstance("Good Job! 😍",fillQuestionByPattern().hint, R.drawable.true_ans_btn_shape);
-        dialogFragment.show(getActivity().getSupportFragmentManager(),"Right Answer Dialog");
+        DialogFragment dialogFragment = DialogFragment.newInstance(getString(good_job),fillQuestionByPattern().hint, R.drawable.true_ans_btn_shape);
+        dialogFragment.show(getActivity().getSupportFragmentManager(),getString(right_answer_dialog_tag));
         dialogFragment.setCancelable(false);
         mp = MediaPlayer.create(getContext(),R.raw.correct_answer);
         mp.start();
         int oldScore = Integer.parseInt(scoreView.getText().toString());
-        score = oldScore + fillQuestionByPattern().points;
-        totalLevelScore += fillQuestionByPattern().points;
-        AppSharedPreferences.getInstance(getContext()).scoreSave(score);
-        scoreView.setText(String.valueOf(score));
+        totalPlayerScore += fillQuestionByPattern().points;
+        totalLevelScore = oldScore + fillQuestionByPattern().points;
+        AppSharedPreferences.getInstance(getContext()).playerScoreSave(totalPlayerScore);
+        AppSharedPreferences.getInstance(getContext()).levelScoreSave(totalLevelScore);
+        scoreView.setText(String.valueOf(totalLevelScore));
         timer.cancel();
     }
 
     private void wrongAnswerValidation(TextView scoreView){
-        DialogFragment dialogFragment = DialogFragment.newInstance("Wrong Answer 🙁",fillQuestionByPattern().hint, R.drawable.img_wrong_answer_red);
-        dialogFragment.show(getActivity().getSupportFragmentManager(),"Wrong Answer Dialog");
+        DialogFragment dialogFragment = DialogFragment.newInstance(getString(wrong_answer),fillQuestionByPattern().hint, R.drawable.img_wrong_answer_red);
+        dialogFragment.show(getActivity().getSupportFragmentManager(),getString(wrong_answer_dialog_tag));
         dialogFragment.setCancelable(false);
         mp = MediaPlayer.create(getContext(),R.raw.wrong_answer);
         mp.start();
         int oldScore = Integer.parseInt(scoreView.getText().toString());
-        score = oldScore - fillQuestionByPattern().points;
-        totalLevelScore -= fillQuestionByPattern().points;
-        if (score <= 0) {
-            AppSharedPreferences.getInstance(getContext()).scoreSave(0);
+        totalPlayerScore -= fillQuestionByPattern().points;
+        totalLevelScore = oldScore - fillQuestionByPattern().points;
+        if (totalLevelScore <= 0 || totalPlayerScore <= 0) {
+            AppSharedPreferences.getInstance(getContext()).playerScoreSave(0);
+            AppSharedPreferences.getInstance(getContext()).levelScoreSave(0);
             scoreView.setText(String.valueOf(0));
         }
         else {
-            AppSharedPreferences.getInstance(getContext()).scoreSave(score);
-            scoreView.setText(String.valueOf(score));
+            AppSharedPreferences.getInstance(getContext()).playerScoreSave(totalPlayerScore);
+            AppSharedPreferences.getInstance(getContext()).levelScoreSave(totalLevelScore);
+            scoreView.setText(String.valueOf(totalLevelScore));
         }
         timer.cancel();
     }
 
     private void timerIsUpValidation(TextView scoreView, Button btn_confirm){
-        DialogFragment dialogFragment = DialogFragment.newInstance("Time is Up!",fillQuestionByPattern().hint,R.drawable.img_wrong_answer_red);
-        dialogFragment.show(getActivity().getSupportFragmentManager(),"Time Up Dialog");
+        DialogFragment dialogFragment = DialogFragment.newInstance(getString(time_is_up),fillQuestionByPattern().hint,R.drawable.img_wrong_answer_red);
+        dialogFragment.show(getActivity().getSupportFragmentManager(),getString(time_is_up_tag));
         dialogFragment.setCancelable(false);
         mp = MediaPlayer.create(getContext(),R.raw.dialog_shown);
         mp.start();
         int oldScore = Integer.parseInt(scoreView.getText().toString());
-        score = oldScore - fillQuestionByPattern().points;
-        totalLevelScore -= fillQuestionByPattern().points;
-        if (score <= 0) {
-            AppSharedPreferences.getInstance(getContext()).scoreSave(0);
+        totalPlayerScore -= fillQuestionByPattern().points;
+        totalLevelScore = oldScore - fillQuestionByPattern().points;
+        if (totalLevelScore <= 0 || totalPlayerScore <= 0) {
+            AppSharedPreferences.getInstance(getContext()).playerScoreSave(0);
+            AppSharedPreferences.getInstance(getContext()).levelScoreSave(0);
             scoreView.setText(String.valueOf(0));
         }
         else {
-            AppSharedPreferences.getInstance(getContext()).scoreSave(score);
-            scoreView.setText(String.valueOf(score));
+            AppSharedPreferences.getInstance(getContext()).playerScoreSave(totalPlayerScore);
+            AppSharedPreferences.getInstance(getContext()).levelScoreSave(totalLevelScore);
+            scoreView.setText(String.valueOf(totalLevelScore));
         }
         timer.cancel();
         btn_confirm.setEnabled(false);
     }
 
     private void skipQuestionValidation(TextView scoreView,Button confirm){
-        FancyToast.makeText(getContext(),"Question Skipped!",Toast.LENGTH_SHORT,FancyToast.WARNING,false).show();
+        FancyToast.makeText(getContext(),getString(question_skipped),Toast.LENGTH_SHORT,FancyToast.WARNING,false).show();
         int oldScore = Integer.parseInt(scoreView.getText().toString());
-        score = oldScore - 3;
-        totalLevelScore -= 3;
-        if (score <= 0) {
-            AppSharedPreferences.getInstance(getContext()).scoreSave(0);
+        totalPlayerScore -= 3;
+        totalLevelScore = oldScore - 3;
+        if (totalLevelScore <= 0 || totalPlayerScore <= 0) {
+            AppSharedPreferences.getInstance(getContext()).playerScoreSave(0);
+            AppSharedPreferences.getInstance(getContext()).levelScoreSave(0);
             scoreView.setText(String.valueOf(0));
         }
         else {
-            AppSharedPreferences.getInstance(getContext()).scoreSave(score);
-            scoreView.setText(String.valueOf(score));
+            AppSharedPreferences.getInstance(getContext()).playerScoreSave(totalPlayerScore);
+            AppSharedPreferences.getInstance(getContext()).levelScoreSave(totalLevelScore);
+            scoreView.setText(String.valueOf(totalLevelScore));
         }
         confirm.setEnabled(false);
         timer.cancel();
     }
 
     private void insertPlayerQuestionDetails(){
-        int totalPlayerScores = AppSharedPreferences.getInstance(getContext()).getScore();
+        int totalPlayerScores = AppSharedPreferences.getInstance(getContext()).getPlayerScore();
         PlayerQuestion playerQuestion = new PlayerQuestion(LoginActivity.currentPlayerId,totalPlayerScores,skipTimes,correctAnswers,wrongAnswers);
         viewModel = new ViewModelProvider(this).get(PlayerViewModel.class);
         viewModel.insertPlayerQuestion(playerQuestion);

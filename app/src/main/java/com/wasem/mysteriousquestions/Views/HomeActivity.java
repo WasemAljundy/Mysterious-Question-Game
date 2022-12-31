@@ -18,8 +18,6 @@ import com.wasem.mysteriousquestions.databinding.ActivityHomeBinding;
 
 public class HomeActivity extends AppCompatActivity {
     ActivityHomeBinding binding;
-    SharedPreferences sp;
-    SharedPreferences.Editor edit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

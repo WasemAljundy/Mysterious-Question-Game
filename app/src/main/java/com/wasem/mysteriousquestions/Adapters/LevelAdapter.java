@@ -14,7 +14,6 @@ import com.wasem.mysteriousquestions.AppSharedPreferences;
 import com.wasem.mysteriousquestions.DataBase.Listeners.SelectLevelListener;
 import com.wasem.mysteriousquestions.DataBase.Models.Level;
 import com.wasem.mysteriousquestions.R;
-import com.wasem.mysteriousquestions.Views.LoginActivity;
 import com.wasem.mysteriousquestions.databinding.CustomLayoutLevelsBinding;
 
 import java.util.List;
@@ -67,7 +66,7 @@ public class LevelAdapter extends RecyclerView.Adapter<LevelHolder> {
             holder.binding.imgRating.setImageResource(AppSharedPreferences.getInstance(getContext()).getFiveTwoRating());
         }
 
-        if (AppSharedPreferences.getInstance(getContext()).getScore() >= level.unlockPoints ) {
+        if (AppSharedPreferences.getInstance(getContext()).getPlayerScore() >= level.unlockPoints ) {
             holder.binding.imgLock.setImageResource(R.drawable.img_unlocked);
         }
         else {
@@ -77,7 +76,7 @@ public class LevelAdapter extends RecyclerView.Adapter<LevelHolder> {
         holder.binding.getRoot().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (AppSharedPreferences.getInstance(getContext()).getScore() >= level.unlockPoints ) {
+                if (AppSharedPreferences.getInstance(getContext()).getPlayerScore() >= level.unlockPoints ) {
                     selectLevelListener.onSelectedLevelListener(level);
                 }
                 else {

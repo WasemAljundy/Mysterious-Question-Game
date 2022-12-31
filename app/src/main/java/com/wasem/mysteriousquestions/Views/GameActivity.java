@@ -35,7 +35,7 @@ public class GameActivity extends AppCompatActivity implements DialogInteraction
         binding = ActivityGameBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         initializeMethods();
-        binding.pager.setCurrentItem(AppSharedPreferences.getInstance(getApplicationContext()).getLastQuestionIndex(),false);
+
     }
 
     @Override
@@ -49,19 +49,19 @@ public class GameActivity extends AppCompatActivity implements DialogInteraction
     protected void onDestroy() {
         super.onDestroy();
         currentIndex = binding.pager.getCurrentItem();
-        AppSharedPreferences.getInstance(getApplicationContext()).lastQuestionIndex(currentIndex);
+//        AppSharedPreferences.getInstance(getApplicationContext()).lastQuestionIndex(currentIndex);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        binding.pager.setCurrentItem(AppSharedPreferences.getInstance(getApplicationContext()).getLastQuestionIndex(),false);
+//        binding.pager.setCurrentItem(AppSharedPreferences.getInstance(getApplicationContext()).getLastQuestionIndex(),false);
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
-        binding.pager.setCurrentItem(AppSharedPreferences.getInstance(getApplicationContext()).getLastQuestionIndex(),false);
+//        binding.pager.setCurrentItem(AppSharedPreferences.getInstance(getApplicationContext()).getLastQuestionIndex(),false);
     }
 
     @Override

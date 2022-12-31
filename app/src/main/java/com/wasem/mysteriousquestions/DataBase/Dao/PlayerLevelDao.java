@@ -12,8 +12,8 @@ import java.util.List;
 public interface PlayerLevelDao {
     @Insert
     long insertPlayerLevel (PlayerLevel playerLevel);
-    @Delete
-    int deletePlayerLevel (PlayerLevel playerLevel);
+    @Query("delete from PlayerLevel")
+    void deletePlayerLevel ();
     @Query("select * from PlayerLevel where level_no = :level_no")
     LiveData<List<PlayerLevel>> getAllPlayerLevelInfo(int level_no);
 }

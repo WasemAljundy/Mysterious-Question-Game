@@ -90,8 +90,8 @@ public class PlayerViewModel extends AndroidViewModel {
         repository.insertPlayerLevel(playerLevel);
     }
 
-    public void deletePlayerLevel(PlayerLevel playerLevel){
-        repository.deletePlayerLevel(playerLevel);
+    public void deletePlayerLevel(){
+        repository.deletePlayerLevel();
     }
 
     public LiveData<List<PlayerLevel>> getAllPlayerLevelInfo(int level_no){
@@ -104,8 +104,8 @@ public class PlayerViewModel extends AndroidViewModel {
         repository.insertPlayerQuestion(playerQuestion);
     }
 
-    public void deletePlayerQuestion(PlayerQuestion playerQuestion){
-        repository.deletePlayerQuestion(playerQuestion);
+    public void deletePlayerQuestion(){
+        repository.deletePlayerQuestion();
     }
 
     public LiveData<List<PlayerQuestion>> getAllPlayerQuestionInfo(int playerId){

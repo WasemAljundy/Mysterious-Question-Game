@@ -22,13 +22,13 @@ public class AppSharedPreferences {
     }
 
 
-    public void scoreSave(int score){
+    public void playerScoreSave(int score){
         editor = sharedPreferences.edit();
         editor.putInt("score",score);
         editor.apply();
     }
 
-    public int getScore(){
+    public int getPlayerScore(){
         return sharedPreferences.getInt("score",0);
     }
 

@@ -1,6 +1,5 @@
 package com.wasem.mysteriousquestions.Views;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -17,7 +16,6 @@ import com.wasem.mysteriousquestions.DataBase.Listeners.InsertListener;
 import com.wasem.mysteriousquestions.DataBase.Listeners.SelectLevelListener;
 import com.wasem.mysteriousquestions.DataBase.Models.Level;
 import com.wasem.mysteriousquestions.Adapters.LevelAdapter;
-import com.wasem.mysteriousquestions.DataBase.Models.PlayerQuestion;
 import com.wasem.mysteriousquestions.DataBase.Models.Question;
 import com.wasem.mysteriousquestions.DataBase.PlayerViewModel;
 import com.wasem.mysteriousquestions.R;
@@ -45,7 +43,7 @@ public class LevelsActivity extends AppCompatActivity {
         binding = ActivityLevelsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        binding.tvTotalPoints.setText(String.valueOf(AppSharedPreferences.getInstance(this).getScore()));
+        binding.tvTotalPoints.setText(String.valueOf(AppSharedPreferences.getInstance(this).getPlayerScore()));
 
         checkPlayerIdStatus();
 
@@ -85,7 +83,7 @@ public class LevelsActivity extends AppCompatActivity {
     protected void onRestart() {
         super.onRestart();
         adapter.notifyDataSetChanged();
-        binding.tvTotalPoints.setText(String.valueOf(AppSharedPreferences.getInstance(this).getScore()));
+        binding.tvTotalPoints.setText(String.valueOf(AppSharedPreferences.getInstance(this).getPlayerScore()));
     }
 
     public void initializeAdapter() {

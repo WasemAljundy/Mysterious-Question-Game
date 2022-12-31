@@ -142,11 +142,11 @@ public class Repository {
         });
     }
 
-    public void deletePlayerLevel(PlayerLevel playerLevel){
+    public void deletePlayerLevel(){
         MyRoomDataBase.databaseWriteExecutor.execute(new Runnable() {
             @Override
             public void run() {
-                playerLevelDao.deletePlayerLevel(playerLevel);
+                playerLevelDao.deletePlayerLevel();
             }
         });
     }
@@ -166,11 +166,11 @@ public class Repository {
         });
     }
 
-    public void deletePlayerQuestion(PlayerQuestion playerQuestion){
+    public void deletePlayerQuestion(){
         MyRoomDataBase.databaseWriteExecutor.execute(new Runnable() {
             @Override
             public void run() {
-                playerQuestionDao.deletePlayerQuestion(playerQuestion);
+                playerQuestionDao.deletePlayerQuestion();
             }
         });
     }
