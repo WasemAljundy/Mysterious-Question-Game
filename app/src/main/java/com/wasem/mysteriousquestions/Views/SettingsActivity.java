@@ -1,11 +1,7 @@
 package com.wasem.mysteriousquestions.Views;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.room.RoomDatabase;
-import androidx.room.migration.Migration;
-
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.ComponentName;
@@ -14,20 +10,15 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
-
 import com.github.angads25.toggle.interfaces.OnToggledListener;
 import com.github.angads25.toggle.model.ToggleableView;
 import com.shashank.sony.fancytoastlib.FancyToast;
 import com.wasem.mysteriousquestions.AppSharedPreferences;
-import com.wasem.mysteriousquestions.DataBase.Models.PlayerQuestion;
-import com.wasem.mysteriousquestions.DataBase.MyRoomDataBase;
 import com.wasem.mysteriousquestions.DataBase.PlayerViewModel;
 import com.wasem.mysteriousquestions.NotificationJobService;
 import com.wasem.mysteriousquestions.MusicService;
 import com.wasem.mysteriousquestions.R;
 import com.wasem.mysteriousquestions.databinding.ActivitySettingsBinding;
-
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -39,17 +30,9 @@ public class SettingsActivity extends AppCompatActivity {
         binding = ActivitySettingsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        musicSettingsStatus();
-
-        musicButtonListener();
-
-        notificationSettingsStatus();
-
-        notificationButtonListener();
-
+        initializeMethods();
 
         viewModel = new ViewModelProvider(this).get(PlayerViewModel.class);
-
 
         binding.btnProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -187,6 +170,14 @@ public class SettingsActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+
+    private void initializeMethods(){
+        musicSettingsStatus();
+        musicButtonListener();
+        notificationSettingsStatus();
+        notificationButtonListener();
     }
 
 

@@ -24,8 +24,6 @@ import java.util.Calendar;
 
 public class RegisterActivity extends AppCompatActivity {
     ActivityRegisterBinding binding;
-    SharedPreferences sp;
-    SharedPreferences.Editor edit;
     PlayerViewModel playerViewModel;
     Player player = new Player();
     String date;
@@ -37,10 +35,6 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         playerViewModel = new ViewModelProvider(this).get(PlayerViewModel.class);
-
-        sp = getSharedPreferences("Player", MODE_PRIVATE);
-        edit = sp.edit();
-
 
         binding.tvBirthDate.setOnClickListener(new View.OnClickListener() {
             @Override

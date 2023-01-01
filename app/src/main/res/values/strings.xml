@@ -74,4 +74,5 @@
     <string name="please_collect_required_points">Please collect the required points</string>
     <string name="notification_is_on">Notification is on!</string>
     <string name="notification_turned_off">Notification turned off!</string>
+    <string name="please_sign_in_first">Please Sign in first!</string>
 </resources>

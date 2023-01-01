@@ -146,7 +146,7 @@
 	},
 	{
 		"level_no": 4,
-		"unlock_points": 15,
+		"unlock_points": 20,
 		"questions": [{
 			"id": 1,
 			"title": "شكل مجرة درب التبانة هو حلزوني",
@@ -190,7 +190,7 @@
 	},
 	{
 		"level_no": 5,
-		"unlock_points": 20,
+		"unlock_points": 30,
 		"questions": [{
 			"id": 1,
 			"title": "شكل مجرة درب التبانة هو حلزوني",

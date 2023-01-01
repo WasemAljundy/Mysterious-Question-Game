@@ -1,21 +1,25 @@
 package com.wasem.mysteriousquestions.Adapters;
-
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.shashank.sony.fancytoastlib.FancyToast;
 import com.wasem.mysteriousquestions.AppSharedPreferences;
 import com.wasem.mysteriousquestions.DataBase.Listeners.SelectLevelListener;
 import com.wasem.mysteriousquestions.DataBase.Models.Level;
+import com.wasem.mysteriousquestions.DataBase.Models.PlayerLevel;
 import com.wasem.mysteriousquestions.R;
+import com.wasem.mysteriousquestions.Views.LoginActivity;
 import com.wasem.mysteriousquestions.databinding.CustomLayoutLevelsBinding;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
 public class LevelAdapter extends RecyclerView.Adapter<LevelHolder> {
@@ -36,6 +40,7 @@ public class LevelAdapter extends RecyclerView.Adapter<LevelHolder> {
     public void setContext(Context context) {
         this.context = context;
     }
+
 
     @NonNull
     @Override
@@ -97,6 +102,7 @@ public class LevelAdapter extends RecyclerView.Adapter<LevelHolder> {
     public int getItemCount() {
         return levels.size();
     }
+    
 }
 
 class LevelHolder extends RecyclerView.ViewHolder{

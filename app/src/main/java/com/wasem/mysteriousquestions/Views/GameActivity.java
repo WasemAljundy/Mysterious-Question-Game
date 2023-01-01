@@ -28,54 +28,23 @@ public class GameActivity extends AppCompatActivity implements DialogInteraction
     public static final int PATTERN_SELECT_CHOICE = 2;
     public static final int PATTERN_COMPLETION = 3;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityGameBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         initializeMethods();
-
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        currentIndex = binding.pager.getCurrentItem();
-        AppSharedPreferences.getInstance(getApplicationContext()).lastQuestionIndex(currentIndex);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        currentIndex = binding.pager.getCurrentItem();
-//        AppSharedPreferences.getInstance(getApplicationContext()).lastQuestionIndex(currentIndex);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-//        binding.pager.setCurrentItem(AppSharedPreferences.getInstance(getApplicationContext()).getLastQuestionIndex(),false);
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-//        binding.pager.setCurrentItem(AppSharedPreferences.getInstance(getApplicationContext()).getLastQuestionIndex(),false);
     }
 
     @Override
     public void onOkButtonClicked() {
-        currentIndex = binding.pager.getCurrentItem();
-        binding.pager.setCurrentItem(currentIndex + 1,false);
-        Log.d("PAGER-INDEX", "onOkButtonClicked: "+ currentIndex);
+        nextQuestion();
     }
 
 
     @Override
     public void onQuestionInteractionListener() {
-        currentIndex = binding.pager.getCurrentItem();
-        binding.pager.setCurrentItem(currentIndex + 1,false);
+        nextQuestion();
     }
 
     private void initializeMethods() {
@@ -86,9 +55,12 @@ public class GameActivity extends AppCompatActivity implements DialogInteraction
     private List<Question> getQuestionsList() {
         Gson gson = new Gson();
         Type listType = new TypeToken<List<Question>>() {}.getType();
-        List<Question> questions = gson.fromJson(getIntent().getStringExtra("currentLevelQuestions"),listType);
-        Log.d("LEVEL-QUESTION", "onChanged: " + questions.size());
-        return questions;
+        return gson.fromJson(getIntent().getStringExtra("currentLevelQuestions"),listType);
+    }
+
+    private void nextQuestion(){
+        currentIndex = binding.pager.getCurrentItem();
+        binding.pager.setCurrentItem(currentIndex + 1,false);
     }
 
     private void pagerInitializer(){

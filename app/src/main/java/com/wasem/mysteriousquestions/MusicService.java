@@ -9,9 +9,6 @@ public class MusicService extends Service {
 
     MediaPlayer mediaPlayer;
 
-//    public static String CHANNEL_ID = "CHANNEL1";
-//    public static String CHANNEL_NAME = "NotificationTest";
-
     public MusicService() {}
 
     @Override
@@ -41,25 +38,5 @@ public class MusicService extends Service {
     public IBinder onBind(Intent intent) {
         throw new UnsupportedOperationException("Not yet implemented");
     }
-
-//    public Notification notificationSend() {
-//        NotificationChannel channel = null;
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//            channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH);
-//            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-//            notificationManager.createNotificationChannel(channel);
-//        }
-//
-//        NotificationCompat.Builder builder = new NotificationCompat.Builder(getBaseContext(), CHANNEL_ID)
-//                .setContentTitle("Wasem Aljundy")
-//                .setContentText("Time Up")
-//                .setSmallIcon(R.drawable.ic_baseline_add_reaction_24)
-//                .setVibrate(new long[]{1000, 2000, 200})
-//                .setPriority(NotificationCompat.PRIORITY_HIGH);
-//        NotificationManagerCompat compat = NotificationManagerCompat.from(getBaseContext());
-//        compat.notify(1, builder.build());
-//        return builder.build();
-//    }
-
 
 }

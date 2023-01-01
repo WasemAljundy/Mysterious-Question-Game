@@ -57,8 +57,6 @@ public class PlayerDetailsActivity extends AppCompatActivity {
             }
         });
 
-
-
     }
 
 

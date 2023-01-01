@@ -151,6 +151,10 @@ public class Repository {
         });
     }
 
+    public LiveData<List<PlayerLevel>> getAllPlayerLevel(int playerId){
+        return playerLevelDao.getAllPlayerLevel(playerId);
+    }
+
     public LiveData<List<PlayerLevel>> getAllPlayerLevelInfo(int level_no){
         return playerLevelDao.getAllPlayerLevelInfo(level_no);
     }

@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -391,12 +392,6 @@ public class QuestionPagerFragment extends Fragment {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        AppSharedPreferences.getInstance(getContext()).clearPlayerLevelScore();
-    }
-
-    @Override
     public void onDetach() {
         super.onDetach();
         AppSharedPreferences.getInstance(getContext()).clearPlayerLevelScore();
@@ -432,7 +427,7 @@ public class QuestionPagerFragment extends Fragment {
         mp = MediaPlayer.create(getContext(),R.raw.correct_answer);
         mp.start();
         int oldScore = Integer.parseInt(scoreView.getText().toString());
-        totalPlayerScore += fillQuestionByPattern().points;
+        totalPlayerScore = AppSharedPreferences.getInstance(getContext()).getPlayerScore() + fillQuestionByPattern().points;
         totalLevelScore = oldScore + fillQuestionByPattern().points;
         AppSharedPreferences.getInstance(getContext()).playerScoreSave(totalPlayerScore);
         AppSharedPreferences.getInstance(getContext()).levelScoreSave(totalLevelScore);
@@ -447,12 +442,14 @@ public class QuestionPagerFragment extends Fragment {
         mp = MediaPlayer.create(getContext(),R.raw.wrong_answer);
         mp.start();
         int oldScore = Integer.parseInt(scoreView.getText().toString());
-        totalPlayerScore -= fillQuestionByPattern().points;
+        totalPlayerScore = AppSharedPreferences.getInstance(getContext()).getPlayerScore() - fillQuestionByPattern().points;
         totalLevelScore = oldScore - fillQuestionByPattern().points;
-        if (totalLevelScore <= 0 || totalPlayerScore <= 0) {
-            AppSharedPreferences.getInstance(getContext()).playerScoreSave(0);
+        if (totalLevelScore <= 0) {
             AppSharedPreferences.getInstance(getContext()).levelScoreSave(0);
             scoreView.setText(String.valueOf(0));
+        }
+        else if (totalPlayerScore <= 0) {
+            AppSharedPreferences.getInstance(getContext()).playerScoreSave(0);
         }
         else {
             AppSharedPreferences.getInstance(getContext()).playerScoreSave(totalPlayerScore);
@@ -469,12 +466,14 @@ public class QuestionPagerFragment extends Fragment {
         mp = MediaPlayer.create(getContext(),R.raw.dialog_shown);
         mp.start();
         int oldScore = Integer.parseInt(scoreView.getText().toString());
-        totalPlayerScore -= fillQuestionByPattern().points;
+        totalPlayerScore = AppSharedPreferences.getInstance(getContext()).getPlayerScore() - fillQuestionByPattern().points;
         totalLevelScore = oldScore - fillQuestionByPattern().points;
-        if (totalLevelScore <= 0 || totalPlayerScore <= 0) {
-            AppSharedPreferences.getInstance(getContext()).playerScoreSave(0);
+        if (totalLevelScore <= 0) {
             AppSharedPreferences.getInstance(getContext()).levelScoreSave(0);
             scoreView.setText(String.valueOf(0));
+        }
+        else if (totalPlayerScore <= 0) {
+            AppSharedPreferences.getInstance(getContext()).playerScoreSave(0);
         }
         else {
             AppSharedPreferences.getInstance(getContext()).playerScoreSave(totalPlayerScore);
@@ -488,12 +487,14 @@ public class QuestionPagerFragment extends Fragment {
     private void skipQuestionValidation(TextView scoreView,Button confirm){
         FancyToast.makeText(getContext(),getString(question_skipped),Toast.LENGTH_SHORT,FancyToast.WARNING,false).show();
         int oldScore = Integer.parseInt(scoreView.getText().toString());
-        totalPlayerScore -= 3;
+        totalPlayerScore = AppSharedPreferences.getInstance(getContext()).getPlayerScore() - 3;
         totalLevelScore = oldScore - 3;
-        if (totalLevelScore <= 0 || totalPlayerScore <= 0) {
-            AppSharedPreferences.getInstance(getContext()).playerScoreSave(0);
+        if (totalLevelScore <= 0) {
             AppSharedPreferences.getInstance(getContext()).levelScoreSave(0);
             scoreView.setText(String.valueOf(0));
+        }
+        else if (totalPlayerScore <= 0) {
+            AppSharedPreferences.getInstance(getContext()).playerScoreSave(0);
         }
         else {
             AppSharedPreferences.getInstance(getContext()).playerScoreSave(totalPlayerScore);

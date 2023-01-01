@@ -27,7 +27,6 @@ import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
     ActivityLoginBinding binding;
-    Player player;
     PlayerViewModel playerViewModel;
     public static int currentPlayerId;
 
@@ -49,32 +48,32 @@ public class LoginActivity extends AppCompatActivity {
         playerViewModel.getAllPlayers().observe(this, new Observer<List<Player>>() {
             @Override
             public void onChanged(List<Player> players) {
-
                 binding.tvLoginOk.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        String user = binding.etLoginUsername.getText().toString();
-                        String pass = binding.etLoginPassword.getText().toString();
-                        for (int i = 0; i < players.size(); i++) {
-                            int playerId = players.get(i).getPlayerId();
-                            String username = players.get(i).getUsername();
-                            String password = players.get(i).getPassword();
-                            String email = players.get(i).getEmail();
-                            String countryName = players.get(i).getCountryName();
-                            String dateOfBirth = players.get(i).getDateOfBirth();
-                            String gender = players.get(i).getGender();
-                            player = new Player(playerId,username,email,password,dateOfBirth,countryName,gender);
-                        }
+                        if (players.size() > 0) {
+                            String user = binding.etLoginUsername.getText().toString();
+                            String pass = binding.etLoginPassword.getText().toString();
+                            for (Player p: players) {
+                                int playerId = p.getPlayerId();
+                                String username = p.getUsername();
+                                String password = p.getPassword();
+                                if (username.equals(user) && password.equals(pass)) {
+                                    currentPlayerId = playerId;
+                                    FancyToast.makeText(getBaseContext(), getString(R.string.logged_in_successfully), FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, false).show();
+                                    Intent intent = new Intent(getBaseContext(), HomeActivity.class);
+                                    startActivity(intent);
+                                    finish();
+                                } else
+                                    FancyToast.makeText(getBaseContext(), getString(R.string.incorrect_email_or_password), FancyToast.LENGTH_SHORT, FancyToast.ERROR, false).show();
+                            }
 
-                        if (player.getUsername().equals(user) && player.getPassword().equals(pass)) {
-                            currentPlayerId = player.getPlayerId();
-                            FancyToast.makeText(getBaseContext(), getString(R.string.logged_in_successfully), FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, false).show();
-                            Intent intent = new Intent(getBaseContext(), HomeActivity.class);
-                            startActivity(intent);
-                            finish();
-                        } else
-                            FancyToast.makeText(getBaseContext(), getString(R.string.incorrect_email_or_password), FancyToast.LENGTH_SHORT, FancyToast.ERROR, false).show();
+                        }
+                        else
+                            FancyToast.makeText(getBaseContext(), getString(R.string.please_sign_in_first), FancyToast.LENGTH_SHORT, FancyToast.ERROR, false).show();
+
                     }
+
                 });
             }
         });

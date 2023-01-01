@@ -92,15 +92,6 @@ public class AppSharedPreferences {
         return sharedPreferences.getInt("lvlFiveRating",0);
     }
 
-    public void lastQuestionIndex(int index){
-        editor = sharedPreferences.edit();
-        editor.putInt("lastQuestionIndex",index);
-        editor.apply();
-    }
-
-    public int getLastQuestionIndex(){
-        return sharedPreferences.getInt("lastQuestionIndex",0);
-    }
 
     public void rememberMePlayerBtnChecked(){
         editor = sharedPreferences.edit();

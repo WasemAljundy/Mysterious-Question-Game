@@ -16,6 +16,7 @@ import com.wasem.mysteriousquestions.DataBase.Listeners.InsertListener;
 import com.wasem.mysteriousquestions.DataBase.Listeners.SelectLevelListener;
 import com.wasem.mysteriousquestions.DataBase.Models.Level;
 import com.wasem.mysteriousquestions.Adapters.LevelAdapter;
+import com.wasem.mysteriousquestions.DataBase.Models.PlayerLevel;
 import com.wasem.mysteriousquestions.DataBase.Models.Question;
 import com.wasem.mysteriousquestions.DataBase.PlayerViewModel;
 import com.wasem.mysteriousquestions.R;
@@ -43,9 +44,9 @@ public class LevelsActivity extends AppCompatActivity {
         binding = ActivityLevelsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        binding.tvTotalPoints.setText(String.valueOf(AppSharedPreferences.getInstance(this).getPlayerScore()));
-
         checkPlayerIdStatus();
+
+        binding.tvTotalPoints.setText(String.valueOf(AppSharedPreferences.getInstance(this).getPlayerScore()));
 
         viewModel = new ViewModelProvider(this).get(PlayerViewModel.class);
 
@@ -77,6 +78,7 @@ public class LevelsActivity extends AppCompatActivity {
                 initializeAdapter();
             }
         });
+
     }
 
         @Override
@@ -177,6 +179,5 @@ public class LevelsActivity extends AppCompatActivity {
         }
 
     }
-
 
 }
