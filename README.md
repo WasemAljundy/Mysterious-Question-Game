@@ -9,10 +9,9 @@ Note:
 The application aims to spread the culture of learning through puzzles
 which is one of the best and most effective ways to get the meaning.
 
-![Screenshot_20230314_213902](https://user-images.githubusercontent.com/109550336/225118755-8b1607ff-e384-4ecf-b6fc-7dc13bcc859e.png)
-![Screenshot_20230314_213600](https://user-images.githubusercontent.com/109550336/225118764-5ff31bfb-f2dc-4b57-bd44-d1edc6079039.png)
-![Screenshot_20230314_213651](https://user-images.githubusercontent.com/109550336/225118768-b26560b9-b88f-4e8c-a23f-ec7493954417.png)
-![Screenshot_20230314_213745](https://user-images.githubusercontent.com/109550336/225118784-e082058b-6781-4c09-a2cd-1e5f3b7292a6.png)
-![Screenshot_20230314_213814](https://user-images.githubusercontent.com/109550336/225118791-304eb2c1-0505-486a-91ea-433d9b70a18f.png)
-![Screenshot_20230314_213846](https://user-images.githubusercontent.com/109550336/225118800-2f7efe1d-e1dc-4f71-be59-cc8f295999f6.png)
-
+![Screenshot_20230314_213600](https://user-images.githubusercontent.com/109550336/225119279-13a84037-14a5-484e-8667-909baae4f92d.png)
+![Screenshot_20230314_213651](https://user-images.githubusercontent.com/109550336/225119295-997ccdc5-3cac-4d75-90d6-7680881b4aed.png)
+![Screenshot_20230314_213846](https://user-images.githubusercontent.com/109550336/225119318-47baef52-994b-4498-ab6e-092be653845a.png)
+![Screenshot_20230314_213814](https://user-images.githubusercontent.com/109550336/225119342-f4ae13ee-7c3f-4957-bd05-6ba8092e0cc6.png)
+![Screenshot_20230314_213745](https://user-images.githubusercontent.com/109550336/225119352-3fd06936-13f6-4fb4-85f3-62d7cffe2d07.png)
+![Screenshot_20230314_213902](https://user-images.githubusercontent.com/109550336/225119365-8b2b424f-8b26-4fe6-b83e-bbeb7e1f3a6b.png)
